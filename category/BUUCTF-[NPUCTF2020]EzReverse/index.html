@@ -4,8 +4,12 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Hello World, Blue.Blogs">
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hex">
+    <meta name="keywords" content="Blue.Blogs">
+    <meta name="description" content="[NPUCTF2020]EzReverse 
+0x1 查询信息
+发现是64位 拉进64位IDA
+0x2 去花
+左上角EDIT -&amp;gt; Path program -&amp;gt;Change byte  改变第一个E9为90  反复往下循环直到">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +21,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Hello World | Blue.Blogs</title>
+    <title>Blue.Blogs</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -246,12 +250,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Hello World</h1>
+                    <h1 class="description center-align post-title"></h1>
                 </div>
             </div>
         </div>
@@ -383,7 +387,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-02-23
+                    2022-03-02
                 </div>
                 
 
@@ -407,19 +411,31 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo new <span class="token string">"My New Post"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+                <h1 id="NPUCTF2020-EzReverse"><a href="#NPUCTF2020-EzReverse" class="headerlink" title="[NPUCTF2020]EzReverse"></a>[NPUCTF2020]EzReverse</h1><p><u> </u></p>
+<h2 id="0x1-查询信息"><a href="#0x1-查询信息" class="headerlink" title="0x1 查询信息"></a>0x1 查询信息</h2><p><img src="C:\Users\96256\Desktop\1.png" alt="1"></p>
+<p>发现是64位 拉进64位IDA</p>
+<h2 id="0x2-去花"><a href="#0x2-去花" class="headerlink" title="0x2 去花"></a>0x2 去花</h2><p><img src="C:\Users\96256\Desktop\2.png" alt="2"></p>
+<p>左上角EDIT -&gt; Path program -&gt;Change byte  改变第一个E9为90  反复往下循环直到去完</p>
+<p><img src="C:\Users\96256\Desktop\3.png" alt="3"></p>
+<h2 id="0x3查看整体逻辑代码"><a href="#0x3查看整体逻辑代码" class="headerlink" title="0x3查看整体逻辑代码"></a>0x3查看整体逻辑代码</h2><p><img src="C:\Users\96256\Desktop\4.png" alt="4"></p>
+<p><img src="C:\Users\96256\Desktop\5.png" alt="5"></p>
+<p>观察关键代码位置，发现特别像迷宫题</p>
+<p><img src="C:\Users\96256\Desktop\6.png" alt="6"></p>
+<p>hjkl 通过观察下方的v3加减 可以判断出 分别为 左h 上j 下k 右l</p>
+<p><img src="C:\Users\96256\Desktop\7.png" alt="7"></p>
+<p>这个关键判断就是决定是否显示失败 取v3地址里的值 然后取最后一位与0对比，一下子点醒了然后迅速回去观看每一个值的最后一位。</p>
+<p><img src="C:\Users\96256\Desktop\8.png" alt="8"></p>
+<p>发现每个值的最后一位 不是为1 就是为0 最终发现这个迷宫题设置在每一个值的最后一位</p>
+<h2 id="0x4-编写代码-打印出迷宫"><a href="#0x4-编写代码-打印出迷宫" class="headerlink" title="0x4 编写代码 打印出迷宫"></a>0x4 编写代码 打印出迷宫</h2><p><img src="C:\Users\96256\Desktop\9.png" alt="9"></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">a<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">]</span>
+<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>a<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span>end<span class="token operator">=</span><span class="token string">""</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span> i <span class="token operator">%</span> <span class="token number">7</span> <span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment"># flag&#123;kkkkkklljjjjljjllkkkkhkkll&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo server<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo generate<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo deploy<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<p>发现与猜想的一模一样 只需要从左上角的第一位走到最右下角的 1即可</p>
+<h2 id="0x05总结"><a href="#0x05总结" class="headerlink" title="0x05总结"></a>0x05总结</h2><p>题目先考了去除花指令，然后是对代码的阅读。慢慢分析即可。</p>
 
                 
             </div>
@@ -446,7 +462,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://moodyblue.cn/category/hello-world/">http://moodyblue.cn/category/hello-world/</a>
+                    <a href="http://moodyblue.cn/category/BUUCTF-%5BNPUCTF2020%5DEzReverse/">http://moodyblue.cn/category/BUUCTF-%5BNPUCTF2020%5DEzReverse/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -655,9 +671,10 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/category/BUUCTF-%5BNPUCTF2020%5DEzReverse/">
                     <div class="card-image">
@@ -675,9 +692,9 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-03-02
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-02
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -686,6 +703,7 @@
                         </span>
                     </div>
                 </div>
+
                 
             </div>
         </div>
@@ -693,7 +711,7 @@
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge right-badge text-color">
-                本篇&nbsp;<i class="far fa-dot-circle"></i>
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
                 <a href="/category/hello-world/">
@@ -723,7 +741,6 @@
                         </span>
                     </div>
                 </div>
-
                 
             </div>
         </div>
