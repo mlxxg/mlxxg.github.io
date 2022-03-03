@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Blue.Blogs">
+    <meta name="keywords" content="NPUCTF2020 EzRevers, Blue.Blogs">
     <meta name="description" content="[NPUCTF2020]EzReverse 
 0x1 查询信息
 发现是64位 拉进64位IDA
@@ -21,7 +21,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Blue.Blogs</title>
+    <title>NPUCTF2020 EzRevers | Blue.Blogs</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -250,12 +250,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title"></h1>
+                    <h1 class="description center-align post-title">NPUCTF2020 EzRevers</h1>
                 </div>
             </div>
         </div>
@@ -387,7 +387,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-03-02
+                    2022-03-03
                 </div>
                 
 
@@ -412,21 +412,19 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h1 id="NPUCTF2020-EzReverse"><a href="#NPUCTF2020-EzReverse" class="headerlink" title="[NPUCTF2020]EzReverse"></a>[NPUCTF2020]EzReverse</h1><p><u> </u></p>
-<h2 id="0x1-查询信息"><a href="#0x1-查询信息" class="headerlink" title="0x1 查询信息"></a>0x1 查询信息</h2><p><img src="C:\Users\96256\Desktop\1.png" alt="1"></p>
+<h2 id="0x1-查询信息"><a href="#0x1-查询信息" class="headerlink" title="0x1 查询信息"></a>0x1 查询信息</h2><p><img src="/NPUCTF2020-EzRevers/1.png" alt="1"></p>
 <p>发现是64位 拉进64位IDA</p>
-<h2 id="0x2-去花"><a href="#0x2-去花" class="headerlink" title="0x2 去花"></a>0x2 去花</h2><p><img src="C:\Users\96256\Desktop\2.png" alt="2"></p>
+<h2 id="0x2-去花"><a href="#0x2-去花" class="headerlink" title="0x2 去花"></a>0x2 去花</h2><p><img src="/NPUCTF2020-EzRevers/2.png" alt="2"></p>
 <p>左上角EDIT -&gt; Path program -&gt;Change byte  改变第一个E9为90  反复往下循环直到去完</p>
-<p><img src="C:\Users\96256\Desktop\3.png" alt="3"></p>
-<h2 id="0x3查看整体逻辑代码"><a href="#0x3查看整体逻辑代码" class="headerlink" title="0x3查看整体逻辑代码"></a>0x3查看整体逻辑代码</h2><p><img src="C:\Users\96256\Desktop\4.png" alt="4"></p>
-<p><img src="C:\Users\96256\Desktop\5.png" alt="5"></p>
-<p>观察关键代码位置，发现特别像迷宫题</p>
-<p><img src="C:\Users\96256\Desktop\6.png" alt="6"></p>
+<p><img src="/NPUCTF2020-EzRevers/3.png" alt="3"></p>
+<h2 id="0x3查看整体逻辑代码"><a href="#0x3查看整体逻辑代码" class="headerlink" title="0x3查看整体逻辑代码"></a>0x3查看整体逻辑代码</h2><p><img src="/NPUCTF2020-EzRevers/4.png" alt="4"></p>
+<p><img src="/NPUCTF2020-EzRevers/5.png" alt="5"></p>
 <p>hjkl 通过观察下方的v3加减 可以判断出 分别为 左h 上j 下k 右l</p>
-<p><img src="C:\Users\96256\Desktop\7.png" alt="7"></p>
+<p><img src="/NPUCTF2020-EzRevers/7.png" alt="7"></p>
 <p>这个关键判断就是决定是否显示失败 取v3地址里的值 然后取最后一位与0对比，一下子点醒了然后迅速回去观看每一个值的最后一位。</p>
-<p><img src="C:\Users\96256\Desktop\8.png" alt="8"></p>
+<p><img src="/NPUCTF2020-EzRevers/8.png" alt="8"></p>
 <p>发现每个值的最后一位 不是为1 就是为0 最终发现这个迷宫题设置在每一个值的最后一位</p>
-<h2 id="0x4-编写代码-打印出迷宫"><a href="#0x4-编写代码-打印出迷宫" class="headerlink" title="0x4 编写代码 打印出迷宫"></a>0x4 编写代码 打印出迷宫</h2><p><img src="C:\Users\96256\Desktop\9.png" alt="9"></p>
+<h2 id="0x4-编写代码-打印出迷宫"><a href="#0x4-编写代码-打印出迷宫" class="headerlink" title="0x4 编写代码 打印出迷宫"></a>0x4 编写代码 打印出迷宫</h2><p><img src="/NPUCTF2020-EzRevers/9.png" alt="9"></p>
 <pre class="line-numbers language-python" data-language="python"><code class="language-python">a<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">]</span>
 <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
     <span class="token keyword">print</span><span class="token punctuation">(</span>a<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span>end<span class="token operator">=</span><span class="token string">""</span><span class="token punctuation">)</span>
@@ -462,7 +460,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://moodyblue.cn/category/BUUCTF-%5BNPUCTF2020%5DEzReverse/">http://moodyblue.cn/category/BUUCTF-%5BNPUCTF2020%5DEzReverse/</a>
+                    <a href="http://moodyblue.cn/category/NPUCTF2020-EzRevers/">http://moodyblue.cn/category/NPUCTF2020-EzRevers/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -676,13 +674,13 @@
                 <i class="far fa-dot-circle"></i>&nbsp;本篇
             </div>
             <div class="card">
-                <a href="/category/BUUCTF-%5BNPUCTF2020%5DEzReverse/">
+                <a href="/category/NPUCTF2020-EzRevers/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="NPUCTF2020 EzRevers">
                         
-                        <span class="card-title"></span>
+                        <span class="card-title">NPUCTF2020 EzRevers</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -693,7 +691,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-02
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-03
                             </span>
                         <span class="publish-author">
                             
