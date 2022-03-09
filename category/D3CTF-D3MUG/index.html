@@ -414,42 +414,44 @@ FridaContainer(https://github.com/deathm">
 <p>FridaContainer(<a target="_blank" rel="noopener" href="https://github.com/deathmemory/FridaContainer">https://github.com/deathmemory/FridaContainer</a>)</p>
 <p>AssetStudioGUI(<a target="_blank" rel="noopener" href="https://github.com/Perfare/AssetStudio">https://github.com/Perfare/AssetStudio</a>)</p>
 <p>Cheat Engine和ceserver_android_arm64</p>
-<h2 id="0X2ILL2CppDumper-还原符号表"><a href="#0X2ILL2CppDumper-还原符号表" class="headerlink" title="0X2ILL2CppDumper 还原符号表"></a>0X2ILL2CppDumper 还原符号表</h2><p><img src="/D3CTF-D3MUG/1.png" alt="1"></p>
+<h2 id="0X2ILL2CppDumper-还原符号表"><a href="#0X2ILL2CppDumper-还原符号表" class="headerlink" title="0X2ILL2CppDumper 还原符号表"></a>0X2ILL2CppDumper 还原符号表</h2><p><img src="/images/D3CTF-D3MUG/1.png" alt="1"></p>
 <p>新建两个文件夹 分别为input和output</p>
-<p><img src="/D3CTF-D3MUG/2.png" alt="2"></p>
+<p><img src="/images/D3CTF-D3MUG/2.png" alt="2"></p>
 <p>把so文件和global-metadata放入input</p>
 <p>global-metadata的路径assets\bin\Data\Managed\Metadata </p>
 <p>然后新建一个bat里面输入 ..\Il2CppDumper.exe libil2cpp.so global-metadata.dat ..\output</p>
 <p>点击bat运行</p>
-<p><img src="/D3CTF-D3MUG/3.png" alt="3"></p>
+<p><img src="/images/D3CTF-D3MUG/3.png" alt="3"></p>
 <p>output中成功为如上图片</p>
-<p><img src="/D3CTF-D3MUG/4.png" alt="4"></p>
+<p><img src="/images/D3CTF-D3MUG/4.png" alt="4"></p>
 <p>打开ida分析so文件，加载脚本</p>
-<p><img src="/D3CTF-D3MUG/5.png" alt="5"></p>
+<p><img src="/images/D3CTF-D3MUG/5.png" alt="5"></p>
 <p>第一个选择output下的script文件</p>
-<p><img src="/D3CTF-D3MUG/6.png" alt="6"></p>
+<p><img src="/images/D3CTF-D3MUG/6.png" alt="6"></p>
 <p>第二个选择il2cpp.h 一直等到还原结束</p>
-<h2 id="0x3分析函数和主要逻辑"><a href="#0x3分析函数和主要逻辑" class="headerlink" title="0x3分析函数和主要逻辑"></a>0x3分析函数和主要逻辑</h2><p><img src="/D3CTF-D3MUG/8.png" alt="8"></p>
+<h2 id="0x3分析函数和主要逻辑"><a href="#0x3分析函数和主要逻辑" class="headerlink" title="0x3分析函数和主要逻辑"></a>0x3分析函数和主要逻辑</h2><p><img src="/images/D3CTF-D3MUG/8.png" alt="8"></p>
 <p>打开output出来的字符串列表</p>
-<p><img src="/D3CTF-D3MUG/9.png" alt="9"></p>
+<p><img src="/images/D3CTF-D3MUG/9.png" alt="9"></p>
 <p>ctrl+f 搜索D3CTF 查到关键地址</p>
-<p><img src="/D3CTF-D3MUG/11.png" alt="11"></p>
+<p><img src="/images/D3CTF-D3MUG/11.png" alt="11"></p>
 <p>直接ctrl+x 查找引用</p>
-<p><img src="/D3CTF-D3MUG/12.png" alt="12"></p>
+<p><img src="/images/D3CTF-D3MUG/12-16468036107721.png" alt="12"></p>
 <p>找到关键函数位置 ScoreScene_start  指向的红色位置为字符串D3CTF</p>
-<p><img src="/D3CTF-D3MUG/13.png" alt="13"></p>
+<p><img src="/images/D3CTF-D3MUG/13.png" alt="13"></p>
 <p>进入其中的ScoreScene_get函数发现引用了d3mug中的get</p>
-<p><img src="/D3CTF-D3MUG/14.png" alt="14"></p>
+<p><img src="/images/D3CTF-D3MUG/14.png" alt="14"></p>
 <p>查看d3mug的引用</p>
-<p><img src="/D3CTF-D3MUG/15.png" alt="15"></p>
+<p><img src="/images/D3CTF-D3MUG/15.png" alt="15"></p>
 <p>发现GameManger_update 引用了 d3mug的update</p>
-<p><img src="/D3CTF-D3MUG/17.png" alt="17"></p>
+<p><img src="/images/D3CTF-D3MUG/17.png" alt="17"></p>
 <p>再查找引用，发现是NoitHit 和NotMiss</p>
-<p><img src="/D3CTF-D3MUG/18.png" alt="18"></p>
+<p><img src="/images/D3CTF-D3MUG/18.png" alt="18"></p>
 <p>hit函数中传入的可以看出是时间，判断出是游戏开始时右上角的时间</p>
-<p><img src="/D3CTF-D3MUG/19.png" alt="19"></p>
+<p><img src="/images/D3CTF-D3MUG/19.png" alt="19"></p>
 <p>miss函数传入0  说明触发miss函数时传入0</p>
-<h2 id="0x4编写frida-hook脚本"><a href="#0x4编写frida-hook脚本" class="headerlink" title="0x4编写frida hook脚本"></a>0x4编写frida hook脚本</h2><p><img src="/D3CTF-D3MUG/20.png" alt="20"></p>
+<h2 id="0x4-查找音谱"><a href="#0x4-查找音谱" class="headerlink" title="0x4 查找音谱"></a>0x4 查找音谱</h2><p><img src="/images/D3CTF-D3MUG/7.png" alt="7"></p>
+<p>加载apk解压下来的素材文件 然后搜索beatmap 发现和音乐名字一样的文件 导出音谱</p>
+<h2 id="0x5编写frida-hook脚本"><a href="#0x5编写frida-hook脚本" class="headerlink" title="0x5编写frida hook脚本"></a>0x5编写frida hook脚本</h2><p><img src="/images/D3CTF-D3MUG/20.png" alt="20"></p>
 <p>index.ts 中编辑hook脚本</p>
 <pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">var</span> hitdata<span class="token operator">=</span><span class="token punctuation">[</span> <span class="token operator">...</span> <span class="token punctuation">]</span> <span class="token comment">//填入音谱</span>
 <span class="token keyword">var</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
@@ -483,38 +485,38 @@ FridaContainer(https://github.com/deathm">
 <span class="token punctuation">&#125;</span>
 <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<p><img src="/D3CTF-D3MUG/21.png" alt="21"></p>
+<p><img src="/images/D3CTF-D3MUG/21.png" alt="21"></p>
 <p>然后使用 npm run build 编译成js代码</p>
 <p>如果出现类型报错 进入tsconfig.json文件 搜索strict 改成false</p>
-<p><img src="/D3CTF-D3MUG/22.png" alt="22"></p>
-<h2 id="0x5frida连接"><a href="#0x5frida连接" class="headerlink" title="0x5frida连接"></a>0x5frida连接</h2><p>因为网上有许多的frida下载安装教程，所以就不再复述。</p>
-<p><img src="/D3CTF-D3MUG/23.png" alt="23"></p>
+<p><img src="/images/D3CTF-D3MUG/22.png" alt="22"></p>
+<h2 id="0x6-frida连接"><a href="#0x6-frida连接" class="headerlink" title="0x6 frida连接"></a>0x6 frida连接</h2><p>因为网上有许多的frida下载安装教程，所以就不再复述。</p>
+<p><img src="/images/D3CTF-D3MUG/23.png" alt="23"></p>
 <p>手机usb连接电脑 abd连接开启 server</p>
-<p><img src="/D3CTF-D3MUG/24.png" alt="24"></p>
+<p><img src="/images/D3CTF-D3MUG/24.png" alt="24"></p>
 <p>再开启一个cmd 进行转发端口</p>
-<p><img src="/D3CTF-D3MUG/25-16468013839631.png" alt="25"></p>
+<p><img src="/images/D3CTF-D3MUG/25.png" alt="25"></p>
 <p>可以输入frida-ps -U 来查询是否开启服务</p>
 <p>进入FridaContainer-master cmd</p>
 <p>frida -U -F com.DefaultCompany.com.unity.template.mobile2D –no-pause -l _fcagent.js</p>
-<p><img src="/D3CTF-D3MUG/27.png" alt="27"></p>
+<p><img src="/images/D3CTF-D3MUG/27.png" alt="27"></p>
 <p>然后先进入游戏不要start 运行脚本  再点击start</p>
-<p><img src="/D3CTF-D3MUG/26.png" alt="26"></p>
+<p><img src="/images/D3CTF-D3MUG/26.png" alt="26"></p>
 <p>如出现以上内如即为成功 等游戏自然结束</p>
-<h2 id="0x6-CE查询内存得到flag"><a href="#0x6-CE查询内存得到flag" class="headerlink" title="0x6 CE查询内存得到flag"></a>0x6 CE查询内存得到flag</h2><p>先将ceserver_android_arm64传入进手机</p>
+<h2 id="0x7-CE查询内存得到flag"><a href="#0x7-CE查询内存得到flag" class="headerlink" title="0x7 CE查询内存得到flag"></a>0x7 CE查询内存得到flag</h2><p>先将ceserver_android_arm64传入进手机（注意真机使用需要ROOT，至于怎么root，无关ctf了..）</p>
 <p>举例 adb push ceserver_android_arm64 &#x2F;data&#x2F;..等</p>
-<p><img src="/D3CTF-D3MUG/28.png" alt="28"></p>
-<p><img src="/D3CTF-D3MUG/29.png" alt="29"></p>
+<p><img src="/images/D3CTF-D3MUG/28.png" alt="28"></p>
+<p><img src="/images/D3CTF-D3MUG/29.png" alt="29"></p>
 <p>后直接运行起来即可</p>
-<p><img src="/D3CTF-D3MUG/30.png" alt="30"></p>
+<p><img src="/images/D3CTF-D3MUG/30.png" alt="30"></p>
 <p>打开ce  需要电脑和手机同时在一个网段，如在一个wife下</p>
-<p><img src="/D3CTF-D3MUG/31.png" alt="31"></p>
+<p><img src="/images/D3CTF-D3MUG/31.png" alt="31"></p>
 <p>后查找到软件的包名附加上去</p>
-<p><img src="/D3CTF-D3MUG/32.png" alt="32"></p>
+<p><img src="/images/D3CTF-D3MUG/32.png" alt="32"></p>
 <p>搜索字符串D3CTF，然后复制地址</p>
-<p><img src="/D3CTF-D3MUG/33.png" alt="33"></p>
+<p><img src="/images/D3CTF-D3MUG/33.png" alt="33"></p>
 <p>最终查看内存 得到flag 完成</p>
 <p>D3CTF{Gb78e-7b04-4364-82d2-7f44}</p>
-<h2 id="0x7总结"><a href="#0x7总结" class="headerlink" title="0x7总结"></a>0x7总结</h2><p>在这里非常感谢nepnep战队中的TsThOd大师傅，全程教会我这些流程和关键步骤。</p>
+<h2 id="0x8总结"><a href="#0x8总结" class="headerlink" title="0x8总结"></a>0x8总结</h2><p>在这里非常感谢nepnep战队中的TsThOd大师傅，全程教会我这些流程和关键步骤。砰砰砰！！</p>
 <p>学习到了许多工具的使用和破解思路。</p>
 
                 
