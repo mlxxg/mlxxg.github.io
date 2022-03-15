@@ -4,10 +4,14 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="D3CTF-D3MUG, Blue.Blogs">
-    <meta name="description" content="D3CTF-REVER-D3MUG
-0x1 下载工具Il2CppDumper(https://github.com/Perfare/Il2CppDumper)
-FridaContainer(https://github.com/deathm">
+    <meta name="keywords" content="D3arm, Blue.Blogs">
+    <meta name="description" content="D3CTF-REVER-DMARM0x1 观察文件
+bin文件拉入ida  把前面几个数据 按d转换为ddouble形式   第一个为ram基址 第二个为rom代码开始的地址
+0x2 分析文件
+拉进ida32位 选择小端 arm
+
+
+选择A">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -19,7 +23,7 @@ FridaContainer(https://github.com/deathm">
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>D3CTF-D3MUG | Blue.Blogs</title>
+    <title>D3arm | Blue.Blogs</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -248,12 +252,12 @@ FridaContainer(https://github.com/deathm">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">D3CTF-D3MUG</h1>
+                    <h1 class="description center-align post-title">D3arm</h1>
                 </div>
             </div>
         </div>
@@ -385,7 +389,7 @@ FridaContainer(https://github.com/deathm">
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-03-09
+                    2022-03-15
                 </div>
                 
 
@@ -409,116 +413,54 @@ FridaContainer(https://github.com/deathm">
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="D3CTF-REVER-D3MUG"><a href="#D3CTF-REVER-D3MUG" class="headerlink" title="D3CTF-REVER-D3MUG"></a>D3CTF-REVER-D3MUG</h1><hr>
-<h2 id="0x1-下载工具"><a href="#0x1-下载工具" class="headerlink" title="0x1 下载工具"></a>0x1 下载工具</h2><p>Il2CppDumper(<a target="_blank" rel="noopener" href="https://github.com/Perfare/Il2CppDumper">https://github.com/Perfare/Il2CppDumper</a>)</p>
-<p>FridaContainer(<a target="_blank" rel="noopener" href="https://github.com/deathmemory/FridaContainer">https://github.com/deathmemory/FridaContainer</a>)</p>
-<p>AssetStudioGUI(<a target="_blank" rel="noopener" href="https://github.com/Perfare/AssetStudio">https://github.com/Perfare/AssetStudio</a>)</p>
-<p>Cheat Engine和ceserver_android_arm64</p>
-<h2 id="0X2ILL2CppDumper-还原符号表"><a href="#0X2ILL2CppDumper-还原符号表" class="headerlink" title="0X2ILL2CppDumper 还原符号表"></a>0X2ILL2CppDumper 还原符号表</h2><p><img src="/images/D3CTF-D3MUG/1.png" alt="1"></p>
-<p>新建两个文件夹 分别为input和output</p>
-<p><img src="/images/D3CTF-D3MUG/2.png" alt="2"></p>
-<p>把so文件和global-metadata放入input</p>
-<p>global-metadata的路径assets\bin\Data\Managed\Metadata </p>
-<p>然后新建一个bat里面输入 ..\Il2CppDumper.exe libil2cpp.so global-metadata.dat ..\output</p>
-<p>点击bat运行</p>
-<p><img src="/images/D3CTF-D3MUG/3.png" alt="3"></p>
-<p>output中成功为如上图片</p>
-<p><img src="/images/D3CTF-D3MUG/4.png" alt="4"></p>
-<p>打开ida分析so文件，加载脚本</p>
-<p><img src="/images/D3CTF-D3MUG/5.png" alt="5"></p>
-<p>第一个选择output下的script文件</p>
-<p><img src="/images/D3CTF-D3MUG/6.png" alt="6"></p>
-<p>第二个选择il2cpp.h 一直等到还原结束</p>
-<h2 id="0x3分析函数和主要逻辑"><a href="#0x3分析函数和主要逻辑" class="headerlink" title="0x3分析函数和主要逻辑"></a>0x3分析函数和主要逻辑</h2><p><img src="/images/D3CTF-D3MUG/8.png" alt="8"></p>
-<p>打开output出来的字符串列表</p>
-<p><img src="/images/D3CTF-D3MUG/9.png" alt="9"></p>
-<p>ctrl+f 搜索D3CTF 查到关键地址</p>
-<p><img src="/images/D3CTF-D3MUG/11.png" alt="11"></p>
-<p>直接ctrl+x 查找引用</p>
-<p><img src="/images/D3CTF-D3MUG/12-16468036107721.png" alt="12"></p>
-<p>找到关键函数位置 ScoreScene_start  指向的红色位置为字符串D3CTF</p>
-<p><img src="/images/D3CTF-D3MUG/13.png" alt="13"></p>
-<p>进入其中的ScoreScene_get函数发现引用了d3mug中的get</p>
-<p><img src="/images/D3CTF-D3MUG/14.png" alt="14"></p>
-<p>查看d3mug的引用</p>
-<p><img src="/images/D3CTF-D3MUG/15.png" alt="15"></p>
-<p>发现GameManger_update 引用了 d3mug的update</p>
-<p><img src="/images/D3CTF-D3MUG/17.png" alt="17"></p>
-<p>再查找引用，发现是NoitHit 和NotMiss</p>
-<p><img src="/images/D3CTF-D3MUG/18.png" alt="18"></p>
-<p>hit函数中传入的可以看出是时间，判断出是游戏开始时右上角的时间</p>
-<p><img src="/images/D3CTF-D3MUG/19.png" alt="19"></p>
-<p>miss函数传入0  说明触发miss函数时传入0</p>
-<h2 id="0x4-查找音谱"><a href="#0x4-查找音谱" class="headerlink" title="0x4 查找音谱"></a>0x4 查找音谱</h2><p><img src="/images/D3CTF-D3MUG/7.png" alt="7"></p>
-<p>加载apk解压下来的素材文件 然后搜索beatmap 发现和音乐名字一样的文件 导出音谱</p>
-<h2 id="0x5编写frida-hook脚本"><a href="#0x5编写frida-hook脚本" class="headerlink" title="0x5编写frida hook脚本"></a>0x5编写frida hook脚本</h2><p><img src="/images/D3CTF-D3MUG/20.png" alt="20"></p>
-<p>index.ts 中编辑hook脚本</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">var</span> hitdata<span class="token operator">=</span><span class="token punctuation">[</span> <span class="token operator">...</span> <span class="token punctuation">]</span> <span class="token comment">//填入音谱</span>
-<span class="token keyword">var</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token keyword">function</span> <span class="token function">hook1</span><span class="token punctuation">(</span><span class="token parameter"><span class="token literal-property property">baseaddr</span><span class="token operator">:</span>NativePointer</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
-    <span class="token keyword">var</span> GameManager__NoteHit <span class="token operator">=</span> baseaddr<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token number">0x62b64c</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//基址加上函数偏移地址</span>
-    <span class="token keyword">var</span> GameManager__update <span class="token operator">=</span> baseaddr<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token number">0x62b4c0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">var</span> ScoreScene__get <span class="token operator">=</span> baseaddr<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token number">0x62ee40</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    Interceptor<span class="token punctuation">.</span><span class="token function">attach</span><span class="token punctuation">(</span>GameManager__NoteHit<span class="token punctuation">,</span><span class="token punctuation">&#123;</span>
-        <span class="token function-variable function">onEnter</span><span class="token operator">:</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">args</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
-            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"[H]"</span><span class="token punctuation">,</span>args<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>args<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span>args<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span>args<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
-    Interceptor<span class="token punctuation">.</span><span class="token function">attach</span><span class="token punctuation">(</span>GameManager__update<span class="token punctuation">,</span><span class="token punctuation">&#123;</span>
-        <span class="token function-variable function">onEnter</span><span class="token operator">:</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">args</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
-            args<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">ptr</span><span class="token punctuation">(</span>hitdata<span class="token punctuation">[</span>count<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//每次将音谱的时间传入</span>
-            count <span class="token operator">+=</span><span class="token number">1</span><span class="token punctuation">;</span>
-            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"[U]"</span><span class="token punctuation">,</span>args<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>count<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
-    Interceptor<span class="token punctuation">.</span><span class="token function">attach</span><span class="token punctuation">(</span>ScoreScene__get<span class="token punctuation">,</span><span class="token punctuation">&#123;</span>
-        <span class="token function-variable function">onEnter</span><span class="token operator">:</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">args</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
-            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">"[R]FINAL RESULT"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
-<span class="token punctuation">&#125;</span>
+                <h1 id="D3CTF-REVER-DMARM"><a href="#D3CTF-REVER-DMARM" class="headerlink" title="D3CTF-REVER-DMARM"></a>D3CTF-REVER-DMARM</h1><h2 id="0x1-观察文件"><a href="#0x1-观察文件" class="headerlink" title="0x1 观察文件"></a>0x1 观察文件</h2><p><img src="/../images/D3arm/0.png" alt="0"></p>
+<p>bin文件拉入ida  把前面几个数据 按d转换为ddouble形式   第一个为ram基址 第二个为rom代码开始的地址</p>
+<h2 id="0x2-分析文件"><a href="#0x2-分析文件" class="headerlink" title="0x2 分析文件"></a>0x2 分析文件</h2><p><img src="/../images/D3arm/1.png" alt="1"></p>
+<p>拉进ida32位 选择小端 arm</p>
+<p><img src="/../images/D3arm/2.png" alt="2"></p>
+<p><img src="/../images/D3arm/3.png" alt="3"></p>
+<p>选择ARMv7-M</p>
+<p><img src="/../images/D3arm/4.png" alt="4"></p>
+<p>进去输入地址段 记得点击上面的creat RAM创建  图片这里忘记点了 不然引用0x2000000这里会报红</p>
+<p><img src="/../images/D3arm/5.png" alt="5"></p>
+<p>先按C    再按P转换为函数  这时候大部分的函数分析出来了，但是关键加密位置没有</p>
+<p><img src="/../images/D3arm/6.png" alt="6"></p>
+<p><img src="/../images/D3arm/7.png" alt="7"></p>
+<p>搜索main字符串</p>
+<p><img src="/../images/D3arm/8.png" alt="8"></p>
+<p>找到关键位置</p>
+<p><img src="/../images/D3arm/9.png" alt="9"></p>
+<p><img src="/../images/D3arm/10.png" alt="10"></p>
+<p>搜索flag</p>
+<p><img src="/../images/D3arm/11.png" alt="11"></p>
+<p>点击fouce  analyze会转换为代码  这里转换为字符串</p>
+<p><img src="/../images/D3arm/12.png" alt="12"></p>
+<p>ctrl+x 引用 如果没有引用  观看我引用的地址 自己跳转过去  按c 再按p</p>
+<p><img src="/../images/D3arm/13.png" alt="13"></p>
+<p>找到关键判断位置</p>
+<p><img src="/../images/D3arm/14.png" alt="14"></p>
+<p>再次引用 ，如果没有还是一样，自己跳转过去 c  p</p>
+<p><img src="/../images/D3arm/15.png" alt="15"></p>
+<p>算法关键判断位置</p>
+<p><img src="/../images/D3arm/16.png" alt="16"></p>
+<p>找到加密数据</p>
+<p><img src="/../images/D3arm/17.png" alt="17"></p>
+<p>引用异或的值 找到赋值的位置</p>
+<p><img src="/../images/D3arm/18.png" alt="18"></p>
+<p>发现最终只是 0x335E44  循环取两位</p>
+<h2 id="0x3-解密代码"><a href="#0x3-解密代码" class="headerlink" title="0x3 解密代码"></a>0x3 解密代码</h2><pre class="line-numbers language-python" data-language="python"><code class="language-python">key <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0x44</span><span class="token punctuation">,</span><span class="token number">0x5e</span><span class="token punctuation">,</span><span class="token number">0x33</span><span class="token punctuation">]</span>
+a <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token number">0x20</span><span class="token punctuation">,</span><span class="token number">0x6D</span><span class="token punctuation">,</span><span class="token number">0x50</span><span class="token punctuation">,</span><span class="token number">0x30</span><span class="token punctuation">,</span><span class="token number">0x38</span><span class="token punctuation">,</span><span class="token number">0x48</span><span class="token punctuation">,</span><span class="token number">0x75</span><span class="token punctuation">,</span><span class="token number">0x69</span><span class="token punctuation">,</span><span class="token number">0x50</span><span class="token punctuation">,</span>
+  <span class="token number">0x75</span><span class="token punctuation">,</span><span class="token number">0x6B</span><span class="token punctuation">,</span><span class="token number">0x56</span><span class="token punctuation">,</span><span class="token number">0x20</span><span class="token punctuation">,</span><span class="token number">0x6D</span><span class="token punctuation">,</span><span class="token number">0x04</span><span class="token punctuation">,</span><span class="token number">0x26</span><span class="token punctuation">,</span><span class="token number">0x6A</span><span class="token punctuation">,</span><span class="token number">0x51</span><span class="token punctuation">,</span>
+  <span class="token number">0x72</span><span class="token punctuation">,</span><span class="token number">0x6B</span><span class="token punctuation">,</span><span class="token number">0x50</span><span class="token punctuation">,</span><span class="token number">0x73</span><span class="token punctuation">,</span><span class="token number">0x38</span><span class="token punctuation">,</span><span class="token number">0x0B</span><span class="token punctuation">,</span><span class="token number">0x74</span><span class="token punctuation">,</span><span class="token number">0x6A</span><span class="token punctuation">,</span><span class="token number">0x57</span><span class="token punctuation">,</span>
+  <span class="token number">0x70</span><span class="token punctuation">,</span><span class="token number">0x6E</span><span class="token punctuation">,</span><span class="token number">0x50</span><span class="token punctuation">,</span><span class="token number">0x25</span><span class="token punctuation">,</span><span class="token number">0x3A</span><span class="token punctuation">,</span><span class="token number">0x51</span><span class="token punctuation">,</span><span class="token number">0x22</span><span class="token punctuation">,</span><span class="token number">0x6E</span><span class="token punctuation">,</span><span class="token number">0x56</span><span class="token punctuation">,</span>
+  <span class="token number">0x75</span><span class="token punctuation">,</span><span class="token number">0x3D</span><span class="token punctuation">,</span><span class="token number">0x50</span><span class="token punctuation">,</span><span class="token number">0x72</span><span class="token punctuation">,</span><span class="token number">0x6A</span><span class="token punctuation">,</span><span class="token number">0x4E</span>
+<span class="token punctuation">]</span>
+<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+	<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">chr</span><span class="token punctuation">(</span>a<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">^</span>key<span class="token punctuation">[</span>i<span class="token operator">%</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span>end<span class="token operator">=</span><span class="token string">''</span><span class="token punctuation">)</span>
+<span class="token comment"># d3ctf&#123;17c15ed37b4b65c7f804d40cadbf0e1cc64&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
-    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'[.]Native hook'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">var</span> baseAddr <span class="token operator">=</span> Module<span class="token punctuation">.</span><span class="token function">findBaseAddress</span><span class="token punctuation">(</span><span class="token string">"libil2cpp.so"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//获取基址</span>
-    <span class="token function">hook1</span><span class="token punctuation">(</span>baseAddr<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span>
-<span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p><img src="/images/D3CTF-D3MUG/21.png" alt="21"></p>
-<p>然后使用 npm run build 编译成js代码</p>
-<p>如果出现类型报错 进入tsconfig.json文件 搜索strict 改成false</p>
-<p><img src="/images/D3CTF-D3MUG/22.png" alt="22"></p>
-<h2 id="0x6-frida连接"><a href="#0x6-frida连接" class="headerlink" title="0x6 frida连接"></a>0x6 frida连接</h2><p>因为网上有许多的frida下载安装教程，所以就不再复述。</p>
-<p><img src="/images/D3CTF-D3MUG/23.png" alt="23"></p>
-<p>手机usb连接电脑 abd连接开启 server</p>
-<p><img src="/images/D3CTF-D3MUG/24.png" alt="24"></p>
-<p>再开启一个cmd 进行转发端口</p>
-<p><img src="/images/D3CTF-D3MUG/25.png" alt="25"></p>
-<p>可以输入frida-ps -U 来查询是否开启服务</p>
-<p>进入FridaContainer-master cmd</p>
-<p>frida -U -F com.DefaultCompany.com.unity.template.mobile2D –no-pause -l _fcagent.js</p>
-<p>这里的包名 可以在手机打开游戏，命令中输入adb shell dumpsys window w |grep / |grep name&#x3D; 来查找包名</p>
-<p><img src="/images/D3CTF-D3MUG/27.png" alt="27"></p>
-<p>然后先进入游戏不要start 运行脚本  再点击start</p>
-<p><img src="/images/D3CTF-D3MUG/26.png" alt="26"></p>
-<p>如出现以上内如即为成功 等游戏自然结束</p>
-<h2 id="0x7-CE查询内存得到flag"><a href="#0x7-CE查询内存得到flag" class="headerlink" title="0x7 CE查询内存得到flag"></a>0x7 CE查询内存得到flag</h2><p>先将ceserver_android_arm64传入进手机（注意真机使用需要ROOT，至于怎么root，无关ctf了..）</p>
-<p>举例 adb push ceserver_android_arm64 &#x2F;data&#x2F;..等</p>
-<p><img src="/images/D3CTF-D3MUG/28.png" alt="28"></p>
-<p><img src="/images/D3CTF-D3MUG/29.png" alt="29"></p>
-<p>后直接运行起来即可</p>
-<p><img src="/images/D3CTF-D3MUG/30.png" alt="30"></p>
-<p>打开ce  需要电脑和手机同时在一个网段，如在一个wife下</p>
-<p><img src="/images/D3CTF-D3MUG/31.png" alt="31"></p>
-<p>后查找到软件的包名附加上去</p>
-<p><img src="/images/D3CTF-D3MUG/32.png" alt="32"></p>
-<p>搜索字符串D3CTF，然后复制地址</p>
-<p><img src="/images/D3CTF-D3MUG/33.png" alt="33"></p>
-<p>最终查看内存 得到flag 完成</p>
-<p>D3CTF{Gb78e-7b04-4364-82d2-7f44}</p>
-<h2 id="0x8总结"><a href="#0x8总结" class="headerlink" title="0x8总结"></a>0x8总结</h2><p>在这里非常感谢nepnep战队中的TsThOd大师傅，全程教会我这些流程和关键步骤。砰砰砰！！</p>
-<p>学习到了许多工具的使用和破解思路。</p>
+<h2 id="0x4总结"><a href="#0x4总结" class="headerlink" title="0x4总结"></a>0x4总结</h2><p>学到了用ida反汇编arm 和如何分析</p>
 
                 
             </div>
@@ -545,7 +487,7 @@ FridaContainer(https://github.com/deathm">
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://moodyblue.cn/category/D3CTF-D3MUG/">http://moodyblue.cn/category/D3CTF-D3MUG/</a>
+                    <a href="http://moodyblue.cn/category/D3arm/">http://moodyblue.cn/category/D3arm/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1028,9 +970,10 @@ FridaContainer(https://github.com/deathm">
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/category/D3arm/">
                     <div class="card-image">
@@ -1048,9 +991,9 @@ FridaContainer(https://github.com/deathm">
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-03-15
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-15
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -1059,6 +1002,7 @@ FridaContainer(https://github.com/deathm">
                         </span>
                     </div>
                 </div>
+
                 
             </div>
         </div>
@@ -1069,13 +1013,13 @@ FridaContainer(https://github.com/deathm">
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/category/NPUCTF2020-EzRevers/">
+                <a href="/category/D3CTF-D3MUG/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="NPUCTF2020 EzRevers">
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="D3CTF-D3MUG">
                         
-                        <span class="card-title">NPUCTF2020 EzRevers</span>
+                        <span class="card-title">D3CTF-D3MUG</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1086,7 +1030,7 @@ FridaContainer(https://github.com/deathm">
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-03
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-09
                             </span>
                         <span class="publish-author">
                             
