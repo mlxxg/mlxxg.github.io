@@ -439,6 +439,11 @@
 
 <p>加密算法为  flag + key + 97 + i</p>
 <p>逆推回去只需要将加密过后的flag    flag &#x3D; [enc_flag[ i ] - key[ i ] - 97 - i for i in range(len(enc_flag))]  就可以得到flag</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">get_real_c</span><span class="token punctuation">(</span>_index<span class="token punctuation">,</span> enc_input<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># 通过索引和enc_input得到原始input</span>
+    tmp <span class="token operator">=</span> enc_input <span class="token operator">-</span> <span class="token number">97</span> <span class="token operator">-</span> key<span class="token punctuation">[</span>_index<span class="token punctuation">]</span> <span class="token operator">-</span> _index
+    <span class="token keyword">return</span> tmp<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
 <h2 id="0x4再次动调分析"><a href="#0x4再次动调分析" class="headerlink" title="0x4再次动调分析"></a>0x4再次动调分析</h2><p><img src="/../images/SUSCTF-tttree2/12.png" alt="12"></p>
 <p>再往后走 发现这里才开始判断了SUSCTF{}    前面只是判断了{中间的值}</p>
 <p><img src="/../images/SUSCTF-tttree2/13.png" alt="13"></p>
@@ -531,7 +536,14 @@ yxj<span class="token punctuation">.</span>sort<span class="token punctuation">(
 <span class="token keyword">print</span><span class="token punctuation">(</span>yxj<span class="token punctuation">)</span>
 <span class="token comment"># [[4, 48729090], [20, 79869821], [24, 218154026], [26, 260473007], [1, 297479699], [8, 355660648], [14, 357965595], [17, 359165849], [13, 424735024], [7, 485861585], [16, 541071353], [0, 554283032], [11, 609200449], [18, 659214848], [21, 662983126], [15, 703812483], [5, 707309925], [31, 718983483], [29, 803828915], [3, 808393737], [30, 891021969], [22, 1057167552], [9, 1110865490], [12, 1221295308], [25, 1400667805], [28, 1548290479], [2, 1566886587], [19, 1694730209], [6, 1862369669], [27, 1923251359], [23, 2028482578], [10, 2068885847]]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
+<p>可以发现，索引是4，即序号是5的时候最小，即223的序号是5，根据5(序号)和223(enc_input)进行解密就可以得到本节点字符 ‘d’</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">get_real_c</span><span class="token punctuation">(</span>_index<span class="token punctuation">,</span> enc_input<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># 通过索引和enc_input得到原始input</span>
+    tmp <span class="token operator">=</span> enc_input <span class="token operator">-</span> <span class="token number">97</span> <span class="token operator">-</span> key<span class="token punctuation">[</span>_index<span class="token punctuation">]</span> <span class="token operator">-</span> _index
+    <span class="token keyword">return</span> tmp
 
+get_real_c<span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">223</span><span class="token punctuation">)</span>
+<span class="token comment"># 100 -->chr(100) = 'd'</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># [本节点，左孩子，右孩子，序号，flag]</span>
 <span class="token comment"># 构造二叉树</span>
