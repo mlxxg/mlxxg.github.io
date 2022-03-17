@@ -1,0 +1,1666 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="SUSCTF-tttree2, Blue.Blogs">
+    <meta name="description" content="SUSCTF-REVER-tttree0X1准备步骤
+把文件拉进CFF Explorer_CN  取消 DLL can move   这样程序每次加载，不会改变基址 方便下断
+0x2动调分析
+搜索关键字符串跳转下断
+
+然后一路F8就完事，一">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>SUSCTF-tttree2 | Blue.Blogs</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Blue.Blogs</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Blue.Blogs</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">SUSCTF-tttree2</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+        background-color: rgb(255, 255, 255,0.7);
+        border-radius: 10px;
+        box-shadow: 0 10px 35px 2px rgba(0, 0, 0, .15), 0 5px 15px rgba(0, 0, 0, .07), 0 2px 5px -5px rgba(0, 0, 0, .1) !important;
+    }
+
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                          <div class="article-tag">
+                            <span class="chip bg-color">无标签</span>
+                          </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2022-03-17
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="SUSCTF-REVER-tttree"><a href="#SUSCTF-REVER-tttree" class="headerlink" title="SUSCTF-REVER-tttree"></a>SUSCTF-REVER-tttree</h1><h2 id="0X1准备步骤"><a href="#0X1准备步骤" class="headerlink" title="0X1准备步骤"></a>0X1准备步骤</h2><p><img src="/../images/SUSCTF-tttree2/0.png" alt="0"></p>
+<p>把文件拉进CFF Explorer_CN  取消 DLL can move   这样程序每次加载，不会改变基址 方便下断</p>
+<h2 id="0x2动调分析"><a href="#0x2动调分析" class="headerlink" title="0x2动调分析"></a>0x2动调分析</h2><p><img src="/../images/SUSCTF-tttree2/6.png" alt="6"></p>
+<p>搜索关键字符串跳转下断</p>
+<p><img src="/../images/SUSCTF-tttree2/7.png" alt="7"></p>
+<p>然后一路F8就完事，一直到需要你输入</p>
+<p><img src="/../images/SUSCTF-tttree2/8.png" alt="8"></p>
+<p>到达位置，直接下断，下次重新来就不需要再找字符串下断</p>
+<p><img src="/../images/SUSCTF-tttree2/9.png" alt="9"></p>
+<p>输入字符串 可以看见堆栈右下角 地址存储着我们输入的假flag</p>
+<p><img src="/../images/SUSCTF-tttree2/10.png" alt="10"></p>
+<p>内存跳转过去  下硬件访问断点</p>
+<p><img src="/../images/SUSCTF-tttree2/1.png" alt="1"></p>
+<p>可以看见140011F5F  这个地址每次读取一位我们的flag</p>
+<p><img src="/../images/SUSCTF-tttree2/2.png" alt="2"></p>
+<p>往下跟发现 在idiv 这里每次计算出来的值放入 RDX  可以在 idiv 下面地址下断，一直运行提取里面的值</p>
+<p><img src="/../images/SUSCTF-tttree2/3.png" alt="3"></p>
+<p>每次给RCX赋值的地方   后面一直循环发现  RCX的值 &#x3D; RDX的值 + 97</p>
+<p><img src="/../images/SUSCTF-tttree2/4-16474875434161.png" alt="4"></p>
+<p>然后将我们的flag值 与 RCX的值相加</p>
+<p><img src="/../images/SUSCTF-tttree2/5.png" alt="5"></p>
+<p>然后还会再加我们flag值的索引 ，可以想成每次加 i   i是从0开始</p>
+<h2 id="0x3加密flag-逆推"><a href="#0x3加密flag-逆推" class="headerlink" title="0x3加密flag 逆推"></a>0x3加密flag 逆推</h2><p>先提取出 每次RDX的值</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">key <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0x60</span><span class="token punctuation">,</span> <span class="token number">0x46</span><span class="token punctuation">,</span> <span class="token number">0x62</span><span class="token punctuation">,</span> <span class="token number">0x03</span><span class="token punctuation">,</span> <span class="token number">0x16</span><span class="token punctuation">,</span> <span class="token number">0x19</span><span class="token punctuation">,</span> <span class="token number">0x1E</span><span class="token punctuation">,</span> <span class="token number">0x12</span><span class="token punctuation">,</span> <span class="token number">0x4D</span><span class="token punctuation">,</span> <span class="token number">0x51</span><span class="token punctuation">,</span> <span class="token number">0x05</span><span class="token punctuation">,</span> <span class="token number">0x25</span><span class="token punctuation">,</span> <span class="token number">0x38</span><span class="token punctuation">,</span> <span class="token number">0x2F</span><span class="token punctuation">,</span> <span class="token number">0x14</span><span class="token punctuation">,</span> <span class="token number">0x4F</span><span class="token punctuation">,</span><span class="token number">0x5B</span><span class="token punctuation">,</span> <span class="token number">0x2D</span><span class="token punctuation">,</span> <span class="token number">0x4C</span><span class="token punctuation">,</span> <span class="token number">0x26</span><span class="token punctuation">,</span> <span class="token number">0x5A</span><span class="token punctuation">,</span> <span class="token number">0x0F</span><span class="token punctuation">,</span> <span class="token number">0x04</span><span class="token punctuation">,</span> <span class="token number">0x07</span><span class="token punctuation">,</span> <span class="token number">0x5F</span><span class="token punctuation">,</span> <span class="token number">0x1D</span><span class="token punctuation">,</span> <span class="token number">0x48</span><span class="token punctuation">,</span> <span class="token number">0x1F</span><span class="token punctuation">,</span> <span class="token number">0x67</span><span class="token punctuation">,</span> <span class="token number">0x44</span><span class="token punctuation">,</span> <span class="token number">0x3B</span><span class="token punctuation">,</span> <span class="token number">0x37</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>加密算法为  flag + key + 97 + i</p>
+<p>逆推回去只需要将加密过后的flag    flag &#x3D; [enc_flag[ i ] - key[ i ] - 97 - i for i in range(len(enc_flag))]  就可以得到flag</p>
+<h2 id="0x4再次动调分析"><a href="#0x4再次动调分析" class="headerlink" title="0x4再次动调分析"></a>0x4再次动调分析</h2><p><img src="/../images/SUSCTF-tttree2/12.png" alt="12"></p>
+<p>再往后走 发现这里才开始判断了SUSCTF{}    前面只是判断了{中间的值}</p>
+<p><img src="/../images/SUSCTF-tttree2/13.png" alt="13"></p>
+<p>后面一直循环动调都会到这里判断节点个数   发现中间会往 1400073B0里放入这里，发现是一个长度为33的结构体数组</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">struct tree_node<span class="token punctuation">&#123;</span>
+   <span class="token number">0x00</span> DWORD 左孩子<span class="token punctuation">;</span>               <span class="token operator">//</span>左孩子 右兄弟表示二叉树里的代名词
+   <span class="token number">0x04</span> DWORD 右兄弟<span class="token punctuation">;</span>
+   <span class="token number">0X08</span> DWORD enc_input<span class="token punctuation">;</span>        <span class="token operator">//</span>加密后的每一个字符
+   <span class="token number">0X0C</span> DWORD 叶子个数<span class="token punctuation">;</span>    <span class="token operator">//</span>假设把此节点当做根节点，整个Tree的叶子个数
+   <span class="token number">0X10</span> DWORD 随机数<span class="token punctuation">;</span>            <span class="token operator">//</span>优先级
+   <span class="token number">0X14</span> DWORD  <span class="token number">1</span><span class="token punctuation">;</span>             
+   <span class="token number">0X18</span> DWORD <span class="token builtin">input</span><span class="token punctuation">;</span>         <span class="token operator">//</span>输入的flag的每一个字符
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>总共有32个数组结构体 全部提取出来</p>
+<pre class="line-numbers language-none"><code class="language-none">				  输入加密后	 页子个数   优先级				我们的输入
+00000000 00000013 000000F1 00000006 2109B018 00000001 00000030
+0000000F 00000009 000000D9 00000018 11BB2E13 00000001 00000031
+00000000 00000000 000000F7 00000001 5D64CABB 00000001 00000032
+00000000 0000000B 0000009A 00000002 302F1C09 00000001 00000033
+00000004 00000015 000000AF 00000020 02E78C02 00000001 00000034
+00000000 00000000 000000B4 00000001 2A28B165 00000001 00000035
+00000000 00000000 000000BB 00000001 6F018185 00000001 00000036
+00000000 00000006 000000B1 00000002 1CF5A8D1 00000001 00000037
+00000016 00000011 000000EE 0000000E 1532F368 00000001 00000038
+00000000 00000000 000000F4 00000001 42367652 00000001 00000039
+00000000 00000000 000000A0 00000001 7B50B157 00000001 00000030
+00000007 00000000 000000C2 00000002 244FA941 00000001 00000031
+00000000 00000000 000000D7 00000001 48CB7CCC 00000001 00000032
+0000000C 00000014 000000CF 00000004 1950F130 00000001 00000032
+00000008 00000012 000000B6 00000009 15561F1B 00000001 00000033
+00000000 0000000A 000000F3 00000002 29F35383 00000001 00000034
+00000001 00000020 00000101 0000000A 204017F9 00000001 00000035
+0000000E 0000000D 000000D5 00000006 15686F99 00000001 00000036
+00000010 0000001A 000000F6 00000005 274AD200 00000001 00000037
+00000000 00000000 000000D3 00000001 650387E1 00000001 00000039
+0000001B 00000019 00000130 0000001D 04C2B77D 00000001 00000061
+00000017 00000000 000000E7 00000003 278451D6 00000001 00000062
+00000000 00000018 000000DE 00000002 3F0318C0 00000001 00000063
+00000000 00000000 000000E3 00000001 78E83012 00000001 00000064
+00000000 0000001D 0000013D 00000002 0D00C42A 00000001 00000065
+00000003 00000000 000000FD 00000002 537C7E9D 00000001 00000066
+00000002 0000001E 0000012A 0000001A 0F8680AF 00000001 00000067
+00000000 00000000 00000103 00000001 72A27C9F 00000001 00000068
+00000000 00000000 0000014D 00000001 5C4909AF 00000001 00000069
+00000000 00000000 0000012C 00000001 2FE974B3 00000001 0000006A
+00000000 00000000 00000125 00000001 351BEA91 00000001 0000006B
+0000001C 0000001F 00000123 00000003 2ADAD13B 00000001 0000006C<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="/../images/SUSCTF-tttree2/14.png" alt="14"></p>
+<p>32个数组全部走出来后 提取了正确的加密后的flag   调试时可以发现为后序遍历二叉树</p>
+<p>如何判断</p>
+<p><img src="/../images/SUSCTF-tttree2/15-16475098947152.png" alt="15"></p>
+<p>后面有对比  一个值为0xA2  是0x140006040里的第一个值 来判断出那个数组为最终判断的flag</p>
+<p><img src="/../images/SUSCTF-tttree2/16.png" alt="16"></p>
+<p>这里是关键判断  jne跳走直接结束了   改变   zf标志位   或者 jne  改成  je  继续动调</p>
+<h2 id="0x5构造二叉树"><a href="#0x5构造二叉树" class="headerlink" title="0x5构造二叉树"></a>0x5构造二叉树</h2><p>提取出正确的flag值，构造二叉树</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">encs <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0x00A2</span><span class="token punctuation">,</span> <span class="token number">0x00AF</span><span class="token punctuation">,</span> <span class="token number">0x009D</span><span class="token punctuation">,</span> <span class="token number">0x00B7</span><span class="token punctuation">,</span> <span class="token number">0x00D2</span><span class="token punctuation">,</span> <span class="token number">0x00CB</span><span class="token punctuation">,</span> <span class="token number">0x00C7</span><span class="token punctuation">,</span> <span class="token number">0x00C6</span><span class="token punctuation">,</span> <span class="token number">0x00B0</span><span class="token punctuation">,</span> <span class="token number">0x00D5</span><span class="token punctuation">,</span> <span class="token number">0x00DA</span><span class="token punctuation">,</span> <span class="token number">0x00E3</span><span class="token punctuation">,</span> <span class="token number">0x00E6</span><span class="token punctuation">,</span> <span class="token number">0x00E8</span><span class="token punctuation">,</span> <span class="token number">0x00E9</span><span class="token punctuation">,</span> <span class="token number">0x00F3</span><span class="token punctuation">,</span><span class="token number">0x00F4</span><span class="token punctuation">,</span> <span class="token number">0x00EF</span><span class="token punctuation">,</span> <span class="token number">0x00EE</span><span class="token punctuation">,</span> <span class="token number">0x00F7</span><span class="token punctuation">,</span> <span class="token number">0x00F9</span><span class="token punctuation">,</span> <span class="token number">0x00FF</span><span class="token punctuation">,</span> <span class="token number">0x0101</span><span class="token punctuation">,</span> <span class="token number">0x00F5</span><span class="token punctuation">,</span> <span class="token number">0x0109</span><span class="token punctuation">,</span> <span class="token number">0x011F</span><span class="token punctuation">,</span> <span class="token number">0x011A</span><span class="token punctuation">,</span> <span class="token number">0x0146</span><span class="token punctuation">,</span> <span class="token number">0x0124</span><span class="token punctuation">,</span> <span class="token number">0x010F</span><span class="token punctuation">,</span> <span class="token number">0x0106</span><span class="token punctuation">,</span> <span class="token number">0x00DF</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+<p><img src="/../images/SUSCTF-tttree2/18.png" alt="18"></p>
+<p><img src="/../images/SUSCTF-tttree2/111.jpg" alt="111"></p>
+<p>手绘了一张二叉树图   因为是后序遍历  大家可以看这张图非常直观</p>
+<p><img src="/../images/SUSCTF-tttree2/22.png" alt="22"></p>
+<p>DLR–前序遍历（根在前，从左往右，一棵树的根永远在左子树前面，左子树又永远在右子树前面 ）</p>
+<p>LDR–<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86&spm=1001.2101.3001.7020">中序遍历</a>（根在中，从左往右，一棵树的左子树永远在根前面，根永远在右子树前面）</p>
+<p>LRD–后序遍历（根在后，从左往右，一棵树的左子树永远在右子树前面，右子树永远在根前面）</p>
+<p>再加上 上方的叶子个数可以画出这个图</p>
+<h2 id="0x6最终的动调"><a href="#0x6最终的动调" class="headerlink" title="0x6最终的动调"></a>0x6最终的动调</h2><p>会发现 除了对比加密后的flag  还会对比左孩子右兄弟 错误直接退出</p>
+<p><img src="/../images/SUSCTF-tttree2/21.png" alt="21"></p>
+<p>提取里面的对比值</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">gxs_right <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0x00AC</span><span class="token punctuation">,</span> <span class="token number">0x00FD</span><span class="token punctuation">,</span> <span class="token number">0x0247</span><span class="token punctuation">,</span> <span class="token number">0x0115</span><span class="token punctuation">,</span> <span class="token number">0x00D4</span><span class="token punctuation">,</span> <span class="token number">0x02B5</span><span class="token punctuation">,</span> <span class="token number">0x01FC</span><span class="token punctuation">,</span> <span class="token number">0x028B</span><span class="token punctuation">,</span> <span class="token number">0x014A</span><span class="token punctuation">,</span> <span class="token number">0x004C</span><span class="token punctuation">,</span> <span class="token number">0x008E</span><span class="token punctuation">,</span> <span class="token number">0x00E9</span><span class="token punctuation">,</span> <span class="token number">0x0055</span><span class="token punctuation">,</span> <span class="token number">0x012C</span><span class="token punctuation">,</span> <span class="token number">0x00F5</span><span class="token punctuation">,</span>
+             <span class="token number">0x00E3</span><span class="token punctuation">,</span> <span class="token number">0x0081</span><span class="token punctuation">,</span> <span class="token number">0x02E2</span><span class="token punctuation">,</span> <span class="token number">0x01A8</span><span class="token punctuation">,</span> <span class="token number">0x0117</span><span class="token punctuation">,</span> <span class="token number">0x0152</span><span class="token punctuation">,</span> <span class="token number">0x0101</span><span class="token punctuation">,</span> <span class="token number">0x003A</span><span class="token punctuation">,</span> <span class="token number">0x01D0</span><span class="token punctuation">,</span> <span class="token number">0x00A8</span><span class="token punctuation">,</span> <span class="token number">0x00CC</span><span class="token punctuation">,</span> <span class="token number">0x0149</span><span class="token punctuation">,</span> <span class="token number">0x0137</span><span class="token punctuation">,</span> <span class="token number">0x0300</span><span class="token punctuation">,</span> <span class="token number">0x01EC</span><span class="token punctuation">,</span> <span class="token number">0x0276</span><span class="token punctuation">,</span> <span class="token number">0x0247</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p><img src="/../images/SUSCTF-tttree2/17.png" alt="17"></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">gxs_left <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0x00A8</span><span class="token punctuation">,</span> <span class="token number">0x0131</span><span class="token punctuation">,</span> <span class="token number">0x0113</span><span class="token punctuation">,</span> <span class="token number">0x0047</span><span class="token punctuation">,</span> <span class="token number">0x009E</span><span class="token punctuation">,</span> <span class="token number">0x003B</span><span class="token punctuation">,</span> <span class="token number">0x003A</span><span class="token punctuation">,</span> <span class="token number">0x00BF</span><span class="token punctuation">,</span> <span class="token number">0x0092</span><span class="token punctuation">,</span> <span class="token number">0x00F0</span><span class="token punctuation">,</span> <span class="token number">0x0174</span><span class="token punctuation">,</span> <span class="token number">0x00C3</span><span class="token punctuation">,</span> <span class="token number">0x0289</span><span class="token punctuation">,</span> <span class="token number">0x0104</span><span class="token punctuation">,</span> <span class="token number">0x0260</span><span class="token punctuation">,</span>
+            <span class="token number">0x004D</span><span class="token punctuation">,</span> <span class="token number">0x02FB</span><span class="token punctuation">,</span> <span class="token number">0x009E</span><span class="token punctuation">,</span> <span class="token number">0x0191</span><span class="token punctuation">,</span> <span class="token number">0x0158</span><span class="token punctuation">,</span> <span class="token number">0x007D</span><span class="token punctuation">,</span> <span class="token number">0x004A</span><span class="token punctuation">,</span> <span class="token number">0x01E9</span><span class="token punctuation">,</span> <span class="token number">0x0101</span><span class="token punctuation">,</span> <span class="token number">0x00D0</span><span class="token punctuation">,</span> <span class="token number">0x00FC</span><span class="token punctuation">,</span> <span class="token number">0x0070</span><span class="token punctuation">,</span> <span class="token number">0x011F</span><span class="token punctuation">,</span> <span class="token number">0x0345</span><span class="token punctuation">,</span> <span class="token number">0x0162</span><span class="token punctuation">,</span> <span class="token number">0x02A4</span><span class="token punctuation">,</span> <span class="token number">0x0092</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h2 id="0x7编写解密脚本"><a href="#0x7编写解密脚本" class="headerlink" title="0x7编写解密脚本"></a>0x7编写解密脚本</h2><p>因为Treap有堆的性质，根节点的优先级是最小的，因此我们提取出所有的优先级，对他进行排序</p>
+<p>所以可以得到后序遍历最终顶端的值   后面就不行，分支下去后就有两个  优先级无法判定</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">c <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0x2109B018</span><span class="token punctuation">,</span> <span class="token number">0x11BB2E13</span><span class="token punctuation">,</span> <span class="token number">0x5D64CABB</span><span class="token punctuation">,</span> <span class="token number">0x302F1C09</span><span class="token punctuation">,</span> <span class="token number">0x02E78C02</span><span class="token punctuation">,</span> <span class="token number">0x2A28B165</span><span class="token punctuation">,</span> <span class="token number">0x6F018185</span><span class="token punctuation">,</span> <span class="token number">0x1CF5A8D1</span><span class="token punctuation">,</span> <span class="token number">0x1532F368</span><span class="token punctuation">,</span> <span class="token number">0x42367652</span><span class="token punctuation">,</span> <span class="token number">0x7B50B157</span><span class="token punctuation">,</span> <span class="token number">0x244FA941</span><span class="token punctuation">,</span> <span class="token number">0x48CB7CCC</span><span class="token punctuation">,</span> <span class="token number">0x1950F130</span><span class="token punctuation">,</span> <span class="token number">0x15561F1B</span><span class="token punctuation">,</span> <span class="token number">0x29F35383</span><span class="token punctuation">,</span>
+     <span class="token number">0x204017F9</span><span class="token punctuation">,</span> <span class="token number">0x15686F99</span><span class="token punctuation">,</span> <span class="token number">0x274AD200</span><span class="token punctuation">,</span> <span class="token number">0x650387E1</span><span class="token punctuation">,</span> <span class="token number">0x04C2B77D</span><span class="token punctuation">,</span> <span class="token number">0x278451D6</span><span class="token punctuation">,</span> <span class="token number">0x3F0318C0</span><span class="token punctuation">,</span> <span class="token number">0x78E83012</span><span class="token punctuation">,</span> <span class="token number">0x0D00C42A</span><span class="token punctuation">,</span> <span class="token number">0x537C7E9D</span><span class="token punctuation">,</span> <span class="token number">0x0F8680AF</span><span class="token punctuation">,</span> <span class="token number">0x72A27C9F</span><span class="token punctuation">,</span> <span class="token number">0x5C4909AF</span><span class="token punctuation">,</span> <span class="token number">0x2FE974B3</span><span class="token punctuation">,</span> <span class="token number">0x351BEA91</span><span class="token punctuation">,</span> <span class="token number">0x2ADAD13B</span><span class="token punctuation">]</span>
+yxj <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>i<span class="token punctuation">,</span> c<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+
+<span class="token keyword">def</span> <span class="token function">sort_</span><span class="token punctuation">(</span>elem<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> elem<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>
+
+yxj<span class="token punctuation">.</span>sort<span class="token punctuation">(</span>key<span class="token operator">=</span>sort_<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>yxj<span class="token punctuation">)</span>
+<span class="token comment"># [[4, 48729090], [20, 79869821], [24, 218154026], [26, 260473007], [1, 297479699], [8, 355660648], [14, 357965595], [17, 359165849], [13, 424735024], [7, 485861585], [16, 541071353], [0, 554283032], [11, 609200449], [18, 659214848], [21, 662983126], [15, 703812483], [5, 707309925], [31, 718983483], [29, 803828915], [3, 808393737], [30, 891021969], [22, 1057167552], [9, 1110865490], [12, 1221295308], [25, 1400667805], [28, 1548290479], [2, 1566886587], [19, 1694730209], [6, 1862369669], [27, 1923251359], [23, 2028482578], [10, 2068885847]]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># [本节点，左孩子，右孩子，序号，flag]</span>
+<span class="token comment"># 构造二叉树</span>
+treap <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">[</span><span class="token number">223</span><span class="token punctuation">,</span> <span class="token number">218</span><span class="token punctuation">,</span> <span class="token number">262</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">218</span><span class="token punctuation">,</span> <span class="token number">213</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">213</span><span class="token punctuation">,</span> <span class="token number">176</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">176</span><span class="token punctuation">,</span> <span class="token number">157</span><span class="token punctuation">,</span> <span class="token number">198</span><span class="token punctuation">,</span>  <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">157</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">175</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">175</span><span class="token punctuation">,</span> <span class="token number">162</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">198</span><span class="token punctuation">,</span> <span class="token number">183</span><span class="token punctuation">,</span> <span class="token number">199</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">162</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">183</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">199</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">203</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">203</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">210</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">210</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">262</span><span class="token punctuation">,</span> <span class="token number">245</span><span class="token punctuation">,</span> <span class="token number">271</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">245</span><span class="token punctuation">,</span> <span class="token number">238</span><span class="token punctuation">,</span> <span class="token number">257</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">238</span><span class="token punctuation">,</span> <span class="token number">233</span><span class="token punctuation">,</span> <span class="token number">239</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">233</span><span class="token punctuation">,</span> <span class="token number">232</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">232</span><span class="token punctuation">,</span> <span class="token number">230</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">230</span><span class="token punctuation">,</span> <span class="token number">227</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">227</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">239</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">244</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">244</span><span class="token punctuation">,</span> <span class="token number">243</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">243</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">257</span><span class="token punctuation">,</span> <span class="token number">255</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">255</span><span class="token punctuation">,</span> <span class="token number">249</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">249</span><span class="token punctuation">,</span> <span class="token number">247</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">247</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">271</span><span class="token punctuation">,</span> <span class="token number">265</span><span class="token punctuation">,</span> <span class="token number">292</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">265</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">292</span><span class="token punctuation">,</span> <span class="token number">282</span><span class="token punctuation">,</span> <span class="token number">326</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">282</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">287</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">326</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">287</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span>
+<span class="token punctuation">]</span>
+
+treap_dict <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">32</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    treap_dict<span class="token punctuation">[</span>treap<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token operator">=</span> treap<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token number">5</span><span class="token punctuation">]</span>   <span class="token comment">#提取除了本节点外的另外4个值</span>
+key <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0x60</span><span class="token punctuation">,</span> <span class="token number">0x46</span><span class="token punctuation">,</span> <span class="token number">0x62</span><span class="token punctuation">,</span> <span class="token number">0x03</span><span class="token punctuation">,</span> <span class="token number">0x16</span><span class="token punctuation">,</span> <span class="token number">0x19</span><span class="token punctuation">,</span> <span class="token number">0x1E</span><span class="token punctuation">,</span> <span class="token number">0x12</span><span class="token punctuation">,</span> <span class="token number">0x4D</span><span class="token punctuation">,</span> <span class="token number">0x51</span><span class="token punctuation">,</span> <span class="token number">0x05</span><span class="token punctuation">,</span> <span class="token number">0x25</span><span class="token punctuation">,</span> <span class="token number">0x38</span><span class="token punctuation">,</span> <span class="token number">0x2F</span><span class="token punctuation">,</span> <span class="token number">0x14</span><span class="token punctuation">,</span> <span class="token number">0x4F</span><span class="token punctuation">,</span>
+       <span class="token number">0x5B</span><span class="token punctuation">,</span> <span class="token number">0x2D</span><span class="token punctuation">,</span> <span class="token number">0x4C</span><span class="token punctuation">,</span> <span class="token number">0x26</span><span class="token punctuation">,</span> <span class="token number">0x5A</span><span class="token punctuation">,</span> <span class="token number">0x0F</span><span class="token punctuation">,</span> <span class="token number">0x04</span><span class="token punctuation">,</span> <span class="token number">0x07</span><span class="token punctuation">,</span> <span class="token number">0x5F</span><span class="token punctuation">,</span> <span class="token number">0x1D</span><span class="token punctuation">,</span> <span class="token number">0x48</span><span class="token punctuation">,</span> <span class="token number">0x1F</span><span class="token punctuation">,</span> <span class="token number">0x67</span><span class="token punctuation">,</span> <span class="token number">0x44</span><span class="token punctuation">,</span> <span class="token number">0x3B</span><span class="token punctuation">,</span> <span class="token number">0x37</span><span class="token punctuation">]</span>  <span class="token comment">#第一次加密用的key</span>
+encs <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0x00A2</span><span class="token punctuation">,</span> <span class="token number">0x00AF</span><span class="token punctuation">,</span> <span class="token number">0x009D</span><span class="token punctuation">,</span> <span class="token number">0x00B7</span><span class="token punctuation">,</span> <span class="token number">0x00D2</span><span class="token punctuation">,</span> <span class="token number">0x00CB</span><span class="token punctuation">,</span> <span class="token number">0x00C7</span><span class="token punctuation">,</span> <span class="token number">0x00C6</span><span class="token punctuation">,</span> <span class="token number">0x00B0</span><span class="token punctuation">,</span> <span class="token number">0x00D5</span><span class="token punctuation">,</span> <span class="token number">0x00DA</span><span class="token punctuation">,</span> <span class="token number">0x00E3</span><span class="token punctuation">,</span> <span class="token number">0x00E6</span><span class="token punctuation">,</span> <span class="token number">0x00E8</span><span class="token punctuation">,</span> <span class="token number">0x00E9</span><span class="token punctuation">,</span> <span class="token number">0x00F3</span><span class="token punctuation">,</span>
+        <span class="token number">0x00F4</span><span class="token punctuation">,</span> <span class="token number">0x00EF</span><span class="token punctuation">,</span> <span class="token number">0x00EE</span><span class="token punctuation">,</span> <span class="token number">0x00F7</span><span class="token punctuation">,</span> <span class="token number">0x00F9</span><span class="token punctuation">,</span> <span class="token number">0x00FF</span><span class="token punctuation">,</span> <span class="token number">0x0101</span><span class="token punctuation">,</span> <span class="token number">0x00F5</span><span class="token punctuation">,</span> <span class="token number">0x0109</span><span class="token punctuation">,</span> <span class="token number">0x011F</span><span class="token punctuation">,</span> <span class="token number">0x011A</span><span class="token punctuation">,</span> <span class="token number">0x0146</span><span class="token punctuation">,</span> <span class="token number">0x0124</span><span class="token punctuation">,</span> <span class="token number">0x010F</span><span class="token punctuation">,</span> <span class="token number">0x0106</span><span class="token punctuation">,</span> <span class="token number">0x00DF</span><span class="token punctuation">]</span>  <span class="token comment">#最终对比的加密的值 真正的flag</span>
+
+<span class="token comment"># 节点和右孩子之间的关系</span>
+gxs_right <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0x00AC</span><span class="token punctuation">,</span> <span class="token number">0x00FD</span><span class="token punctuation">,</span> <span class="token number">0x0247</span><span class="token punctuation">,</span> <span class="token number">0x0115</span><span class="token punctuation">,</span> <span class="token number">0x00D4</span><span class="token punctuation">,</span> <span class="token number">0x02B5</span><span class="token punctuation">,</span> <span class="token number">0x01FC</span><span class="token punctuation">,</span> <span class="token number">0x028B</span><span class="token punctuation">,</span> <span class="token number">0x014A</span><span class="token punctuation">,</span> <span class="token number">0x004C</span><span class="token punctuation">,</span> <span class="token number">0x008E</span><span class="token punctuation">,</span> <span class="token number">0x00E9</span><span class="token punctuation">,</span> <span class="token number">0x0055</span><span class="token punctuation">,</span> <span class="token number">0x012C</span><span class="token punctuation">,</span> <span class="token number">0x00F5</span><span class="token punctuation">,</span>
+             <span class="token number">0x00E3</span><span class="token punctuation">,</span> <span class="token number">0x0081</span><span class="token punctuation">,</span> <span class="token number">0x02E2</span><span class="token punctuation">,</span> <span class="token number">0x01A8</span><span class="token punctuation">,</span> <span class="token number">0x0117</span><span class="token punctuation">,</span> <span class="token number">0x0152</span><span class="token punctuation">,</span> <span class="token number">0x0101</span><span class="token punctuation">,</span> <span class="token number">0x003A</span><span class="token punctuation">,</span> <span class="token number">0x01D0</span><span class="token punctuation">,</span> <span class="token number">0x00A8</span><span class="token punctuation">,</span> <span class="token number">0x00CC</span><span class="token punctuation">,</span> <span class="token number">0x0149</span><span class="token punctuation">,</span> <span class="token number">0x0137</span><span class="token punctuation">,</span> <span class="token number">0x0300</span><span class="token punctuation">,</span> <span class="token number">0x01EC</span><span class="token punctuation">,</span> <span class="token number">0x0276</span><span class="token punctuation">,</span> <span class="token number">0x0247</span><span class="token punctuation">]</span>
+
+<span class="token comment"># 节点和左孩子之间的关系</span>
+gxs_left <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0x00A8</span><span class="token punctuation">,</span> <span class="token number">0x0131</span><span class="token punctuation">,</span> <span class="token number">0x0113</span><span class="token punctuation">,</span> <span class="token number">0x0047</span><span class="token punctuation">,</span> <span class="token number">0x009E</span><span class="token punctuation">,</span> <span class="token number">0x003B</span><span class="token punctuation">,</span> <span class="token number">0x003A</span><span class="token punctuation">,</span> <span class="token number">0x00BF</span><span class="token punctuation">,</span> <span class="token number">0x0092</span><span class="token punctuation">,</span> <span class="token number">0x00F0</span><span class="token punctuation">,</span> <span class="token number">0x0174</span><span class="token punctuation">,</span> <span class="token number">0x00C3</span><span class="token punctuation">,</span> <span class="token number">0x0289</span><span class="token punctuation">,</span> <span class="token number">0x0104</span><span class="token punctuation">,</span> <span class="token number">0x0260</span><span class="token punctuation">,</span>
+            <span class="token number">0x004D</span><span class="token punctuation">,</span> <span class="token number">0x02FB</span><span class="token punctuation">,</span> <span class="token number">0x009E</span><span class="token punctuation">,</span> <span class="token number">0x0191</span><span class="token punctuation">,</span> <span class="token number">0x0158</span><span class="token punctuation">,</span> <span class="token number">0x007D</span><span class="token punctuation">,</span> <span class="token number">0x004A</span><span class="token punctuation">,</span> <span class="token number">0x01E9</span><span class="token punctuation">,</span> <span class="token number">0x0101</span><span class="token punctuation">,</span> <span class="token number">0x00D0</span><span class="token punctuation">,</span> <span class="token number">0x00FC</span><span class="token punctuation">,</span> <span class="token number">0x0070</span><span class="token punctuation">,</span> <span class="token number">0x011F</span><span class="token punctuation">,</span> <span class="token number">0x0345</span><span class="token punctuation">,</span> <span class="token number">0x0162</span><span class="token punctuation">,</span> <span class="token number">0x02A4</span><span class="token punctuation">,</span> <span class="token number">0x0092</span><span class="token punctuation">]</span>
+
+<span class="token keyword">def</span> <span class="token function">get_child_xuhao</span><span class="token punctuation">(</span>node_c<span class="token punctuation">,</span> gx<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># node_c： 本节点字符</span>
+    <span class="token comment"># gx: 关系</span>
+    <span class="token comment"># 孩子节点序号 * 0x17  + 本节点input = gx</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>gx <span class="token operator">-</span> node_c<span class="token punctuation">)</span> <span class="token operator">%</span> <span class="token number">0x17</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> <span class="token builtin">int</span><span class="token punctuation">(</span><span class="token punctuation">(</span>gx <span class="token operator">-</span> node_c<span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">0x17</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> <span class="token boolean">None</span>
+
+<span class="token keyword">def</span> <span class="token function">get_real_c</span><span class="token punctuation">(</span>_index<span class="token punctuation">,</span> enc_input<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># 通过索引和enc_input得到原始input</span>
+    tmp <span class="token operator">=</span> enc_input <span class="token operator">-</span> <span class="token number">97</span> <span class="token operator">-</span> key<span class="token punctuation">[</span>_index<span class="token punctuation">]</span> <span class="token operator">-</span> _index
+    <span class="token keyword">return</span> tmp
+
+<span class="token keyword">def</span> <span class="token function">treap_traverse</span><span class="token punctuation">(</span>_root<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">if</span> _root <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span>
+    node_c <span class="token operator">=</span> get_real_c<span class="token punctuation">(</span>treap_dict<span class="token punctuation">[</span>_root<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">,</span> _root<span class="token punctuation">)</span>   <span class="token comment">#获取input的序号  例：提取了 233 的序号 5  然后减 1 为 4  因为序号5  索引为4   所以需要减一  然后解密出来</span>
+    idx <span class="token operator">=</span> encs<span class="token punctuation">.</span>index<span class="token punctuation">(</span>_root<span class="token punctuation">)</span>     <span class="token comment"># 得到后续遍历后的数组中_root的索引</span>
+    <span class="token comment"># 如果左节点不为空，更新左节点的数据</span>
+    left_root <span class="token operator">=</span> treap_dict<span class="token punctuation">[</span>_root<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>   <span class="token comment">#获取左孩子</span>
+    right_root <span class="token operator">=</span> treap_dict<span class="token punctuation">[</span>_root<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>   <span class="token comment">#获取右孩子</span>
+    <span class="token keyword">if</span> left_root <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">:</span>
+        left_xh <span class="token operator">=</span> get_child_xuhao<span class="token punctuation">(</span>node_c<span class="token punctuation">,</span> gxs_left<span class="token punctuation">[</span>idx<span class="token punctuation">]</span><span class="token punctuation">)</span>     <span class="token comment">#放入解密后的值 和 左孩子里索引的值  得到序号</span>
+        left_c <span class="token operator">=</span> get_real_c<span class="token punctuation">(</span>left_xh <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">,</span> treap_dict<span class="token punctuation">[</span>_root<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>     <span class="token comment">#跟上面一样  填入序号 减一  然后解密</span>
+        treap_dict<span class="token punctuation">[</span>left_root<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">=</span> left_xh              <span class="token comment">#填入序号</span>
+        treap_dict<span class="token punctuation">[</span>left_root<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span> <span class="token operator">=</span> left_c               <span class="token comment">#填入解密后的值</span>
+        treap_traverse<span class="token punctuation">(</span>left_root<span class="token punctuation">)</span>
+    <span class="token keyword">if</span> right_root <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">:</span>
+        right_xh <span class="token operator">=</span> get_child_xuhao<span class="token punctuation">(</span>node_c<span class="token punctuation">,</span> gxs_right<span class="token punctuation">[</span>idx<span class="token punctuation">]</span><span class="token punctuation">)</span>
+        right_c <span class="token operator">=</span> get_real_c<span class="token punctuation">(</span>right_xh <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">,</span> treap_dict<span class="token punctuation">[</span>_root<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>     <span class="token comment"># 右孩子</span>
+        treap_dict<span class="token punctuation">[</span>right_root<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">=</span> right_xh
+        treap_dict<span class="token punctuation">[</span>right_root<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span> <span class="token operator">=</span> right_c
+        treap_traverse<span class="token punctuation">(</span>right_root<span class="token punctuation">)</span>
+
+treap_traverse<span class="token punctuation">(</span><span class="token number">223</span><span class="token punctuation">)</span>   <span class="token comment">#放入已知的  223  序号为5  来推导剩下的</span>
+flag <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+<span class="token keyword">for</span> _key<span class="token punctuation">,</span> value <span class="token keyword">in</span> treap_dict<span class="token punctuation">.</span>items<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>   <span class="token comment">#把序号 和 解密完的值提取出来</span>
+    flag<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token punctuation">[</span>value<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> value<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+flag<span class="token punctuation">.</span>sort<span class="token punctuation">(</span><span class="token punctuation">)</span>      <span class="token comment">#根据序号 排序</span>
+flag <span class="token operator">=</span> <span class="token punctuation">[</span>x<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token keyword">for</span> x <span class="token keyword">in</span> flag<span class="token punctuation">]</span>    <span class="token comment">#排序完后 只将解密的值拿出来</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"SUSCTF&#123;"</span> <span class="token operator">+</span> <span class="token string">""</span><span class="token punctuation">.</span>join<span class="token punctuation">(</span><span class="token builtin">map</span><span class="token punctuation">(</span><span class="token builtin">chr</span><span class="token punctuation">,</span> flag<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"&#125;"</span><span class="token punctuation">)</span>   <span class="token comment">#打印出来就成功啦</span>
+<span class="token comment"># SUSCTF&#123;8226d8a68d25d8f03be17c4d7027b29c&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="0x8总结"><a href="#0x8总结" class="headerlink" title="0x8总结"></a>0x8总结</h2><p>花了快一天的时间，原本不想复现这题，但是看见有人全程动调出题，就非常也想尝试一下，感觉非常累，但是经验积累了很多。（早知道理解wp的去花脚本.）</p>
+<p>之前看过二叉树，这次感觉又重新学习了一遍，完全忘记了。 在这里感谢一下这位师傅的文章@zsky（懒的重写，理解完就注释结束了…代码基本全抄，动调提取倒是自己做的）</p>
+<p>文章链接（<a target="_blank" rel="noopener" href="https://www.52pojie.cn/thread-1596550-1-1.html%EF%BC%89">https://www.52pojie.cn/thread-1596550-1-1.html）</a></p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Blue</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://moodyblue.cn/category/SUSCTF-tttree2/">http://moodyblue.cn/category/SUSCTF-tttree2/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Blue</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            <span class="chip bg-color">无标签</span>
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+        <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments textarea {
+        box-sizing: border-box;
+        background: url("/medias/comment_bg.png") 100% 100% no-repeat;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #4cbf30;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="vcomments" class="card-content" style="display: grid">
+    </div>
+</div>
+
+<script src="/libs/valine/av-min.js"></script>
+<script src="/libs/valine/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: 'G7lnswxOQtaObPCANf6C5mMb-gzGzoHsz',
+        appKey: 'EkJJ2xeOruiGsbHtDwMA0GgL',
+        notify: 'false' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'true' === 'true',
+        avatar: 'mm',
+        pageSize: '10',
+        lang: 'zh-cn',
+        placeholder: 'just go go'
+    });
+</script>
+
+<!--酷Q推送-->
+
+<!-- 直达评论 -->
+<div id="to_comment" class="comment-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#vcomments" title="直达评论">
+        <i class="fas fa-comments"></i>
+    </a>
+</div>
+
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/category/SUSCTF-tttree2/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="SUSCTF-tttree2">
+                        
+                        <span class="card-title">SUSCTF-tttree2</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-17
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Blue
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/category/D3arm/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="D3arm">
+                        
+                        <span class="card-title">D3arm</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-15
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Blue
+                            
+                        </span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="653147671"
+                   fixed='true'
+                   autoplay='true'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2022</span>
+            
+            <a href="/about" target="_blank">Blue</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/mlxxg" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:962564839@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=962564839" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 962564839" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="/libs/others/snow.js"><\/script>');
+            }
+        </script>
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+    
+    <script type="text/javascript" size="150" alpha='0.6'
+        zIndex="-1" src="/libs/background/ribbon-refresh.min.js" async="async"></script>
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
