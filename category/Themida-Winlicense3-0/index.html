@@ -4,16 +4,15 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="pojiemiyao, Blue.Blogs">
-    <meta name="description" content="BUUCTF-REVER-[DDCTF2018]破解密钥0x1分析java层
-发现CTFLib.vaildata 来进行判断
+    <meta name="keywords" content="Themida / Winlicense3.0, Blue.Blogs">
+    <meta name="description" content="Themida-Winlicense3-0 脱壳 修复IAT表0x1 查壳
+发现是Themida-Winlicense3-0以上的壳
+0x2过反调试
+动调发现有反调试
 
-进入之后发现check代码在so层
-0x2 分析so层代码
+打开sharpOD64 的 Protect Drx 即可过反调试
 
-
-
-找到关键加密位置  非常简单 只需要动调获得V">
+成">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -25,7 +24,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>pojiemiyao | Blue.Blogs</title>
+    <title>Themida / Winlicense3.0 | Blue.Blogs</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -254,12 +253,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/4.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">pojiemiyao</h1>
+                    <h1 class="description center-align post-title">Themida / Winlicense3.0</h1>
                 </div>
             </div>
         </div>
@@ -391,7 +390,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-03-23
+                    2022-03-24
                 </div>
                 
 
@@ -415,26 +414,54 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="BUUCTF-REVER-DDCTF2018-破解密钥"><a href="#BUUCTF-REVER-DDCTF2018-破解密钥" class="headerlink" title="BUUCTF-REVER-[DDCTF2018]破解密钥"></a>BUUCTF-REVER-[DDCTF2018]破解密钥</h1><h2 id="0x1分析java层"><a href="#0x1分析java层" class="headerlink" title="0x1分析java层"></a>0x1分析java层</h2><p><img src="/../images/pojiemiyao/1.png" alt="1"></p>
-<p>发现CTFLib.vaildata 来进行判断</p>
-<p><img src="/../images/pojiemiyao/2.png" alt="2"></p>
-<p>进入之后发现check代码在so层</p>
-<h2 id="0x2-分析so层代码"><a href="#0x2-分析so层代码" class="headerlink" title="0x2 分析so层代码"></a>0x2 分析so层代码</h2><p><img src="/../images/pojiemiyao/3.png" alt="3"></p>
-<p><img src="/../images/pojiemiyao/4.png" alt="4"></p>
-<p><img src="/../images/pojiemiyao/5.png" alt="5"></p>
-<p><img src="/../images/pojiemiyao/6.png" alt="6"></p>
-<p>找到关键加密位置  非常简单 只需要动调获得V7就可以了</p>
-<h2 id="0x3-坑点"><a href="#0x3-坑点" class="headerlink" title="0x3 坑点"></a>0x3 坑点</h2><p><img src="/../images/pojiemiyao/7.png" alt="7"></p>
-<p>Sub_3C60函数里有TracePid反调试   方法有很多  可以frida hook   改变真机内核源码  改内存</p>
-<h2 id="0x4-脚本编写"><a href="#0x4-脚本编写" class="headerlink" title="0x4 脚本编写"></a>0x4 脚本编写</h2><pre class="line-numbers language-python" data-language="python"><code class="language-python">list1<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">0xA9</span> <span class="token punctuation">,</span><span class="token number">0xDE</span> <span class="token punctuation">,</span><span class="token number">0xAD</span> <span class="token punctuation">,</span><span class="token number">0x01</span> <span class="token punctuation">,</span><span class="token number">0x83</span> <span class="token punctuation">,</span><span class="token number">0xBB</span> <span class="token punctuation">,</span><span class="token number">0x4B</span> <span class="token punctuation">,</span><span class="token number">0x31</span> <span class="token punctuation">,</span><span class="token number">0xB7</span> <span class="token punctuation">,</span><span class="token number">0x84</span> <span class="token punctuation">,</span><span class="token number">0x54</span> <span class="token punctuation">,</span><span class="token number">0xDD</span> <span class="token punctuation">,</span><span class="token number">0x8F</span> <span class="token punctuation">,</span><span class="token number">0x65</span> <span class="token punctuation">,</span><span class="token number">0x0C</span> <span class="token punctuation">,</span><span class="token number">0x44</span> <span class="token punctuation">,</span><span class="token number">0xBD</span> <span class="token punctuation">,</span><span class="token number">0x13</span> <span class="token punctuation">,</span><span class="token number">0xAB</span> <span class="token punctuation">,</span><span class="token number">0xB4</span> <span class="token punctuation">,</span><span class="token number">0xAE</span> <span class="token punctuation">,</span><span class="token number">0x73</span> <span class="token punctuation">,</span><span class="token number">0x54</span> <span class="token punctuation">,</span><span class="token number">0xD9</span> <span class="token punctuation">,</span><span class="token number">0x69</span> <span class="token punctuation">,</span><span class="token number">0x64</span> <span class="token punctuation">,</span><span class="token number">0x32</span> <span class="token punctuation">,</span><span class="token number">0x0A</span> <span class="token punctuation">,</span><span class="token number">0xAC</span> <span class="token punctuation">,</span><span class="token number">0x36</span> <span class="token punctuation">,</span><span class="token number">0x0B</span> <span class="token punctuation">,</span><span class="token number">0x97</span><span class="token punctuation">]</span>
-list2<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">0xED</span> <span class="token punctuation">,</span><span class="token number">0x9A</span> <span class="token punctuation">,</span><span class="token number">0xEE</span> <span class="token punctuation">,</span><span class="token number">0x55</span> <span class="token punctuation">,</span><span class="token number">0xC5</span> <span class="token punctuation">,</span><span class="token number">0xC0</span> <span class="token punctuation">,</span><span class="token number">0x0C</span> <span class="token punctuation">,</span><span class="token number">0x5E</span> <span class="token punctuation">,</span><span class="token number">0xD8</span> <span class="token punctuation">,</span><span class="token number">0xE0</span> <span class="token punctuation">,</span><span class="token number">0x1E</span> <span class="token punctuation">,</span><span class="token number">0xB2</span> <span class="token punctuation">,</span><span class="token number">0xED</span> <span class="token punctuation">,</span><span class="token number">0x49</span> <span class="token punctuation">,</span><span class="token number">0x4F</span> <span class="token punctuation">,</span><span class="token number">0x2B</span> <span class="token punctuation">,</span><span class="token number">0xD3</span> <span class="token punctuation">,</span><span class="token number">0x74</span> <span class="token punctuation">,</span><span class="token number">0xD9</span> <span class="token punctuation">,</span><span class="token number">0xD5</span> <span class="token punctuation">,</span><span class="token number">0xDA</span> <span class="token punctuation">,</span><span class="token number">0x06</span> <span class="token punctuation">,</span><span class="token number">0x38</span> <span class="token punctuation">,</span><span class="token number">0xB8</span> <span class="token punctuation">,</span><span class="token number">0x1D</span> <span class="token punctuation">,</span><span class="token number">0x0D</span> <span class="token punctuation">,</span><span class="token number">0x5D</span> <span class="token punctuation">,</span><span class="token number">0x64</span> <span class="token punctuation">,</span><span class="token number">0xDF</span> <span class="token punctuation">,</span><span class="token number">0x17</span> <span class="token punctuation">,</span><span class="token number">0x2A</span> <span class="token punctuation">,</span><span class="token number">0xEA</span><span class="token punctuation">]</span>
-res<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
-<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>list1<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
- res<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token builtin">chr</span><span class="token punctuation">(</span>list1<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">^</span>list2<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span> <span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">.</span>join<span class="token punctuation">(</span>res<span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+                <h1 id="Themida-Winlicense3-0-脱壳-修复IAT表"><a href="#Themida-Winlicense3-0-脱壳-修复IAT表" class="headerlink" title="Themida-Winlicense3-0 脱壳 修复IAT表"></a>Themida-Winlicense3-0 脱壳 修复IAT表</h1><h2 id="0x1-查壳"><a href="#0x1-查壳" class="headerlink" title="0x1 查壳"></a>0x1 查壳</h2><p><img src="/../images/Themida-Winlicense3-0/1.png" alt="1"></p>
+<p>发现是Themida-Winlicense3-0以上的壳</p>
+<h2 id="0x2过反调试"><a href="#0x2过反调试" class="headerlink" title="0x2过反调试"></a>0x2过反调试</h2><p><img src="/../images/Themida-Winlicense3-0/2.png" alt="2"></p>
+<p>动调发现有反调试</p>
+<p><img src="/../images/Themida-Winlicense3-0/3.png" alt="3"></p>
+<p>打开sharpOD64 的 Protect Drx 即可过反调试</p>
+<p><img src="/../images/Themida-Winlicense3-0/4.png" alt="4"></p>
+<p>成功运行起来</p>
+<h2 id="0x3-查找OEP"><a href="#0x3-查找OEP" class="headerlink" title="0x3 查找OEP"></a>0x3 查找OEP</h2><p><img src="/../images/Themida-Winlicense3-0/6.png" alt="6"></p>
+<p>可以先dump程序，ida分析出oep  然后进入od 下硬件执行断点</p>
+<h2 id="0x4-修复IAT表"><a href="#0x4-修复IAT表" class="headerlink" title="0x4 修复IAT表"></a>0x4 修复IAT表</h2><p><img src="/../images/Themida-Winlicense3-0/7.png" alt="7"></p>
+<p>可以看见许多api被加密过</p>
+<p><img src="/../images/Themida-Winlicense3-0/8.png" alt="8"></p>
+<p>运行 自写的修复IAT od脚本</p>
+<p><img src="/../images/Themida-Winlicense3-0/9-16481265769511.png" alt="9"></p>
+<p>可以看见IAT已经修复完成</p>
+<h2 id="0x5-再次查壳"><a href="#0x5-再次查壳" class="headerlink" title="0x5 再次查壳"></a>0x5 再次查壳</h2><p><img src="/../images/Themida-Winlicense3-0/10.png" alt="10"></p>
+<p>发现已经脱掉了</p>
+<h2 id="0x6-拉进ida检验"><a href="#0x6-拉进ida检验" class="headerlink" title="0x6 拉进ida检验"></a>0x6 拉进ida检验</h2><p><img src="/../images/Themida-Winlicense3-0/11.png" alt="11"></p>
+<p>函数都识别出来了</p>
+<p><img src="/../images/Themida-Winlicense3-0/12.png" alt="12"></p>
+<h2 id="0x7-脚本奉上"><a href="#0x7-脚本奉上" class="headerlink" title="0x7 脚本奉上"></a>0x7 脚本奉上</h2><pre class="line-numbers language-none"><code class="language-none">VAR OEP
+MOV OEP,00A911C0     &#x2F;&#x2F;输入你的oep地址
+VAR temp0
+VAR temp1
+MOV temp0,00A92FFC   &#x2F;&#x2F;输入IAT表首地址-4
+Test:
+ADD temp0,4
+MOV temp1,[temp0]
+CMP temp1,72C00000
+JA Test
+CMP temp1,0
+JE Test
+MOV eip,temp1
+RTR
+MOV [temp0],[esp]
+CMP temp0,00A930E0  &#x2F;&#x2F;输入IAT表结束地址
+JAE jmpout
+JMP Test
+jmpout:
+MOV eip,OEP
+RET<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<p>DDCTF{GoodJob,Congratulations!!}</p>
-<h2 id="0x5总结"><a href="#0x5总结" class="headerlink" title="0x5总结"></a>0x5总结</h2><p>这题最大的学习就是动调so 和 过反调试 学到了各种过trace反调试的方法</p>
+<h2 id="0x8-总结"><a href="#0x8-总结" class="headerlink" title="0x8 总结"></a>0x8 总结</h2><p>脱壳还是老三样</p>
+<p>1.过反调试</p>
+<p>2.寻找oep</p>
+<p>3.修复IAT表</p>
+<p>巩固了一下OD脚本的编写，又脱了一个没脱过的壳 芜湖</p>
 
                 
             </div>
@@ -461,7 +488,7 @@ res<span class="token operator">=</span><span class="token punctuation">[</span>
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://moodyblue.cn/category/pojiemiyao/">http://moodyblue.cn/category/pojiemiyao/</a>
+                    <a href="http://moodyblue.cn/category/Themida-Winlicense3-0/">http://moodyblue.cn/category/Themida-Winlicense3-0/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -944,9 +971,10 @@ res<span class="token operator">=</span><span class="token punctuation">[</span>
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/category/Themida-Winlicense3-0/">
                     <div class="card-image">
@@ -964,9 +992,9 @@ res<span class="token operator">=</span><span class="token punctuation">[</span>
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-03-24
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-24
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -975,6 +1003,7 @@ res<span class="token operator">=</span><span class="token punctuation">[</span>
                         </span>
                     </div>
                 </div>
+
                 
             </div>
         </div>
@@ -985,13 +1014,13 @@ res<span class="token operator">=</span><span class="token punctuation">[</span>
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/category/CrackMe3/">
+                <a href="/category/pojiemiyao/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="CrackMe3">
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="pojiemiyao">
                         
-                        <span class="card-title">CrackMe3</span>
+                        <span class="card-title">pojiemiyao</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
