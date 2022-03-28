@@ -4,15 +4,14 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Themida / Winlicense3.0, Blue.Blogs">
-    <meta name="description" content="Themida-Winlicense3-0 脱壳 修复IAT表0x1 查壳
-发现是Themida-Winlicense3-0以上的壳
-0x2过反调试
-动调发现有反调试
+    <meta name="keywords" content="shell_code, Blue.Blogs">
+    <meta name="description" content="HUFUCTF2022-REVER-shellcode0x0 前言承接上文的tmd脱壳，所以直接来到ida分析环节
+0x1 IDA分析
+要求输入352位
 
-打开sharpOD64 的 Protect Drx 即可过反调试
+会对每一位进行一个逻辑左移3位
 
-成">
+可以看出来是一个xtea加密，密钥和defult都">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -24,7 +23,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Themida / Winlicense3.0 | Blue.Blogs</title>
+    <title>shell_code | Blue.Blogs</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -253,12 +252,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Themida / Winlicense3.0</h1>
+                    <h1 class="description center-align post-title">shell_code</h1>
                 </div>
             </div>
         </div>
@@ -390,7 +389,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-03-24
+                    2022-03-28
                 </div>
                 
 
@@ -414,54 +413,109 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="Themida-Winlicense3-0-脱壳-修复IAT表"><a href="#Themida-Winlicense3-0-脱壳-修复IAT表" class="headerlink" title="Themida-Winlicense3-0 脱壳 修复IAT表"></a>Themida-Winlicense3-0 脱壳 修复IAT表</h1><h2 id="0x1-查壳"><a href="#0x1-查壳" class="headerlink" title="0x1 查壳"></a>0x1 查壳</h2><p><img src="/../images/Themida-Winlicense3-0/1.png" alt="1"></p>
-<p>发现是Themida-Winlicense3-0以上的壳</p>
-<h2 id="0x2过反调试"><a href="#0x2过反调试" class="headerlink" title="0x2过反调试"></a>0x2过反调试</h2><p><img src="/../images/Themida-Winlicense3-0/2.png" alt="2"></p>
-<p>动调发现有反调试</p>
-<p><img src="/../images/Themida-Winlicense3-0/3.png" alt="3"></p>
-<p>打开sharpOD64 的 Protect Drx 即可过反调试</p>
-<p><img src="/../images/Themida-Winlicense3-0/4.png" alt="4"></p>
-<p>成功运行起来</p>
-<h2 id="0x3-查找OEP"><a href="#0x3-查找OEP" class="headerlink" title="0x3 查找OEP"></a>0x3 查找OEP</h2><p><img src="/../images/Themida-Winlicense3-0/6.png" alt="6"></p>
-<p>可以先dump程序，ida分析出oep  然后进入od 下硬件执行断点</p>
-<h2 id="0x4-修复IAT表"><a href="#0x4-修复IAT表" class="headerlink" title="0x4 修复IAT表"></a>0x4 修复IAT表</h2><p><img src="/../images/Themida-Winlicense3-0/7.png" alt="7"></p>
-<p>可以看见许多api被加密过</p>
-<p><img src="/../images/Themida-Winlicense3-0/8.png" alt="8"></p>
-<p>运行 自写的修复IAT od脚本</p>
-<p><img src="/../images/Themida-Winlicense3-0/9-16481265769511.png" alt="9"></p>
-<p>可以看见IAT已经修复完成</p>
-<h2 id="0x5-再次查壳"><a href="#0x5-再次查壳" class="headerlink" title="0x5 再次查壳"></a>0x5 再次查壳</h2><p><img src="/../images/Themida-Winlicense3-0/10.png" alt="10"></p>
-<p>发现已经脱掉了</p>
-<h2 id="0x6-拉进ida检验"><a href="#0x6-拉进ida检验" class="headerlink" title="0x6 拉进ida检验"></a>0x6 拉进ida检验</h2><p><img src="/../images/Themida-Winlicense3-0/11.png" alt="11"></p>
-<p>函数都识别出来了</p>
-<p><img src="/../images/Themida-Winlicense3-0/12.png" alt="12"></p>
-<h2 id="0x7-脚本奉上"><a href="#0x7-脚本奉上" class="headerlink" title="0x7 脚本奉上"></a>0x7 脚本奉上</h2><pre class="line-numbers language-none"><code class="language-none">VAR OEP
-MOV OEP,00A911C0     &#x2F;&#x2F;输入你的oep地址
-VAR temp0
-VAR temp1
-MOV temp0,00A92FFC   &#x2F;&#x2F;输入IAT表首地址-4
-Test:
-ADD temp0,4
-MOV temp1,[temp0]
-CMP temp1,72C00000
-JA Test
-CMP temp1,0
-JE Test
-MOV eip,temp1
-RTR
-MOV [temp0],[esp]
-CMP temp0,00A930E0  &#x2F;&#x2F;输入IAT表结束地址
-JAE jmpout
-JMP Test
-jmpout:
-MOV eip,OEP
-RET<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+                <h1 id="HUFUCTF2022-REVER-shellcode"><a href="#HUFUCTF2022-REVER-shellcode" class="headerlink" title="HUFUCTF2022-REVER-shellcode"></a>HUFUCTF2022-REVER-shellcode</h1><h2 id="0x0-前言"><a href="#0x0-前言" class="headerlink" title="0x0 前言"></a>0x0 前言</h2><p>承接上文的tmd脱壳，所以直接来到ida分析环节</p>
+<h2 id="0x1-IDA分析"><a href="#0x1-IDA分析" class="headerlink" title="0x1 IDA分析"></a>0x1 IDA分析</h2><p><img src="/../images/shell-code/1.png" alt="1"></p>
+<p>要求输入352位</p>
+<p><img src="/../images/shell-code/2.png" alt="2"></p>
+<p>会对每一位进行一个逻辑左移3位</p>
+<p><img src="/../images/shell-code/3.png" alt="3"></p>
+<p>可以看出来是一个xtea加密，密钥和defult都给了出来</p>
+<p><img src="/../images/shell-code/4.png" alt="4"></p>
+<p>找到对比的位置</p>
+<p><img src="/../images/shell-code/5.png" alt="5"></p>
+<p>提取需要解密的数据</p>
+<h2 id="0x3解密xtea"><a href="#0x3解密xtea" class="headerlink" title="0x3解密xtea"></a>0x3解密xtea</h2><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">ror3</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>n <span class="token operator">>></span> <span class="token number">3</span><span class="token punctuation">)</span> <span class="token operator">|</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>n <span class="token operator">&amp;</span> <span class="token number">7</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token number">5</span><span class="token punctuation">)</span>
 
-<h2 id="0x8-总结"><a href="#0x8-总结" class="headerlink" title="0x8 总结"></a>0x8 总结</h2><p>脱壳还是老三样</p>
-<p>1.过反调试</p>
-<p>2.寻找oep</p>
-<p>3.修复IAT表</p>
-<p>巩固了一下OD脚本的编写，又脱了一个没脱过的壳 芜湖</p>
+<span class="token keyword">def</span> <span class="token function">decrypt</span><span class="token punctuation">(</span>v<span class="token punctuation">,</span> key<span class="token punctuation">,</span> n<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token builtin">sum</span> <span class="token operator">=</span> <span class="token number">0xb54cda56</span>
+    detal <span class="token operator">=</span> <span class="token number">0x61C88647</span>
+    y <span class="token operator">=</span> v<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+    <span class="token keyword">for</span> k <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        e <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token builtin">sum</span> <span class="token operator">>></span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">3</span>
+        <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">65</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            z <span class="token operator">=</span> v<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span>
+            v<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+=</span> <span class="token number">0x100000000</span>
+            v<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">-=</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">(</span>z <span class="token operator">>></span> <span class="token number">6</span> <span class="token operator">^</span> <span class="token punctuation">(</span>y <span class="token operator">*</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token punctuation">(</span>y <span class="token operator">>></span> <span class="token number">3</span> <span class="token operator">^</span> <span class="token punctuation">(</span>z<span class="token operator">*</span><span class="token number">16</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                        <span class="token operator">^</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token builtin">sum</span> <span class="token operator">^</span> y<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token punctuation">(</span>key<span class="token punctuation">[</span><span class="token punctuation">(</span>i <span class="token operator">&amp;</span> <span class="token number">3</span><span class="token punctuation">)</span> <span class="token operator">^</span> e<span class="token punctuation">]</span> <span class="token operator">^</span> z<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">0xffffffff</span><span class="token punctuation">)</span>
+            v<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">&amp;</span><span class="token operator">=</span> <span class="token number">0xffffffff</span>
+            y <span class="token operator">=</span> v<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
+        i <span class="token operator">-=</span> <span class="token number">1</span>
+        z <span class="token operator">=</span> v<span class="token punctuation">[</span>n<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span>
+        v<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">+=</span> <span class="token number">0x100000000</span>
+        v<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">-=</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">(</span>z <span class="token operator">>></span> <span class="token number">6</span> <span class="token operator">^</span> <span class="token punctuation">(</span>y <span class="token operator">*</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token punctuation">(</span>y <span class="token operator">>></span> <span class="token number">3</span> <span class="token operator">^</span> <span class="token punctuation">(</span>z<span class="token operator">*</span><span class="token number">16</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                        <span class="token operator">^</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token builtin">sum</span> <span class="token operator">^</span> y<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token punctuation">(</span>key<span class="token punctuation">[</span><span class="token punctuation">(</span>i <span class="token operator">&amp;</span> <span class="token number">3</span><span class="token punctuation">)</span> <span class="token operator">^</span> e<span class="token punctuation">]</span> <span class="token operator">^</span> z<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">0xffffffff</span><span class="token punctuation">)</span>
+        v<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">&amp;</span><span class="token operator">=</span> <span class="token number">0xffffffff</span>
+        y <span class="token operator">=</span> v<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+        <span class="token builtin">sum</span> <span class="token operator">+=</span> detal
+        <span class="token builtin">sum</span> <span class="token operator">&amp;</span><span class="token operator">=</span> <span class="token number">0xffffffff</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> v<span class="token punctuation">:</span>
+        a1 <span class="token operator">=</span> i <span class="token operator">&amp;</span> <span class="token number">0xff</span>
+        a2 <span class="token operator">=</span> <span class="token punctuation">(</span>i <span class="token operator">>></span> <span class="token number">8</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">0xff</span>
+        a3 <span class="token operator">=</span> <span class="token punctuation">(</span>i <span class="token operator">>></span> <span class="token number">16</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">0xff</span>
+        a4 <span class="token operator">=</span> <span class="token punctuation">(</span>i <span class="token operator">>></span> <span class="token number">24</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">0xff</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">hex</span><span class="token punctuation">(</span>ror3<span class="token punctuation">(</span>a1<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> end <span class="token operator">=</span> <span class="token string">", "</span><span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">hex</span><span class="token punctuation">(</span>ror3<span class="token punctuation">(</span>a2<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> end <span class="token operator">=</span> <span class="token string">", "</span><span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">hex</span><span class="token punctuation">(</span>ror3<span class="token punctuation">(</span>a3<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> end <span class="token operator">=</span> <span class="token string">", "</span><span class="token punctuation">)</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">hex</span><span class="token punctuation">(</span>ror3<span class="token punctuation">(</span>a4<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> end <span class="token operator">=</span> <span class="token string">", "</span><span class="token punctuation">)</span>
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">"__main__"</span><span class="token punctuation">:</span>
+    <span class="token comment"># key 初始化</span>
+    key <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">116</span><span class="token punctuation">,</span> <span class="token number">111</span><span class="token punctuation">,</span> <span class="token number">114</span><span class="token punctuation">,</span> <span class="token number">97</span><span class="token punctuation">]</span>
+    <span class="token comment"># 从程序中 dump 出的数据</span>
+    a <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0x4B6B89A1</span><span class="token punctuation">,</span> <span class="token number">0x74C15453</span><span class="token punctuation">,</span> <span class="token number">0x4092A06E</span><span class="token punctuation">,</span> <span class="token number">0x429B0C07</span><span class="token punctuation">,</span> <span class="token number">0x40281E84</span><span class="token punctuation">,</span> <span class="token number">0x8B5B44C9</span><span class="token punctuation">,</span> <span class="token number">0x66FEB37B</span><span class="token punctuation">,</span> <span class="token number">0x3C77A603</span><span class="token punctuation">,</span> <span class="token number">0x79C5892D</span><span class="token punctuation">,</span> <span class="token number">0x0D7ADA97</span><span class="token punctuation">,</span> <span class="token number">0x1D51AA56</span><span class="token punctuation">,</span> <span class="token number">0x02D4D703</span><span class="token punctuation">,</span> <span class="token number">0x4FA526BA</span><span class="token punctuation">,</span> <span class="token number">0x32FAD64A</span><span class="token punctuation">,</span> <span class="token number">0x0C0F6091</span><span class="token punctuation">,</span> <span class="token number">0x562B7593</span><span class="token punctuation">,</span> <span class="token number">0xDB9ADD67</span><span class="token punctuation">,</span> <span class="token number">0x76165563</span><span class="token punctuation">,</span> <span class="token number">0xA5F79315</span><span class="token punctuation">,</span> <span class="token number">0x3AEB991D</span><span class="token punctuation">,</span> <span class="token number">0x1AB721D4</span><span class="token punctuation">,</span> <span class="token number">0xAACD9D2C</span><span class="token punctuation">,</span> <span class="token number">0x825C2B27</span><span class="token punctuation">,</span> <span class="token number">0x76A7761A</span><span class="token punctuation">,</span> <span class="token number">0xB4005F18</span><span class="token punctuation">,</span> <span class="token number">0x117F3763</span><span class="token punctuation">,</span> <span class="token number">0x512CC540</span><span class="token punctuation">,</span> <span class="token number">0xC594A16F</span><span class="token punctuation">,</span> <span class="token number">0xD0E24F8C</span><span class="token punctuation">,</span> <span class="token number">0x9CA3E2E9</span><span class="token punctuation">,</span> <span class="token number">0x0A9CC2D5</span><span class="token punctuation">,</span> <span class="token number">0x4629E61D</span><span class="token punctuation">,</span> <span class="token number">0x637129E3</span><span class="token punctuation">,</span>
+         <span class="token number">0xCA4E8AD7</span><span class="token punctuation">,</span> <span class="token number">0xF5DFAF71</span><span class="token punctuation">,</span> <span class="token number">0x474E68AB</span><span class="token punctuation">,</span> <span class="token number">0x542FBC3A</span><span class="token punctuation">,</span> <span class="token number">0xD6741617</span><span class="token punctuation">,</span> <span class="token number">0xAD0DBBE5</span><span class="token punctuation">,</span> <span class="token number">0x62F7BBE3</span><span class="token punctuation">,</span> <span class="token number">0xC8D68C07</span><span class="token punctuation">,</span> <span class="token number">0x880E950E</span><span class="token punctuation">,</span> <span class="token number">0xF80F25BA</span><span class="token punctuation">,</span> <span class="token number">0x767A264C</span><span class="token punctuation">,</span> <span class="token number">0x9A7CE014</span><span class="token punctuation">,</span> <span class="token number">0x5C8BC9EE</span><span class="token punctuation">,</span> <span class="token number">0x5D9EF7D4</span><span class="token punctuation">,</span> <span class="token number">0xB999ACDE</span><span class="token punctuation">,</span> <span class="token number">0xB2EC8E13</span><span class="token punctuation">,</span> <span class="token number">0xEE68232D</span><span class="token punctuation">,</span> <span class="token number">0x927C5FCE</span><span class="token punctuation">,</span> <span class="token number">0xC9E3A85D</span><span class="token punctuation">,</span> <span class="token number">0xAC74B56B</span><span class="token punctuation">,</span> <span class="token number">0x42B6E712</span><span class="token punctuation">,</span> <span class="token number">0xCD2898DA</span><span class="token punctuation">,</span> <span class="token number">0xFCF11C58</span><span class="token punctuation">,</span> <span class="token number">0xF57075EE</span><span class="token punctuation">,</span> <span class="token number">0x5076E678</span><span class="token punctuation">,</span> <span class="token number">0xD4D66A35</span><span class="token punctuation">,</span> <span class="token number">0x95105AB9</span><span class="token punctuation">,</span> <span class="token number">0x1BB04403</span><span class="token punctuation">,</span> <span class="token number">0xB240B959</span><span class="token punctuation">,</span> <span class="token number">0x7B4E261A</span><span class="token punctuation">,</span> <span class="token number">0x23D129D8</span><span class="token punctuation">,</span> <span class="token number">0xF5E752CD</span><span class="token punctuation">,</span> <span class="token number">0x4EA78F70</span><span class="token punctuation">]</span>
+    decrypt<span class="token punctuation">(</span>a<span class="token punctuation">,</span> key<span class="token punctuation">,</span> <span class="token number">66</span><span class="token punctuation">)</span>
+<span class="token comment">#0x60, 0xfc, 0x68, 0x4c, 0x77, 0x26, 0x7, 0x33, 0xd2, 0x64, 0x8b,</span>
+<span class="token comment"># 0x52, 0x30, 0x8b, 0x52, 0xc, 0x8b, 0x52, 0x14, 0x8b, 0x72, 0x28,</span>
+<span class="token comment"># 0xf, 0xb7, 0x4a, 0x26, 0x33, 0xff, 0x33, 0xc0, 0xac, 0x3c, 0x61,</span>
+<span class="token comment"># 0x7c, 0x2, 0x2c, 0x20, 0xc1, 0xcf, 0xd, 0x3, 0xf8, 0xe2, 0xf0, 0x52,</span>
+<span class="token comment"># 0x57, 0x8b, 0x52, 0x10, 0x8b, 0x42, 0x3c, 0x3, 0xc2, 0x8b, 0x40, 0x78,</span>
+<span class="token comment"># 0x85, 0xc0, 0xf, 0x84, 0xbe, 0x0, 0x0, 0x0, 0x3, 0xc2, 0x50, 0x8b, 0x48,</span>
+<span class="token comment"># 0x18, 0x8b, 0x58, 0x20, 0x3, 0xda, 0x83, 0xf9, 0x0, 0xf, 0x84, 0xa9, 0x0,</span>
+<span class="token comment"># 0x0, 0x0, 0x49, 0x8b, 0x34, 0x8b, 0x3, 0xf2, 0x33, 0xff, 0x33, 0xc0, 0xac,</span>
+<span class="token comment"># 0xc1, 0xcf, 0xd, 0x3, 0xf8, 0x3a, 0xc4, 0x75, 0xf4, 0x3, 0x7c, 0x24, 0x4, 0x3b,</span>
+<span class="token comment"># 0x7c, 0x24, 0xc, 0x75, 0xd9, 0x33, 0xff, 0x33, 0xc9, 0x83, 0xc2, 0x50, 0xf, 0xb6,</span>
+<span class="token comment"># 0x4, 0xa, 0xc1, 0xcf, 0xd, 0x3, 0xf8, 0x41, 0x83, 0xf9, 0xe, 0x75, 0xf1, 0xc1, 0xcf,</span>
+<span class="token comment"># 0xd, 0x57, 0x33, 0xff, 0x33, 0xc9, 0x8b, 0x54, 0x24, 0x3c, 0x52, 0xf, 0xb6, 0x1c, 0xe,</span>
+<span class="token comment"># 0xb8, 0x67, 0x66, 0x66, 0x66, 0xf7, 0xeb, 0xd1, 0xfa, 0x8b, 0xc2, 0xc1, 0xe8, 0x1f, 0x3,</span>
+<span class="token comment"># 0xc2, 0x8d, 0x4, 0x80, 0x2b, 0xd8, 0x5a, 0xf, 0xb6, 0x4, 0xa, 0x2b, 0xc3, 0xc1, 0xcf, 0xd,</span>
+<span class="token comment"># 0x3, 0xf8, 0x41, 0x83, 0xf9, 0xe, 0x75, 0xd4, 0xc1, 0xcf, 0xd, 0x3b, 0x3c, 0x24, 0x74, 0x16,</span>
+<span class="token comment"># 0x68, 0x25, 0x73, 0x0, 0x0, 0x8b, 0xc4, 0x68, 0x6e, 0x6f, 0x0, 0x0, 0x54, 0x50, 0x8b, 0x5c, 0x24,</span>
+<span class="token comment"># 0x48, 0xff, 0xd3, 0xeb, 0x14, 0x68, 0x25, 0x73, 0x0, 0x0, 0x8b, 0xc4, 0x68, 0x79, 0x65, 0x73, 0x0,</span>
+<span class="token comment"># 0x54, 0x50, 0x8b, 0x5c, 0x24, 0x48, 0xff, 0xd3, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,</span>
+<span class="token comment"># 0x61, 0xc3, 0x58, 0x5f, 0x5a, 0x8b, 0x12, 0xe9, 0xb, 0xff, 0xff, 0xff</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>再进行一个base64加密</p>
+<pre class="line-numbers language-none"><code class="language-none">import base64
+a&#x3D;[0x60, 0xfc, 0x68, 0x4c, 0x77, 0x26, 0x7, 0x33, 0xd2, 0x64, 0x8b, 0x52, 0x30, 0x8b, 0x52, 0xc, 0x8b, 0x52, 0x14, 0x8b, 0x72, 0x28, 0xf, 0xb7, 0x4a, 0x26, 0x33, 0xff, 0x33, 0xc0, 0xac, 0x3c, 0x61, 0x7c, 0x2, 0x2c, 0x20, 0xc1, 0xcf, 0xd, 0x3, 0xf8, 0xe2, 0xf0, 0x52, 0x57, 0x8b, 0x52, 0x10, 0x8b, 0x42, 0x3c, 0x3, 0xc2, 0x8b, 0x40, 0x78, 0x85, 0xc0, 0xf, 0x84, 0xbe, 0x0, 0x0, 0x0, 0x3, 0xc2, 0x50, 0x8b, 0x48, 0x18, 0x8b, 0x58, 0x20, 0x3, 0xda, 0x83, 0xf9, 0x0, 0xf, 0x84, 0xa9, 0x0, 0x0, 0x0, 0x49, 0x8b, 0x34, 0x8b, 0x3, 0xf2, 0x33, 0xff, 0x33, 0xc0, 0xac, 0xc1, 0xcf, 0xd, 0x3, 0xf8, 0x3a, 0xc4, 0x75, 0xf4, 0x3, 0x7c, 0x24, 0x4, 0x3b, 0x7c, 0x24, 0xc, 0x75, 0xd9, 0x33, 0xff, 0x33, 0xc9, 0x83, 0xc2, 0x50, 0xf, 0xb6, 0x4, 0xa, 0xc1, 0xcf, 0xd, 0x3, 0xf8, 0x41, 0x83, 0xf9, 0xe, 0x75, 0xf1, 0xc1, 0xcf, 0xd, 0x57, 0x33, 0xff, 0x33, 0xc9, 0x8b, 0x54, 0x24, 0x3c, 0x52, 0xf, 0xb6, 0x1c, 0xe, 0xb8, 0x67, 0x66, 0x66, 0x66, 0xf7, 0xeb, 0xd1, 0xfa, 0x8b, 0xc2, 0xc1, 0xe8, 0x1f, 0x3, 0xc2, 0x8d, 0x4, 0x80, 0x2b, 0xd8, 0x5a, 0xf, 0xb6, 0x4, 0xa, 0x2b, 0xc3, 0xc1, 0xcf, 0xd, 0x3, 0xf8, 0x41, 0x83, 0xf9, 0xe, 0x75, 0xd4, 0xc1, 0xcf, 0xd, 0x3b, 0x3c, 0x24, 0x74, 0x16, 0x68, 0x25, 0x73, 0x0, 0x0, 0x8b, 0xc4, 0x68, 0x6e, 0x6f, 0x0, 0x0, 0x54, 0x50, 0x8b, 0x5c, 0x24, 0x48, 0xff, 0xd3, 0xeb, 0x14, 0x68, 0x25, 0x73, 0x0, 0x0, 0x8b, 0xc4, 0x68, 0x79, 0x65, 0x73, 0x0, 0x54, 0x50, 0x8b, 0x5c, 0x24, 0x48, 0xff, 0xd3, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x61, 0xc3, 0x58, 0x5f, 0x5a, 0x8b, 0x12, 0xe9, 0xb, 0xff, 0xff, 0xff]
+flag &#x3D;b&#39;&#39;
+for i in a:
+    flag +&#x3D;i.to_bytes(1,&#39;big&#39;)
+b&#x3D;base64.b64encode(flag)
+print(b)
+#YPxoTHcmBzPSZItSMItSDItSFItyKA+3SiYz&#x2F;zPArDxhfAIsIMHPDQP44vBSV4tSEItCPAPCi0B4hcAPhL4AAAADwlCLSBiLWCAD2oP5AA+EqQAAAEmLNIsD8jP&#x2F;M8Cswc8NA&#x2F;g6xHX0A3wkBDt8JAx12TP&#x2F;M8mDwlAPtgQKwc8NA&#x2F;hBg&#x2F;kOdfHBzw1XM&#x2F;8zyYtUJDxSD7YcDrhnZmZm9+vR+ovCwegfA8KNBIAr2FoPtgQKK8PBzw0D+EGD+Q511MHPDTs8JHQWaCVzAACLxGhubwAAVFCLXCRI&#x2F;9PrFGglcwAAi8RoeWVzAFRQi1wkSP&#x2F;TWFhYWFhYWFhYYcNYX1qLEukL&#x2F;&#x2F;&#x2F;&#x2F;
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="/../images/shell-code/7-16484692510731.png" alt="7"></p>
+<h2 id="0x4-分析第二个flag输入"><a href="#0x4-分析第二个flag输入" class="headerlink" title="0x4 分析第二个flag输入"></a>0x4 分析第二个flag输入</h2><p><img src="/../images/shell-code/6-16484692693102.png" alt="6"></p>
+<p>要求输入14位</p>
+<h2 id="0x5-动调开始了"><a href="#0x5-动调开始了" class="headerlink" title="0x5 动调开始了"></a>0x5 动调开始了</h2><p><img src="/../images/shell-code/8.png" alt="8"></p>
+<p>可以看见最终寻找了这个字符串</p>
+<p><img src="/../images/shell-code/9.png" alt="9"></p>
+<p>然后找到了这一串字符串</p>
+<p><img src="/../images/shell-code/10.png" alt="10"></p>
+<p>再用第二个字符取出14个每次减一个0-4的值，动调提取出来。（实际上是第二个字符串减去第一个字符串%5）在od里展现出来就是每次减一个0-4的值了</p>
+<h2 id="0x6-解密第二个字符串加减"><a href="#0x6-解密第二个字符串加减" class="headerlink" title="0x6 解密第二个字符串加减"></a>0x6 解密第二个字符串加减</h2><pre class="line-numbers language-python" data-language="python"><code class="language-python">k <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">]</span>
+a <span class="token operator">=</span> <span class="token string">'is program can'</span>
+<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>k<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">chr</span><span class="token punctuation">(</span><span class="token builtin">ord</span><span class="token punctuation">(</span>a<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">+</span>k<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span>end<span class="token operator">=</span><span class="token string">''</span><span class="token punctuation">)</span>
+<span class="token comment">#jt"psojvcq!gan</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="0x7-成功！！"><a href="#0x7-成功！！" class="headerlink" title="0x7 成功！！"></a>0x7 成功！！</h2><p><img src="/../images/shell-code/11-16484694725483.png" alt="11"></p>
+<h2 id="0x8-总结"><a href="#0x8-总结" class="headerlink" title="0x8 总结"></a>0x8 总结</h2><p>原本不想写的，但是今天投简历，发现个人博客也是一个很好的发光点，只好努力丰富一下了，说不定找工作就用上了。</p>
+<p>感谢一下战队里的emtanling师傅，看了他的博客和讲解，非常感谢。下面贴他博客！！</p>
+<p><a target="_blank" rel="noopener" href="https://www.yuque.com/emtanling">https://www.yuque.com/emtanling</a></p>
 
                 
             </div>
@@ -488,7 +542,7 @@ RET<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span>
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://moodyblue.cn/category/Themida-Winlicense3-0/">http://moodyblue.cn/category/Themida-Winlicense3-0/</a>
+                    <a href="http://moodyblue.cn/category/shell-code/">http://moodyblue.cn/category/shell-code/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -971,9 +1025,10 @@ RET<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span>
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/category/shell-code/">
                     <div class="card-image">
@@ -991,9 +1046,9 @@ RET<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span>
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-03-28
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-28
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -1002,6 +1057,7 @@ RET<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span>
                         </span>
                     </div>
                 </div>
+
                 
             </div>
         </div>
@@ -1012,13 +1068,13 @@ RET<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span>
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/category/pojiemiyao/">
+                <a href="/category/Themida-Winlicense3-0/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="pojiemiyao">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="Themida / Winlicense3.0">
                         
-                        <span class="card-title">pojiemiyao</span>
+                        <span class="card-title">Themida / Winlicense3.0</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1029,7 +1085,7 @@ RET<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span>
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-23
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-24
                             </span>
                         <span class="publish-author">
                             
