@@ -4,15 +4,10 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="toplay, Blue.Blogs">
-    <meta name="description" content="HUFUCTF-REVER-toplay0x1 分析java层
-点击一片区域10次触发
-
-一个网页，进去就是2048游戏
-
-
-发现经过了base混淆
-http://www.dejs.vip/encry_decry/obfuscator.ht">
+    <meta name="keywords" content="x64 IA-32e, Blue.Blogs">
+    <meta name="description" content="win10 x64内核 IA-32e 笔记0x0 前言21年11月份学习了32位的内核，但是准备腾讯比赛发现，是给的64位驱动，所以学习64位。
+0x1 x86到x64的改变IA-32e 模式：内核64位，用户64或32位
+​       ">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -24,7 +19,7 @@ http://www.dejs.vip/encry_decry/obfuscator.ht">
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>toplay | Blue.Blogs</title>
+    <title>x64 IA-32e | Blue.Blogs</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -253,12 +248,12 @@ http://www.dejs.vip/encry_decry/obfuscator.ht">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/17.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">toplay</h1>
+                    <h1 class="description center-align post-title">x64 IA-32e</h1>
                 </div>
             </div>
         </div>
@@ -390,7 +385,7 @@ http://www.dejs.vip/encry_decry/obfuscator.ht">
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-03-28
+                    2022-04-02
                 </div>
                 
 
@@ -414,118 +409,69 @@ http://www.dejs.vip/encry_decry/obfuscator.ht">
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="HUFUCTF-REVER-toplay"><a href="#HUFUCTF-REVER-toplay" class="headerlink" title="HUFUCTF-REVER-toplay"></a>HUFUCTF-REVER-toplay</h1><h2 id="0x1-分析java层"><a href="#0x1-分析java层" class="headerlink" title="0x1 分析java层"></a>0x1 分析java层</h2><p><img src="/../images/toplay/1.png" alt="1"></p>
-<p>点击一片区域10次触发</p>
-<p><img src="/../images/toplay/2.png" alt="2"></p>
-<p>一个网页，进去就是2048游戏</p>
-<p><img src="/../images/toplay/3.png" alt="3"></p>
-<p><img src="/../images/toplay/4.png" alt="4"></p>
-<p>发现经过了base混淆</p>
-<p><a target="_blank" rel="noopener" href="http://www.dejs.vip/encry_decry/obfuscator.html">http://www.dejs.vip/encry_decry/obfuscator.html</a> </p>
-<p><a target="_blank" rel="noopener" href="http://tool.yuanrenxue.com/decode_obfuscator">http://tool.yuanrenxue.com/decode_obfuscator</a></p>
-<p>解混淆，各位老爷里面请</p>
-<p><img src="/../images/toplay/5.png" alt="5"></p>
-<h2 id="0x2-分析so层"><a href="#0x2-分析so层" class="headerlink" title="0x2 分析so层"></a>0x2 分析so层</h2><p><img src="/../images/toplay/6.png" alt="6"></p>
-<p>思路是要发送流量包出来，所以搜send函数</p>
-<p><img src="/../images/toplay/7.png" alt="7"></p>
-<p>找到关键调用位置，里面改名怎么判断，aes看加密过程和sbox盒，md5_init里面有md5幻值</p>
-<p><img src="/../images/toplay/8.png" alt="8"></p>
-<p>aes密钥查看引用</p>
-<p><img src="/../images/toplay/9.png" alt="9"></p>
-<p>有字符串加密</p>
-<p><img src="/../images/toplay/10.png" alt="10"></p>
-<p>解密回去得到key</p>
-<h2 id="0x3-查看流量包"><a href="#0x3-查看流量包" class="headerlink" title="0x3 查看流量包"></a>0x3 查看流量包</h2><p><img src="/../images/toplay/11.png" alt="11"></p>
-<p>把aes的加密数据提取出来解密</p>
-<h2 id="0x4解密AES"><a href="#0x4解密AES" class="headerlink" title="0x4解密AES"></a>0x4解密AES</h2><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> Crypto<span class="token punctuation">.</span>Cipher <span class="token keyword">import</span> AES
-<span class="token keyword">import</span> binascii
-key<span class="token operator">=</span><span class="token string">b"KZoLJZlLkRlMOtuD"</span>
-aes <span class="token operator">=</span> AES<span class="token punctuation">.</span>new<span class="token punctuation">(</span>key<span class="token punctuation">,</span>mode<span class="token operator">=</span>AES<span class="token punctuation">.</span>MODE_ECB<span class="token punctuation">)</span>
-data<span class="token operator">=</span><span class="token triple-quoted-string string">'''
-111afaa675802d7a976c98c8c43e2da2
-521f3381f24ec5108baf200b6ec64db1
-6187ab272c1f0733ba6aaef76f188c59
-8fd161add05a735d3d383e948290fc31
-be1eaf993a810db8ad5c7bb3504f7d90
-c46b64bed6c6afec72bdc89b066ce7f3
-b1049417ed4f022389adf0f4d5c4da9e
-1afd765f3cede067216b1ee0d2d42810
-e7be9ed7e94fa2023baa57f90b5851c8
-34206c8223f731c478beb284a57f83c5
-d59dcad948aaf35a3f3ee82c1f967b38
-df7c66422e37ae41af3ca4311dcd4104
-f2319387bbcf9e7606f4256bf8790afd
-d328266ebafe1ca097e12e4059b64c3e
-5895762381fcebb40bc6ca46f129388d
-bf33b95ff573f418682ad60c447f44a9
-208b18ec59fbf0617baf1c8c4d9b5903
-d4de18deb5c37cbc4eab9d022a8edeaa
-554b25cc7d29625c902ce647871d6aae
-af9074a520dc0be68c012756b80d2de9
-d8b27655d8cde7f2cdc7a74754953337
-ca8ee61dc6728813a8e41e9be80a6764
-fc95be5241f8a59eb580eba5fb91fddf
-2ba133fa3879e6347b3ae8e55fbc944a
-c60df505a2932ca68e3530af6bc41bbb
-c64a847747cc70e603bab516386ca721
-1737b1a23ec2bd493ab1a6275b6e2eb2
-2cf65d658c1fc558d9f43321000e9e68
-6beee41275f03f30485af8bee805805c
-8b821cac8196275904bbb53a11b831d5
-d230fab6b044854fd518219a12942c65
-a0435d523e66126d7e6fe850492319a2
-0fe33dede172c8d2bca1f1cda054f641
-ca4633933b0464fc3158e4ccb987fc8f
-6e3f1bc661417ef0f5d2aa23630fa113
-95729dfa6ee0629f5f7fb8b443bddf7d
-aee28a1366cc508ff196e160dd9e5ac4
-9aa2b87453e0f0dabcf02667ba668c15
-d1a2347614fa59ecfb2ac964c1198fa0
-c1aff18b31c51a7ce47d3a2277515b55
-ac25f6f85a0668f26b53bda11d5f10b0
-af38d6d29ebfbbc44a85538b69adf05a
-f17f0bec7ade982167e8903b0bd55368
-af6009e720b4d142d249c55afcc0892f
-f42702d51a7c62683ab60b3ecbd5180d
-8969dcc7f808b88aff97be2d0942431c
-acadd756fd5a86401c88b0d0469c7152
-7b9772ccb2282ff68ed5d77132785c04
-'''</span><span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token punctuation">)</span>
-enc <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
-<span class="token keyword">for</span> i <span class="token keyword">in</span> data<span class="token punctuation">:</span>
-    enc<span class="token punctuation">.</span>append<span class="token punctuation">(</span>aes<span class="token punctuation">.</span>decrypt<span class="token punctuation">(</span>binascii<span class="token punctuation">.</span>a2b_hex<span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span>enc<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="0x5-继续分析so层"><a href="#0x5-继续分析so层" class="headerlink" title="0x5 继续分析so层"></a>0x5 继续分析so层</h2><p><img src="/../images/toplay/12.png" alt="12"></p>
-<p>从58E4函数出来外部有一个判断</p>
-<p><img src="/../images/toplay/13.png" alt="13"></p>
-<p>又是一个aes加密</p>
-<p><img src="/../images/toplay/14.png" alt="14"></p>
-<p>字符串莫得，查看一下引用</p>
-<p><img src="/../images/toplay/15.png" alt="15"></p>
-<p><img src="/../images/toplay/16.png" alt="16"></p>
-<p>得到aes密钥，解密aes</p>
-<h2 id="0x6分析js文件里的xtea加密"><a href="#0x6分析js文件里的xtea加密" class="headerlink" title="0x6分析js文件里的xtea加密"></a>0x6分析js文件里的xtea加密</h2><p><img src="/../images/toplay/17.png" alt="17"></p>
-<p>这里的kkk是xtea密钥</p>
-<p><img src="/../images/toplay/18-16484727795551.png" alt="18"></p>
-<p><img src="/../images/toplay/19.png" alt="19"></p>
-<p><img src="/../images/toplay/20.png" alt="20"></p>
-<p>但是这里的密钥不是真的，需要动调so获得（这里有一个反调试，那就是小米和魅族不支持webview，我的手机刚好是小米，无法动调so）我点了</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">f <span class="token operator">=</span> <span class="token string">'(up, up, down, down, left right, left right)x2048, B, A, Start'</span>
-m <span class="token operator">=</span> <span class="token number">0</span>
-key <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
-<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">16</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
-    <span class="token keyword">print</span><span class="token punctuation">(</span>f<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>
-    m <span class="token operator">|</span><span class="token operator">=</span> <span class="token punctuation">(</span><span class="token builtin">ord</span><span class="token punctuation">(</span>f<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>i<span class="token operator">%</span><span class="token number">4</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-    <span class="token keyword">print</span><span class="token punctuation">(</span>m<span class="token punctuation">)</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">%</span><span class="token number">4</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">:</span>
-        key<span class="token punctuation">.</span>append<span class="token punctuation">(</span>m<span class="token punctuation">)</span>
-        m <span class="token operator">=</span> <span class="token number">0</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>给大家来一份真正的密钥，战队师傅博客（上篇文章那个）偷的。</p>
-<h2 id="0x7-总结"><a href="#0x7-总结" class="headerlink" title="0x7 总结"></a>0x7 总结</h2><p>学习了碰到流量包和apk怎么分析和思路</p>
-<p>然后又是各种解密，aes还换了sbox，很烦。</p>
+                <h1 id="win10-x64内核-IA-32e-笔记"><a href="#win10-x64内核-IA-32e-笔记" class="headerlink" title="win10 x64内核 IA-32e 笔记"></a>win10 x64内核 IA-32e 笔记</h1><h2 id="0x0-前言"><a href="#0x0-前言" class="headerlink" title="0x0 前言"></a>0x0 前言</h2><p>21年11月份学习了32位的内核，但是准备腾讯比赛发现，是给的64位驱动，所以学习64位。</p>
+<h2 id="0x1-x86到x64的改变"><a href="#0x1-x86到x64的改变" class="headerlink" title="0x1 x86到x64的改变"></a>0x1 x86到x64的改变</h2><p>IA-32e 模式：内核64位，用户64或32位</p>
+<p>​        强制平坦段，不支持任务切换</p>
+<p>Legacy 模式：内核32位，用户32位</p>
+<p>​        支持非平坦段，任务切换，虚拟8086，实模式等</p>
+<p>IA-32e：代码段，数据段仍使用64位描述符，强制平坦（FS, GS 除外）</p>
+<p>​                TSS段描述符扩展到128位</p>
+<p>​                TSS段不用来任务切换，主要保存一堆rsp备用指针</p>
+<p>​                中断门描述符扩展到128位</p>
+<p>IA32_EFER_MSR  C0000080H</p>
+<p>IA32_FS_BASE     C0000100H</p>
+<p>IA32_GS_BASE    C0000101H</p>
+<p>IA32_KERNEL_GS_BASE   C0000102H</p>
+<p>权限切换</p>
+<p>系统调用：x64用户程序通过，syscall 进入内核</p>
+<p>​                    x86用户程序在 ring3 转入 x64 模式再进入内核</p>
+<p>中断：只使用了一张idt表，内核可以根据栈上的保存cs判断先前模式</p>
+<h2 id="0x2-EFER-MSR"><a href="#0x2-EFER-MSR" class="headerlink" title="0x2 EFER_MSR"></a>0x2 EFER_MSR</h2><p><img src="/../images/x64-IA-32e/4.png" alt="4"></p>
+<p>可以看见第8位是1 当前系统为64位。</p>
+<p>IA-32e模式兼容 0x86 和 0x64  转换的时候不是cpu转换成32位，而是一直在IA-32e模式上。</p>
+<h2 id="0x3-GDT表"><a href="#0x3-GDT表" class="headerlink" title="0x3 GDT表"></a>0x3 GDT表</h2><p>相比于32位，64位的gdt表描述符会特别少。弱化了段保护。</p>
+<p><img src="/../images/x64-IA-32e/1.png" alt="1"></p>
+<p>L 决定是否处于64位还是32位</p>
+<p>64位cs的段描述符，可以看见没有对描述符做扩展。虚拟地址从32位改变为64位，但是没有扩展。现在的段描述符没有了基址界限（base address  limiti）</p>
+<p>基址64位现在就放不下，就引出了一个新概念<strong>强制平坦</strong> 所以现在代码段和数据段仍用了64位描述符</p>
+<h2 id="0x4-TSS段描述符改为128位"><a href="#0x4-TSS段描述符改为128位" class="headerlink" title="0x4 TSS段描述符改为128位"></a>0x4 TSS段描述符改为128位</h2><p><img src="/../images/x64-IA-32e/5.png" alt="5"></p>
+<p>先找一个TSS段，然后查看基址发现什么也没有</p>
+<p><img src="/../images/x64-IA-32e/6.png" alt="6"></p>
+<p>现在应该找 高位的 fffff801+ 5420200  就能找到TSS段了</p>
+<p>TSS段的内容也改变了</p>
+<p><img src="/../images/x64-IA-32e/2.png" alt="2"></p>
+<p>32位TSS段储存的都是一堆寄存器，现在储存的都是IST指针</p>
+<p><img src="/../images/x64-IA-32e/7.png" alt="7"></p>
+<p>0的位置空，直接偏移+4 就是RSP0 就是0环的RSP指针  如果一个3环要切换到0环，就会把寄存器放在这个RSP0里面</p>
+<h2 id="0x5-IDT表改变成128位"><a href="#0x5-IDT表改变成128位" class="headerlink" title="0x5 IDT表改变成128位"></a>0x5 IDT表改变成128位</h2><p>IDT表现在储存的都是中断门描述符</p>
+<p><img src="/../images/x64-IA-32e/8.png" alt="8"></p>
+<p>可以看到地址是 fffff801+4fa0+0500  学过32位内核的应该知道还是差不多的寻找方法</p>
+<p><img src="/../images/x64-IA-32e/3.png" alt="3"></p>
+<p>可以看一下改变成128位的idt，主要理解里面的IST 占了3位</p>
+<p><img src="/../images/x64-IA-32e/9.png" alt="9"></p>
+<p>有什么作用呢，我们可以看一下IST的位置 大多数都是设置为0，可以看一下上面的TSS表，就是对应其中的IST寄存器指针，等于多少的时候，就代表IST几指针寄存器（如04，对应IST4）对应不同的中断</p>
+<p><img src="/../images/x64-IA-32e/10.png" alt="10"></p>
+<p>可以看一下不同的中断对应的效果，比如2号中断，cpu强制校验，会给一个特殊的栈，8号中断DoubleFault就是蓝屏了 栈已经找不到，就会给一个栈。只要后面没有标记 Stack的就代表没有使用了IST栈指针。</p>
+<p>现在idt表存储的都是中断门描述符，陷阱门和调用门，windows不用，任务门是已经不支持了</p>
+<p><img src="/../images/x64-IA-32e/11.png" alt="11"></p>
+<p>可以看一下 第三中断  就是int 3  （可以在自己电脑上拿ntoskrenl.exe 拉ida）</p>
+<p>32位进入的时候要求内核的fs指向KPCR</p>
+<p>在64位的时候就变成了不在内核fs指向KPCR，而是用gs寄存器指向KPCR，fs就留给32位用。</p>
+<p>注意（强制平坦对 FS,GS是没有用的）</p>
+<p>既然FS,GS没有扩展，那怎么办呢，提供了两个地址到这里寻找。</p>
+<p>IA32_FS_BASE     C0000100H</p>
+<p>IA32_GS_BASE    C0000101H</p>
+<p>FS是读取不到的，因为这个上面说了是针对32位用户的，在内核无法读取</p>
+<p><img src="/../images/x64-IA-32e/12.png" alt="12"></p>
+<p>而且在用户态时，地址也会一直有改变</p>
+<p><img src="/../images/x64-IA-32e/13.png" alt="13"></p>
+<p>GS是有的，指向的就是KPCR</p>
+<p><img src="/../images/x64-IA-32e/11-16489013730211.png" alt="11"></p>
+<p>再看一下这个图，现在在64位内核里不直接写gs的值，（32位的时候都是 push 30h pop fs 这样写进） 现在是直接使用 swapgs指令 把当前的gs基址和gs_base切换</p>
+<p>IA32_KERNEL_GS_BASE   C0000102H  改变指向KPCR</p>
+<p><img src="/../images/x64-IA-32e/14.png" alt="14"></p>
+<p>存储了0环进系统之前的某一个TEB</p>
+<h2 id="0x6-总结"><a href="#0x6-总结" class="headerlink" title="0x6 总结"></a>0x6 总结</h2><p>写笔记记录一下加深记忆，同时分享给大家。忘记了有笔记可以快速回顾。</p>
 
                 
             </div>
@@ -552,7 +498,7 @@ key <span class="token operator">=</span> <span class="token punctuation">[</spa
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://moodyblue.cn/category/toplay/">http://moodyblue.cn/category/toplay/</a>
+                    <a href="http://moodyblue.cn/category/x64-IA-32e/">http://moodyblue.cn/category/x64-IA-32e/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1035,9 +981,10 @@ key <span class="token operator">=</span> <span class="token punctuation">[</spa
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/category/x64-IA-32e/">
                     <div class="card-image">
@@ -1055,9 +1002,9 @@ key <span class="token operator">=</span> <span class="token punctuation">[</spa
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-04-02
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-02
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -1066,6 +1013,7 @@ key <span class="token operator">=</span> <span class="token punctuation">[</spa
                         </span>
                     </div>
                 </div>
+
                 
             </div>
         </div>
@@ -1076,13 +1024,13 @@ key <span class="token operator">=</span> <span class="token punctuation">[</spa
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/category/shell-code/">
+                <a href="/category/toplay/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="shell_code">
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="toplay">
                         
-                        <span class="card-title">shell_code</span>
+                        <span class="card-title">toplay</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
