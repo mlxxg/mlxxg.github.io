@@ -414,22 +414,22 @@ SMAP：禁止内核CPU访问用户空间
 <p>SMEP：禁止内核执行用户空间的代码（3环代码）</p>
 <p>SMAP：禁止内核CPU访问用户空间</p>
 <p>所以就算提权到0环也是无法运行读取的，所以应该怎么办呢？！</p>
-<h2 id="0x1-解决SMEP和SMAP"><a href="#0x1-解决SMEP和SMAP" class="headerlink" title="0x1 解决SMEP和SMAP"></a>0x1 解决SMEP和SMAP</h2><p><img src="/../images/win10x64%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83/1-16489860681371.png" alt="1"></p>
+<h2 id="0x1-解决SMEP和SMAP"><a href="#0x1-解决SMEP和SMAP" class="headerlink" title="0x1 解决SMEP和SMAP"></a>0x1 解决SMEP和SMAP</h2><p><img src="/../images/win10x64Kernel/1.png" alt="1"></p>
 <p>首先查intel文档，找到SMAP和SMEP  可以看见就是CR4的20位和21位</p>
 <p>解决方法显而易见了，改变CR4这两个的标志位。</p>
-<h2 id="0x2-第一种办法"><a href="#0x2-第一种办法" class="headerlink" title="0x2 第一种办法"></a>0x2 第一种办法</h2><p><img src="/../images/win10x64%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83/4.png" alt="4"></p>
+<h2 id="0x2-第一种办法"><a href="#0x2-第一种办法" class="headerlink" title="0x2 第一种办法"></a>0x2 第一种办法</h2><p><img src="/../images/win10x64Kernel/4.png" alt="4"></p>
 <p>第一种就是直接改变CR4 改成 250ef8  就过了 SMEP</p>
 <p>改成050ef8 直接删除3就解决了</p>
 <h2 id="0x3-第二种方法"><a href="#0x3-第二种方法" class="headerlink" title="0x3 第二种方法"></a>0x3 第二种方法</h2><p>研究win10 dll是怎么运行的</p>
-<p><img src="/../images/win10x64%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83/5.png" alt="5"></p>
+<p><img src="/../images/win10x64Kernel/5.png" alt="5"></p>
 <p>可以看见这个stac这指令 我百度是没搜到解释，直接写stac也是识别不出来的</p>
 <p>它的作用就是过SMAP</p>
 <p>解决方法就是直接用硬编码  0F, 01, CB</p>
-<h2 id="0x4-构造中断门"><a href="#0x4-构造中断门" class="headerlink" title="0x4 构造中断门"></a>0x4 构造中断门</h2><p><img src="/../images/win10x64%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83/2.png" alt="2"></p>
+<h2 id="0x4-构造中断门"><a href="#0x4-构造中断门" class="headerlink" title="0x4 构造中断门"></a>0x4 构造中断门</h2><p><img src="/../images/win10x64Kernel/2.png" alt="2"></p>
 <p>查看一下 idt表  我是改了 21断点</p>
-<h2 id="0x5-代码"><a href="#0x5-代码" class="headerlink" title="0x5 代码"></a>0x5 代码</h2><p><img src="/../images/win10x64%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83/6.png" alt="6"></p>
+<h2 id="0x5-代码"><a href="#0x5-代码" class="headerlink" title="0x5 代码"></a>0x5 代码</h2><p><img src="/../images/win10x64Kernel/6.png" alt="6"></p>
 <p>mov rax，[这里的值是 gdtr 地址]  提权读取gdt表</p>
-<p><img src="/../images/win10x64%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83/3.png" alt="3"></p>
+<p><img src="/../images/win10x64Kernel/3.png" alt="3"></p>
 <p>然后成功提权获得值</p>
 <h2 id="0x6总结"><a href="#0x6总结" class="headerlink" title="0x6总结"></a>0x6总结</h2><p>主要最近要比赛复现学习，不太想花太多时间详细写，坑还是挺多的，如何构造中断门啊，原理是什么啊，stac的原理，还有visual studio2019 怎么编译asm代码。就把关键位置记录了一下。</p>
 
