@@ -4,11 +4,10 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="win10x64Kernel, Blue.Blogs">
-    <meta name="description" content="win10x64内核中断门提权0x0 SMEP SMAP首先来说一下改变，win10新增了SMEP和SMAP
-SMEP：禁止内核执行用户空间的代码（3环代码）
-SMAP：禁止内核CPU访问用户空间
-所以就算提权到0环也是无法运行读取的，所以">
+    <meta name="keywords" content="win10x64Pagination, Blue.Blogs">
+    <meta name="description" content="win10x64 分页机制0x0 基础四级页表：
+PXE -&amp;gt;  PPE -&amp;gt; PDE -&amp;gt; PTE -&amp;gt; 物理页面
+ 9             9          9         9            ">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -20,7 +19,7 @@ SMAP：禁止内核CPU访问用户空间
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>win10x64Kernel | Blue.Blogs</title>
+    <title>win10x64Pagination | Blue.Blogs</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -249,12 +248,12 @@ SMAP：禁止内核CPU访问用户空间
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">win10x64Kernel</h1>
+                    <h1 class="description center-align post-title">win10x64Pagination</h1>
                 </div>
             </div>
         </div>
@@ -410,28 +409,14 @@ SMAP：禁止内核CPU访问用户空间
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="win10x64内核中断门提权"><a href="#win10x64内核中断门提权" class="headerlink" title="win10x64内核中断门提权"></a>win10x64内核中断门提权</h1><h2 id="0x0-SMEP-SMAP"><a href="#0x0-SMEP-SMAP" class="headerlink" title="0x0 SMEP SMAP"></a>0x0 SMEP SMAP</h2><p>首先来说一下改变，win10新增了SMEP和SMAP</p>
-<p>SMEP：禁止内核执行用户空间的代码（3环代码）</p>
-<p>SMAP：禁止内核CPU访问用户空间</p>
-<p>所以就算提权到0环也是无法运行读取的，所以应该怎么办呢？！</p>
-<h2 id="0x1-解决SMEP和SMAP"><a href="#0x1-解决SMEP和SMAP" class="headerlink" title="0x1 解决SMEP和SMAP"></a>0x1 解决SMEP和SMAP</h2><p><img src="/../images/win10x64Kernel/1.png" alt="1"></p>
-<p>首先查intel文档，找到SMAP和SMEP  可以看见就是CR4的20位和21位</p>
-<p>解决方法显而易见了，改变CR4这两个的标志位。</p>
-<h2 id="0x2-第一种办法"><a href="#0x2-第一种办法" class="headerlink" title="0x2 第一种办法"></a>0x2 第一种办法</h2><p><img src="/../images/win10x64Kernel/4.png" alt="4"></p>
-<p>第一种就是直接改变CR4 改成 250ef8  就过了 SMEP</p>
-<p>改成050ef8 直接删除3就解决了</p>
-<h2 id="0x3-第二种方法"><a href="#0x3-第二种方法" class="headerlink" title="0x3 第二种方法"></a>0x3 第二种方法</h2><p>研究win10 dll是怎么运行的</p>
-<p><img src="/../images/win10x64Kernel/5.png" alt="5"></p>
-<p>可以看见这个stac这指令 我百度是没搜到解释，直接写stac也是识别不出来的</p>
-<p>它的作用就是过SMAP</p>
-<p>解决方法就是直接用硬编码  0F, 01, CB</p>
-<h2 id="0x4-构造中断门"><a href="#0x4-构造中断门" class="headerlink" title="0x4 构造中断门"></a>0x4 构造中断门</h2><p><img src="/../images/win10x64Kernel/2.png" alt="2"></p>
-<p>查看一下 idt表  我是改了 21断点</p>
-<h2 id="0x5-代码"><a href="#0x5-代码" class="headerlink" title="0x5 代码"></a>0x5 代码</h2><p><img src="/../images/win10x64Kernel/6.png" alt="6"></p>
-<p>mov rax，[这里的值是 gdtr 地址]  提权读取gdt表</p>
-<p><img src="/../images/win10x64Kernel/3.png" alt="3"></p>
-<p>然后成功提权获得值</p>
-<h2 id="0x6总结"><a href="#0x6总结" class="headerlink" title="0x6总结"></a>0x6总结</h2><p>主要最近要比赛复现学习，不太想花太多时间详细写，坑还是挺多的，如何构造中断门啊，原理是什么啊，stac的原理，还有visual studio2019 怎么编译asm代码。就把关键位置记录了一下。</p>
+                <h1 id="win10x64-分页机制"><a href="#win10x64-分页机制" class="headerlink" title="win10x64 分页机制"></a>win10x64 分页机制</h1><h2 id="0x0-基础"><a href="#0x0-基础" class="headerlink" title="0x0 基础"></a>0x0 基础</h2><p>四级页表：</p>
+<p>PXE -&gt;  PPE -&gt; PDE -&gt; PTE -&gt; 物理页面</p>
+<p> 9             9          9         9              12</p>
+<p>映入虚拟地址空间：</p>
+<p>所有PTE从一个启动时随机的地址（g_PTE_BASE）开始顺序排列</p>
+<p>指向PTE所在物理页面的PTE是PDE</p>
+<p>指向PDE所在物理页面的PTE是PPE</p>
+<p>指向PPE所在物理页面的PTE是PXE</p>
 
                 
             </div>
@@ -458,7 +443,7 @@ SMAP：禁止内核CPU访问用户空间
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://moodyblue.cn/category/win10x64Kernel/">http://moodyblue.cn/category/win10x64Kernel/</a>
+                    <a href="http://moodyblue.cn/category/win10x64Pagination/">http://moodyblue.cn/category/win10x64Pagination/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -945,13 +930,13 @@ SMAP：禁止内核CPU访问用户空间
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/category/win10x64Pagination/">
+                <a href="/category/Driver-Ergodic/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="win10x64Pagination">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="Driver Ergodic">
                         
-                        <span class="card-title">win10x64Pagination</span>
+                        <span class="card-title">Driver Ergodic</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -962,7 +947,7 @@ SMAP：禁止内核CPU访问用户空间
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-04-03
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-04-05
                         </span>
                         <span class="publish-author">
                             
@@ -982,13 +967,13 @@ SMAP：禁止内核CPU访问用户空间
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/category/x64-IA-32e/">
+                <a href="/category/win10x64Kernel/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="x64 IA-32e">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="win10x64Kernel">
                         
-                        <span class="card-title">x64 IA-32e</span>
+                        <span class="card-title">win10x64Kernel</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -999,7 +984,7 @@ SMAP：禁止内核CPU访问用户空间
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-02
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-03
                             </span>
                         <span class="publish-author">
                             
