@@ -4,13 +4,15 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Driver Ergodic, Blue.Blogs">
-    <meta name="description" content="win10x64 内核驱动对象遍历和EPROCESS结构体遍历0x1 驱动对象遍历
-#include &amp;lt;ntddk.h&gt;
+    <meta name="keywords" content="Blue.Blogs">
+    <meta name="description" content="2020年腾讯游戏安全大赛PC端初赛0x1 RING3 扫雷先用PE查exe的text段偏移地址，然后加0x1da dump出内存
+然后用开头特征码去dump文件里再dump出来
 
-typedef struct _LDR_DATA_TABLE_ENTRY
-&amp;#123;
-	LIST_ENTRY">
+
+0x2 脚本对比
+对比一下改了什么
+
+可以发现原本是一个">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -22,7 +24,7 @@ typedef struct _LDR_DATA_TABLE_ENTRY
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Driver Ergodic | Blue.Blogs</title>
+    <title>Blue.Blogs</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -251,12 +253,12 @@ typedef struct _LDR_DATA_TABLE_ENTRY
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Driver Ergodic</h1>
+                    <h1 class="description center-align post-title"></h1>
                 </div>
             </div>
         </div>
@@ -388,7 +390,7 @@ typedef struct _LDR_DATA_TABLE_ENTRY
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-04-05
+                    2022-04-07
                 </div>
                 
 
@@ -412,96 +414,62 @@ typedef struct _LDR_DATA_TABLE_ENTRY
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="win10x64-内核驱动对象遍历和EPROCESS结构体遍历"><a href="#win10x64-内核驱动对象遍历和EPROCESS结构体遍历" class="headerlink" title="win10x64 内核驱动对象遍历和EPROCESS结构体遍历"></a>win10x64 内核驱动对象遍历和EPROCESS结构体遍历</h1><h2 id="0x1-驱动对象遍历"><a href="#0x1-驱动对象遍历" class="headerlink" title="0x1 驱动对象遍历"></a>0x1 驱动对象遍历</h2><p><img src="/../images/Driver-Ergodic/2.png" alt="2"></p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;ntddk.h></span></span>
+                <h1 id="2020年腾讯游戏安全大赛PC端初赛"><a href="#2020年腾讯游戏安全大赛PC端初赛" class="headerlink" title="2020年腾讯游戏安全大赛PC端初赛"></a>2020年腾讯游戏安全大赛PC端初赛</h1><h2 id="0x1-RING3-扫雷"><a href="#0x1-RING3-扫雷" class="headerlink" title="0x1 RING3 扫雷"></a>0x1 RING3 扫雷</h2><p>先用PE查exe的text段偏移地址，然后加0x1da dump出内存</p>
+<p>然后用开头特征码去dump文件里再dump出来</p>
+<p><img src="/../images/2020TencentPc%E5%88%9D%E8%B5%9B/1.png" alt="1"></p>
+<p><img src="/../images/2020TencentPc%E5%88%9D%E8%B5%9B/2.png" alt="2"></p>
+<h2 id="0x2-脚本对比"><a href="#0x2-脚本对比" class="headerlink" title="0x2 脚本对比"></a>0x2 脚本对比</h2><p><img src="/../images/2020TencentPc%E5%88%9D%E8%B5%9B/3.png" alt="3"></p>
+<p>对比一下改了什么</p>
+<p><img src="/../images/2020TencentPc%E5%88%9D%E8%B5%9B/4.png" alt="4"></p>
+<p>可以发现原本是一个inc 自加</p>
+<p><img src="/../images/2020TencentPc%E5%88%9D%E8%B5%9B/5.png" alt="5"></p>
+<p>猜测是时间自加，全部nop后，就使用了咋瓦鲁多（时停）</p>
+<p><img src="/../images/2020TencentPc%E5%88%9D%E8%B5%9B/6.png" alt="6"></p>
+<p>第二个是点到雷之后结束，这里改成jmp跳过，直接无敌</p>
+<h2 id="0x3-RING0"><a href="#0x3-RING0" class="headerlink" title="0x3 RING0"></a>0x3 RING0</h2><p>先用Unicorn_PE（github）把文件dump出来，然后分析，注意在win7 x64上运行</p>
+<p><img src="/../images/2020TencentPc%E5%88%9D%E8%B5%9B/8.png" alt="8"></p>
+<p>代码除了基本的通信，其他功能反汇编出来了。</p>
+<p><img src="/../images/2020TencentPc%E5%88%9D%E8%B5%9B/7-16493269371172.png" alt="7"></p>
+<p>进入第一个关键函数，百度搜了这些api作用就是查找键项里有没有key键值为1</p>
+<p><img src="/../images/2020TencentPc%E5%88%9D%E8%B5%9B/11.png" alt="11"></p>
+<p>驱动成功加载</p>
+<h2 id="0x4-输出hello-world"><a href="#0x4-输出hello-world" class="headerlink" title="0x4 输出hello world"></a>0x4 输出hello world</h2><p><img src="/../images/2020TencentPc%E5%88%9D%E8%B5%9B/9.png" alt="9"></p>
+<p>搜索字符串找到，发现是KeWaitForMutexObject等待前面的事件进入信号态，往前跟</p>
+<p><img src="/../images/2020TencentPc%E5%88%9D%E8%B5%9B/10.png" alt="10"></p>
+<p>发现就是外面这个函数进入了判断，同时看见上面的Event，原来如此</p>
+<p><img src="/../images/2020TencentPc%E5%88%9D%E8%B5%9B/12.png" alt="12"></p>
+<p>写一个驱动改变一下输出helloworld</p>
+<h2 id="0x5-代码"><a href="#0x5-代码" class="headerlink" title="0x5 代码"></a>0x5 代码</h2><pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;ntddk.h></span></span>
 
-<span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">_LDR_DATA_TABLE_ENTRY</span>
-<span class="token punctuation">&#123;</span>
-	LIST_ENTRY InLoadOrderLinks<span class="token punctuation">;</span>
-	LIST_ENTRY InMemoryOrderLinks<span class="token punctuation">;</span>
-	LIST_ENTRY InInitializationOrderLinks<span class="token punctuation">;</span>
-	PVOID DllBase<span class="token punctuation">;</span>
-	PVOID EntryPoint<span class="token punctuation">;</span>
-	ULONG SizeOfImage<span class="token punctuation">;</span>
-	UNICODE_STRING FullDllName<span class="token punctuation">;</span>
-	UNICODE_STRING BaseDllName<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span>LDR_DATA_TABLE_ENTRY<span class="token punctuation">,</span> <span class="token operator">*</span> PLDR_DATA_TABLE_ENTRY<span class="token punctuation">;</span>
+VOID <span class="token function">SetEvent</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+	UNICODE_STRING EventName <span class="token operator">=</span> <span class="token punctuation">&#123;</span> <span class="token number">0</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+	HANDLE EventHandle <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
 
-VOID <span class="token function">DriverUnload</span><span class="token punctuation">(</span>PDRIVER_OBJECT Driver<span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-	<span class="token function">DbgPrint</span><span class="token punctuation">(</span><span class="token string">"驱动已经卸载"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">RtlInitUnicodeString</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>EventName<span class="token punctuation">,</span> L<span class="token string">"\\BaseNamedObjects\\tp2020"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	PRKEVENT pEvent <span class="token operator">=</span> <span class="token function">IoCreateNotificationEvent</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>EventName<span class="token punctuation">,</span> <span class="token operator">&amp;</span>EventHandle<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>pEvent<span class="token punctuation">)</span>
+	<span class="token punctuation">&#123;</span>
+		<span class="token function">DbgPrint</span><span class="token punctuation">(</span><span class="token string">"Set Faile\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+	<span class="token function">KeSetEvent</span><span class="token punctuation">(</span>pEvent<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> FALSE<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span>
 
-NTSTATUS <span class="token function">DriverEntry</span><span class="token punctuation">(</span>PDRIVER_OBJECT Driver<span class="token punctuation">,</span> PUNICODE_STRING pReg<span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-	NTSTATUS status<span class="token punctuation">;</span>
-	<span class="token function">DbgPrint</span><span class="token punctuation">(</span><span class="token string">"DriverEntry start.\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-	Driver<span class="token operator">-></span>DriverUnload <span class="token operator">=</span> DriverUnload<span class="token punctuation">;</span>
-	PLDR_DATA_TABLE_ENTRY pLdr <span class="token operator">=</span> <span class="token punctuation">(</span>PLDR_DATA_TABLE_ENTRY<span class="token punctuation">)</span>Driver<span class="token operator">-></span>DriverSection<span class="token punctuation">;</span>
-	PLIST_ENTRY pListEntry <span class="token operator">=</span> pLdr<span class="token operator">-></span>InLoadOrderLinks<span class="token punctuation">.</span>Flink<span class="token punctuation">;</span>
-	PLIST_ENTRY pCurrentListEntry <span class="token operator">=</span> pListEntry<span class="token operator">-></span>Flink<span class="token punctuation">;</span>
-	PLDR_DATA_TABLE_ENTRY pCurrentModule <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
-	<span class="token keyword">while</span> <span class="token punctuation">(</span>pCurrentListEntry <span class="token operator">!=</span> pListEntry<span class="token punctuation">)</span>
-	<span class="token punctuation">&#123;</span>
-		pCurrentModule <span class="token operator">=</span> <span class="token function">CONTAINING_RECORD</span><span class="token punctuation">(</span>pCurrentListEntry<span class="token punctuation">,</span> LDR_DATA_TABLE_ENTRY<span class="token punctuation">,</span> InLoadOrderLinks<span class="token punctuation">)</span><span class="token punctuation">;</span>
-		<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">MmIsAddressValid</span><span class="token punctuation">(</span>pCurrentListEntry<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-			<span class="token function">DbgPrint</span><span class="token punctuation">(</span><span class="token string">"pCurrentModule 不可读\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-			<span class="token keyword">goto</span> while_end<span class="token punctuation">;</span>
-		<span class="token punctuation">&#125;</span>
 
-		<span class="token function">DbgPrint</span><span class="token punctuation">(</span><span class="token string">"[LYSM] DllBase:%p \n"</span><span class="token punctuation">,</span> pCurrentModule<span class="token operator">-></span>DllBase<span class="token punctuation">)</span><span class="token punctuation">;</span>
-		<span class="token function">DbgPrint</span><span class="token punctuation">(</span><span class="token string">"[LYSM] EntryPoint:%p \n"</span><span class="token punctuation">,</span> pCurrentModule<span class="token operator">-></span>EntryPoint<span class="token punctuation">)</span><span class="token punctuation">;</span>
-		<span class="token function">DbgPrint</span><span class="token punctuation">(</span><span class="token string">"[LYSM] SizeOfImage:%p \n"</span><span class="token punctuation">,</span> pCurrentModule<span class="token operator">-></span>SizeOfImage<span class="token punctuation">)</span><span class="token punctuation">;</span>
-		<span class="token function">DbgPrint</span><span class="token punctuation">(</span><span class="token string">"[LYSM] FullDllName:%wZ \n"</span><span class="token punctuation">,</span> pCurrentModule<span class="token operator">-></span>FullDllName<span class="token punctuation">)</span><span class="token punctuation">;</span>
-		<span class="token function">DbgPrint</span><span class="token punctuation">(</span><span class="token string">"[LYSM] BaseDllName:%wZ \n"</span><span class="token punctuation">,</span> pCurrentModule<span class="token operator">-></span>BaseDllName<span class="token punctuation">)</span><span class="token punctuation">;</span>
-	
-	while_end<span class="token operator">:</span>
-		pCurrentListEntry <span class="token operator">=</span> pCurrentListEntry<span class="token operator">-></span>Flink<span class="token punctuation">;</span>
-	<span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="0x2-EPROCESS结构体遍历"><a href="#0x2-EPROCESS结构体遍历" class="headerlink" title="0x2 _EPROCESS结构体遍历"></a>0x2 _EPROCESS结构体遍历</h2><p><img src="/../images/Driver-Ergodic/1.png" alt="1"></p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;ntddk.h></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">EPROCESS_ACTIVELIST_OFFSET</span> <span class="token expression"><span class="token number">0x448</span></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">EPROCESS_FLINK_OFFSET</span> <span class="token expression"><span class="token number">0x448</span></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">EPROCESS_BLINK_OFFSET</span> <span class="token expression"><span class="token number">0x450</span></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">EPROCESS_PID_OFFSET</span> <span class="token expression"><span class="token number">0x440</span></span></span>
-
-VOID <span class="token function">DriverUnload</span><span class="token punctuation">(</span>DRIVER_OBJECT Driver<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+VOID <span class="token function">DriverUnload</span><span class="token punctuation">(</span>PDRIVER_OBJECT Driver<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
 	<span class="token function">DbgPrint</span><span class="token punctuation">(</span><span class="token string">"驱动已经卸载"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
 <span class="token punctuation">&#125;</span>
 
 NTSTATUS <span class="token function">DriverEntry</span><span class="token punctuation">(</span>PDRIVER_OBJECT Driver<span class="token punctuation">,</span> PUNICODE_STRING pReg<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+	<span class="token function">DbgPrint</span><span class="token punctuation">(</span><span class="token string">"驱动已经加载"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">SetEvent</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	Driver<span class="token operator">-></span>DriverUnload <span class="token operator">=</span> DriverUnload<span class="token punctuation">;</span>
+	<span class="token keyword">return</span> STATUS_SUCCESS<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-	NTSTATUS status<span class="token punctuation">;</span>
-	<span class="token function">DbgPrint</span><span class="token punctuation">(</span><span class="token string">"DriverEntry start.\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-	Driver<span class="token operator">-></span>DriverUnload <span class="token operator">=</span> <span class="token punctuation">(</span>PDRIVER_UNLOAD<span class="token punctuation">)</span>DriverUnload<span class="token punctuation">;</span>
-
-	ULONG64 pEPROCESS<span class="token punctuation">,</span> FirstEProcess<span class="token punctuation">;</span>
-	LIST_ENTRY<span class="token operator">*</span> ActiveProcessLinks<span class="token punctuation">;</span>
-	ULONG64 pid<span class="token punctuation">,</span> dwCount <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-
-	pEPROCESS<span class="token operator">=</span>FirstEProcess<span class="token operator">=</span><span class="token punctuation">(</span>ULONG64<span class="token punctuation">)</span><span class="token function">PsGetCurrentProcess</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-	<span class="token keyword">while</span> <span class="token punctuation">(</span>pEPROCESS<span class="token operator">!=</span><span class="token number">0</span><span class="token punctuation">)</span>
-	<span class="token punctuation">&#123;</span>
-		dwCount<span class="token operator">++</span><span class="token punctuation">;</span>
-		pid <span class="token operator">=</span> <span class="token operator">*</span><span class="token punctuation">(</span><span class="token punctuation">(</span>ULONG64<span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">(</span>pEPROCESS <span class="token operator">+</span> EPROCESS_PID_OFFSET<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-		<span class="token function">DbgPrint</span><span class="token punctuation">(</span><span class="token string">"[Pid=%8d] EProcess=0x%08X\n"</span><span class="token punctuation">,</span> pid<span class="token punctuation">,</span> pEPROCESS<span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-		ActiveProcessLinks <span class="token operator">=</span> <span class="token punctuation">(</span>LIST_ENTRY<span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">(</span>pEPROCESS <span class="token operator">+</span> EPROCESS_FLINK_OFFSET<span class="token punctuation">)</span><span class="token punctuation">;</span>
-		pEPROCESS <span class="token operator">=</span> <span class="token punctuation">(</span>ULONG64<span class="token punctuation">)</span>ActiveProcessLinks<span class="token operator">-></span>Flink <span class="token operator">-</span> EPROCESS_FLINK_OFFSET<span class="token punctuation">;</span>
-
-		<span class="token keyword">if</span> <span class="token punctuation">(</span>pEPROCESS <span class="token operator">==</span> FirstEProcess<span class="token punctuation">)</span>
-			<span class="token keyword">break</span><span class="token punctuation">;</span>
-	<span class="token punctuation">&#125;</span>
-	<span class="token function">DbgPrint</span><span class="token punctuation">(</span><span class="token string">"ProcessCount = %d\n"</span><span class="token punctuation">,</span> dwCount<span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-
-	
-
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="0x3-总结"><a href="#0x3-总结" class="headerlink" title="0x3 总结"></a>0x3 总结</h2><p>两个遍历方法都差不多，都是获得LIST_ENTRY链表 然后打印结构体信息，一直循环遍历到原来的位置</p>
+<h2 id="0x6-总结"><a href="#0x6-总结" class="headerlink" title="0x6 总结"></a>0x6 总结</h2><p>感谢战队的 Qfrost！！！q神指导我！！</p>
+<p>放一个q神博客（滑稽）<a target="_blank" rel="noopener" href="http://www.qfrost.com/">http://www.qfrost.com/</a></p>
+<p>学习到了很多函数，api和工具。</p>
 
                 
             </div>
@@ -528,7 +496,7 @@ NTSTATUS <span class="token function">DriverEntry</span><span class="token punct
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://moodyblue.cn/category/Driver-Ergodic/">http://moodyblue.cn/category/Driver-Ergodic/</a>
+                    <a href="http://moodyblue.cn/category/2020TencentPc%E5%88%9D%E8%B5%9B/">http://moodyblue.cn/category/2020TencentPc%E5%88%9D%E8%B5%9B/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1011,9 +979,10 @@ NTSTATUS <span class="token function">DriverEntry</span><span class="token punct
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/category/2020TencentPc%E5%88%9D%E8%B5%9B/">
                     <div class="card-image">
@@ -1031,9 +1000,9 @@ NTSTATUS <span class="token function">DriverEntry</span><span class="token punct
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-04-07
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-07
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -1042,6 +1011,7 @@ NTSTATUS <span class="token function">DriverEntry</span><span class="token punct
                         </span>
                     </div>
                 </div>
+
                 
             </div>
         </div>
@@ -1052,13 +1022,13 @@ NTSTATUS <span class="token function">DriverEntry</span><span class="token punct
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/category/win10x64Kernel/">
+                <a href="/category/Driver-Ergodic/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="win10x64Kernel">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="Driver Ergodic">
                         
-                        <span class="card-title">win10x64Kernel</span>
+                        <span class="card-title">Driver Ergodic</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1069,7 +1039,7 @@ NTSTATUS <span class="token function">DriverEntry</span><span class="token punct
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-03
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-05
                             </span>
                         <span class="publish-author">
                             
