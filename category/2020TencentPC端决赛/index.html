@@ -438,7 +438,7 @@
 <span class="token keyword">typedef</span> <span class="token function">DWORD</span><span class="token punctuation">(</span>CALLBACK<span class="token operator">*</span> RTLINITUNICODESTRING<span class="token punctuation">)</span><span class="token punctuation">(</span>PVOID<span class="token punctuation">,</span> PVOID<span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//初始化字符串函数</span>
 RTLINITUNICODESTRING RtlInitUnicodeString<span class="token punctuation">;</span>
 
-<span class="token keyword">typedef</span> <span class="token function">DWORD</span><span class="token punctuation">(</span>CALLBACK<span class="token operator">*</span> ZWLOADDRIVER<span class="token punctuation">)</span><span class="token punctuation">(</span>PVOID<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">//加载函数结构体</span>
+<span class="token keyword">typedef</span> <span class="token function">DWORD</span><span class="token punctuation">(</span>CALLBACK<span class="token operator">*</span> ZWLOADDRIVER<span class="token punctuation">)</span><span class="token punctuation">(</span>PVOID<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">//加载驱动回调函数</span>
 ZWLOADDRIVER ZwLoadDriver<span class="token punctuation">;</span>
 
 <span class="token keyword">void</span> <span class="token function">requestPrivilege</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
