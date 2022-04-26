@@ -4,11 +4,10 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="x64汇编笔记, Blue.Blogs">
-    <meta name="description" content="x64汇编笔记记录0x0 前言笔记学习会持续更新
-0x1 学习（1）对32位寄存器的写操作（包括运算结果），对相应的64位寄存器的高32位清0
-立即数的使用，优先使用32位扩展，64位立即数指令较少
-内存优先使用相对偏移寻址，直接寻址指令较">
+    <meta name="keywords" content="内核反截图思路, Blue.Blogs">
+    <meta name="description" content="内核反截图思路流程0x0 提要NtUserSetWindowDisplayAffinity 在win32kfull.sys
+ValidateHwnd 在 win32kbase.sys
+0x1 分析NtUserSetWindowDisplay">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -20,7 +19,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>x64汇编笔记 | Blue.Blogs</title>
+    <title>内核反截图思路 | Blue.Blogs</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -249,12 +248,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/16.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">x64汇编笔记</h1>
+                    <h1 class="description center-align post-title">内核反截图思路</h1>
                 </div>
             </div>
         </div>
@@ -386,7 +385,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-04-13
+                    2022-04-12
                 </div>
                 
 
@@ -410,24 +409,26 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="x64汇编笔记记录"><a href="#x64汇编笔记记录" class="headerlink" title="x64汇编笔记记录"></a>x64汇编笔记记录</h1><h2 id="0x0-前言"><a href="#0x0-前言" class="headerlink" title="0x0 前言"></a>0x0 前言</h2><p>笔记学习会持续更新</p>
-<h2 id="0x1-学习（1）"><a href="#0x1-学习（1）" class="headerlink" title="0x1 学习（1）"></a>0x1 学习（1）</h2><p>对32位寄存器的写操作（包括运算结果），对相应的64位寄存器的高32位清0</p>
-<p>立即数的使用，优先使用32位扩展，64位立即数指令较少</p>
-<p>内存优先使用相对偏移寻址，直接寻址指令较少</p>
-<h2 id="0x2-调用约定"><a href="#0x2-调用约定" class="headerlink" title="0x2 调用约定"></a>0x2 调用约定</h2><h4 id="cdecl的特点"><a href="#cdecl的特点" class="headerlink" title="__cdecl的特点"></a>__cdecl的特点</h4><p>__cdecl 是 C Declaration 的缩写，表示 C 和 C++ 默认的函数调用约定。是C&#x2F;C++和MFCX的默认调用约定。</p>
-<p>按从右至左的顺序压参数入栈。<br>由调用者把参数弹出栈。切记：对于传送参数的内存栈是由调用者来维护的，返回值在EAX中。因此对于像printf这样可变参数的函数必须用这种约定。<br>编译器在编译的时候对这种调用规则的函数生成修饰名的时候，在输出函数名前加上一个下划线前缀，格式为_function。如函数int add(int a, int b)的修饰名是_add</p>
-<h3 id="stdcall的特点"><a href="#stdcall的特点" class="headerlink" title="__stdcall的特点"></a>__stdcall的特点</h3><p>__stdcall是Standard Call的缩写，是C++的标准调用方式</p>
-<p>按从右至左的顺序压参数入栈。<br>由被调用者把参数弹出栈。切记：函数自己在退出时清空堆栈，返回值在EAX中。<br>__stdcall调用约定在输出函数名前加上一个下划线前缀，后面加上一个“@”符号和其参数的字节数，格式为_function@number。如函数int sub(int a, int b)的修饰名是_sub@8</p>
-<h3 id="fastcall的特点"><a href="#fastcall的特点" class="headerlink" title="__fastcall的特点"></a>__fastcall的特点</h3><p>__fastcall调用的主要特点就是快，因为它是通过寄存器来传送参数的。</p>
-<p>实际上__fastcall用ECX和EDX传送前两个DWORD或更小的参数，剩下的参数仍自右向左压栈传送，被调用的函数在返回前清理传送参数的内存栈。<br>__fastcall调用约定在输出函数名前加上一个“@”符号，后面也是一个“@”符号和其参数的字节数，格式为@function@number,如double multi(double a, double b)的修饰名是@multi@16。<br>__fastcall和__stdcall很象，唯一差别就是头两个参数通过寄存器传送。注意通过寄存器传送的两个参数是从左向右的，即第1个参数进ECX，第2个进EDX，其他参数是从右向左的入栈，返回仍然通过EAX</p>
-<h2 id="0x3-笔记（2）"><a href="#0x3-笔记（2）" class="headerlink" title="0x3 笔记（2）"></a>0x3 笔记（2）</h2><p>x64 只有一种调用约定，__cdecl，另外两种修饰被编译器忽略代码中也不会报错（为了兼容）</p>
-<p>调用方分配和清理参数所用的栈空间（外平栈）</p>
-<p>前4个参数使用 rcx，rdx，r8，r9 传递</p>
-<p>即使是寄存器传参，也要分配参数栈空间</p>
-<p>易变寄存器：rax，rcx，rdx，r8，r9，r10，r11</p>
-<p>push，pop 指令仅用来保存非易变寄存器，其他栈指针操作显示写寄存器rsp实现</p>
-<p>进入call之前rsp满足0x10字节对齐</p>
-<p>通常不使用rbp寻址栈内存，所以rsp在函数帧中尽量保持稳定（一次性分配局部变量和参数空间）</p>
+                <h1 id="内核反截图思路流程"><a href="#内核反截图思路流程" class="headerlink" title="内核反截图思路流程"></a>内核反截图思路流程</h1><h2 id="0x0-提要"><a href="#0x0-提要" class="headerlink" title="0x0 提要"></a>0x0 提要</h2><p>NtUserSetWindowDisplayAffinity 在win32kfull.sys</p>
+<p>ValidateHwnd 在 win32kbase.sys</p>
+<h2 id="0x1-分析NtUserSetWindowDisplayAffinity"><a href="#0x1-分析NtUserSetWindowDisplayAffinity" class="headerlink" title="0x1 分析NtUserSetWindowDisplayAffinity"></a>0x1 分析NtUserSetWindowDisplayAffinity</h2><p><img src="/../images/%E5%86%85%E6%A0%B8%E5%8F%8D%E6%88%AA%E5%9B%BE%E6%80%9D%E8%B7%AF/1.png" alt="1"></p>
+<p>先把传入的句柄通过ValidateHwnd转换成驱动对象，然后调用SetDisplayAffinity</p>
+<h2 id="0x2分析SetDisplayAffinity"><a href="#0x2分析SetDisplayAffinity" class="headerlink" title="0x2分析SetDisplayAffinity"></a>0x2分析SetDisplayAffinity</h2><p><img src="/../images/%E5%86%85%E6%A0%B8%E5%8F%8D%E6%88%AA%E5%9B%BE%E6%80%9D%E8%B7%AF/2.png" alt="2"></p>
+<p>分析如图，最后是通过调用ChangeWindowTreeProtection来改变</p>
+<h2 id="0x3-怎么找到函数地址思路"><a href="#0x3-怎么找到函数地址思路" class="headerlink" title="0x3 怎么找到函数地址思路"></a>0x3 怎么找到函数地址思路</h2><p>1.找到win32kfull.sys的地址，再找到NtUserSetWindowDisplayAffinity的地址</p>
+<p>再找到SetDisplayAffinity，最终找到ChangeWindowTreeProtection</p>
+<p>2.怎么找win32kfull.sys，通过ZwQuerySystemInformation模拟任务管理器一样遍历找到</p>
+<p>3.有了win32kfull.sys基址，通过特征码查找后续的函数地址</p>
+<h2 id="0x4-ChangeWindowTreeProtection需要的参数"><a href="#0x4-ChangeWindowTreeProtection需要的参数" class="headerlink" title="0x4 ChangeWindowTreeProtection需要的参数"></a>0x4 ChangeWindowTreeProtection需要的参数</h2><p>1.先获得传入的句柄</p>
+<p>2.同理上面的思路获得win32kbase.sys，遍历得到ValidateHwnd的基址，将句柄转换成驱动对象</p>
+<p>3.定义ChangeWindowTreeProtection参数的结构体</p>
+<p><img src="/../images/%E5%86%85%E6%A0%B8%E5%8F%8D%E6%88%AA%E5%9B%BE%E6%80%9D%E8%B7%AF/6.png" alt="6"></p>
+<h2 id="0x5-怎么找到我们需要反截图的进程和APC注入"><a href="#0x5-怎么找到我们需要反截图的进程和APC注入" class="headerlink" title="0x5 怎么找到我们需要反截图的进程和APC注入"></a>0x5 怎么找到我们需要反截图的进程和APC注入</h2><p>1.同理上面通过ZwQuerySystemInformation遍历找到需要反截图的进程</p>
+<p>2.同理通过遍历找到winlogon的PID（管理用户登录登出），为什么要找到这个，为了获得系统EPROCESS结构体 通过PsLookupProcessByProcessId。然后使用KeStackAttachProcess附加到我们想要反截图的进程上。</p>
+<h2 id="0x6-思路整理总结"><a href="#0x6-思路整理总结" class="headerlink" title="0x6 思路整理总结"></a>0x6 思路整理总结</h2><p>1.先写一个R0-R3的通信</p>
+<p>2.R3工作：通过FindWindow查找到进程句柄，然后传入dwAffinity的值。</p>
+<p>3.R0工作：通过APC注入到进程，然后改变进程的ChangeWindowTreeProtection</p>
+<p>4.实现跳过各个调用函数，直接改变最后的保护</p>
 
                 
             </div>
@@ -454,7 +455,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://moodyblue.cn/category/x64%E6%B1%87%E7%BC%96%E7%AC%94%E8%AE%B0/">http://moodyblue.cn/category/x64%E6%B1%87%E7%BC%96%E7%AC%94%E8%AE%B0/</a>
+                    <a href="http://moodyblue.cn/category/%E5%86%85%E6%A0%B8%E5%8F%8D%E6%88%AA%E5%9B%BE%E6%80%9D%E8%B7%AF/">http://moodyblue.cn/category/%E5%86%85%E6%A0%B8%E5%8F%8D%E6%88%AA%E5%9B%BE%E6%80%9D%E8%B7%AF/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -941,13 +942,13 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/category/Patch-Guard/">
+                <a href="/category/x64%E6%B1%87%E7%BC%96%E7%AC%94%E8%AE%B0/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="Patch Guard">
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="x64汇编笔记">
                         
-                        <span class="card-title">Patch Guard</span>
+                        <span class="card-title">x64汇编笔记</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -958,7 +959,7 @@
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-04-14
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-04-13
                         </span>
                         <span class="publish-author">
                             
@@ -978,13 +979,13 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/category/%E5%86%85%E6%A0%B8%E5%8F%8D%E6%88%AA%E5%9B%BE%E6%80%9D%E8%B7%AF/">
+                <a href="/category/2020TencentPC%E7%AB%AF%E5%86%B3%E8%B5%9B/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="内核反截图思路">
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="2020TencentPC端决赛">
                         
-                        <span class="card-title">内核反截图思路</span>
+                        <span class="card-title">2020TencentPC端决赛</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -995,7 +996,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-12
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-08
                             </span>
                         <span class="publish-author">
                             
