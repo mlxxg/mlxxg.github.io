@@ -4,8 +4,10 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="MRCTF-REVER, Blue.Blogs">
-    <meta name="description" content="">
+    <meta name="keywords" content="KCTF_末日邀请, Blue.Blogs">
+    <meta name="description" content="KCTF-末日邀请0x0 前言做题果然还是要坚持，害，爆破用的idalazydump的crc32table爆不出来，用shift-12 dump了十进制才爆出来了。
+0x1 静态分析
+这里第一步运算会得出来一个两位数的值，动调的时候可以发现">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +19,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>MRCTF-REVER | Blue.Blogs</title>
+    <title>KCTF_末日邀请 | Blue.Blogs</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -246,12 +248,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">MRCTF-REVER</h1>
+                    <h1 class="description center-align post-title">KCTF_末日邀请</h1>
                 </div>
             </div>
         </div>
@@ -383,7 +385,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-04-26
+                    2022-05-13
                 </div>
                 
 
@@ -407,7 +409,70 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                
+                <h1 id="KCTF-末日邀请"><a href="#KCTF-末日邀请" class="headerlink" title="KCTF-末日邀请"></a>KCTF-末日邀请</h1><h2 id="0x0-前言"><a href="#0x0-前言" class="headerlink" title="0x0 前言"></a>0x0 前言</h2><p>做题果然还是要坚持，害，爆破用的idalazydump的crc32table爆不出来，用shift-12 dump了十进制才爆出来了。</p>
+<h2 id="0x1-静态分析"><a href="#0x1-静态分析" class="headerlink" title="0x1 静态分析"></a>0x1 静态分析</h2><p><img src="/../images/KCTF-%E6%9C%AB%E6%97%A5%E9%82%80%E8%AF%B7/1.png" alt="1"></p>
+<p>这里第一步运算会得出来一个两位数的值，动调的时候可以发现。详细后面会说</p>
+<p><img src="/../images/KCTF-%E6%9C%AB%E6%97%A5%E9%82%80%E8%AF%B7/2.png" alt="2"></p>
+<p>40106c里面就是计算405b20里的值，直接动调就可以得到，坑的地方就是这里</p>
+<p><img src="/../images/KCTF-%E6%9C%AB%E6%97%A5%E9%82%80%E8%AF%B7/3.png" alt="3"></p>
+<p>4010b7里面就是判断一下然后减48或者55</p>
+<p><img src="/../images/KCTF-%E6%9C%AB%E6%97%A5%E9%82%80%E8%AF%B7/4.png" alt="4"></p>
+<p>然后就是这里v17的值要等于v15这里计算出来三个值的与，动调的时候随便输入发现这里不是7就是0很奇怪那时候不知道为啥。v17又要等于前3个输入的异或出来。然后这里就是思路关键点没想到，那时候只觉得每次都是两位十六进制数。看了wp发现这里就可以0xff爆破每次v66后面3个的与</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">v33 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">*</span><span class="token number">200</span>
+<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">0xff</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    v13 <span class="token operator">=</span> i
+    v15 <span class="token operator">=</span> v13
+    <span class="token keyword">for</span> j <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> v15 <span class="token operator">&amp;</span> <span class="token number">1</span> <span class="token operator">!=</span><span class="token number">0</span><span class="token punctuation">:</span>
+            v15 <span class="token operator">=</span> <span class="token number">3</span> <span class="token operator">*</span> v15 <span class="token operator">+</span><span class="token number">1</span>
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            v15 <span class="token operator">>></span><span class="token operator">=</span> <span class="token number">1</span>
+        v33<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> v15
+    v17 <span class="token operator">=</span> v33<span class="token punctuation">[</span><span class="token number">198</span><span class="token punctuation">]</span> <span class="token operator">|</span> v33<span class="token punctuation">[</span><span class="token number">197</span><span class="token punctuation">]</span> <span class="token operator">|</span> v33<span class="token punctuation">[</span><span class="token number">196</span><span class="token punctuation">]</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>v17<span class="token punctuation">)</span>
+<span class="token comment">#7</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>会发现爆破出来第一个是0后面都是7，才明白难怪动调的时候，对比的不是7就是0</p>
+<p><img src="/../images/KCTF-%E6%9C%AB%E6%97%A5%E9%82%80%E8%AF%B7/5.png" alt="5"></p>
+<p>这里就是判断一下4-7是KCTF 加回去那个55</p>
+<p><img src="/../images/KCTF-%E6%9C%AB%E6%97%A5%E9%82%80%E8%AF%B7/6.png" alt="6"></p>
+<p>这里v74判断的就是长度16</p>
+<p><img src="/../images/KCTF-%E6%9C%AB%E6%97%A5%E9%82%80%E8%AF%B7/7.png" alt="7"></p>
+<p>这里v19是上面爆破出来的7，前面有加2 就是9 ，然后9次循环，取第n位整除n位可以整除。</p>
+<p><img src="/../images/KCTF-%E6%9C%AB%E6%97%A5%E9%82%80%E8%AF%B7/8.png" alt="8"></p>
+<p>条件限制在下面，会把9位进行一个从小到大排序</p>
+<p><img src="/../images/KCTF-%E6%9C%AB%E6%97%A5%E9%82%80%E8%AF%B7/9.png" alt="9"></p>
+<p>然后对比9位，那就是123456789 说明9位每位都不能相同，1-9全有</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">100000000</span><span class="token punctuation">,</span><span class="token number">1000000000</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">if</span> i<span class="token operator">//</span><span class="token number">10000000</span> <span class="token operator">%</span><span class="token number">2</span> <span class="token operator">==</span> <span class="token number">0</span> <span class="token keyword">and</span> i<span class="token operator">//</span><span class="token number">1000000</span><span class="token operator">%</span><span class="token number">3</span> <span class="token operator">==</span> <span class="token number">0</span> <span class="token keyword">and</span> i<span class="token operator">//</span><span class="token number">100000</span><span class="token operator">%</span><span class="token number">4</span> <span class="token operator">==</span> <span class="token number">0</span> <span class="token keyword">and</span> i<span class="token operator">//</span><span class="token number">10000</span><span class="token operator">%</span><span class="token number">5</span> <span class="token operator">==</span> <span class="token number">0</span> <span class="token keyword">and</span> i<span class="token operator">//</span><span class="token number">1000</span> <span class="token operator">%</span><span class="token number">6</span> <span class="token operator">==</span> <span class="token number">0</span> <span class="token keyword">and</span> i<span class="token operator">//</span><span class="token number">100</span> <span class="token operator">%</span> <span class="token number">7</span> <span class="token operator">==</span> <span class="token number">0</span> <span class="token keyword">and</span> i<span class="token operator">//</span><span class="token number">10</span> <span class="token operator">%</span> <span class="token number">8</span> <span class="token operator">==</span> <span class="token number">0</span> <span class="token keyword">and</span> i<span class="token operator">%</span><span class="token number">9</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">:</span>
+        num_all <span class="token operator">=</span> <span class="token builtin">str</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span>
+        <span class="token keyword">if</span> <span class="token string">"1"</span> <span class="token keyword">in</span> num_all <span class="token keyword">and</span> <span class="token string">"2"</span> <span class="token keyword">in</span> num_all <span class="token keyword">and</span> <span class="token string">"3"</span> <span class="token keyword">in</span> num_all <span class="token keyword">and</span> <span class="token string">"4"</span> <span class="token keyword">in</span> num_all <span class="token keyword">and</span> <span class="token string">"5"</span> <span class="token keyword">in</span> num_all <span class="token keyword">and</span> <span class="token string">"6"</span> <span class="token keyword">in</span> num_all <span class="token keyword">and</span> <span class="token string">"7"</span> <span class="token keyword">in</span> num_all <span class="token keyword">and</span> <span class="token string">"8"</span> <span class="token keyword">in</span> num_all <span class="token keyword">and</span> <span class="token string">"9"</span> <span class="token keyword">in</span> num_all <span class="token punctuation">:</span>
+            <span class="token keyword">print</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span>
+<span class="token comment">#381654729</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>爆破出来只有一个结果</p>
+<p><img src="/../images/KCTF-%E6%9C%AB%E6%97%A5%E9%82%80%E8%AF%B7/10.png" alt="10"></p>
+<p>最后的比对，前面那个算出来的v11的值 反转后 要等于 0xf52e0765</p>
+<p>因为我们只不知道前面3位，直接爆破</p>
+<p><img src="/../images/KCTF-%E6%9C%AB%E6%97%A5%E9%82%80%E8%AF%B7/11.png" alt="11"></p>
+<p>这里我提了idaLazy的数据，就是爆不出来，然后用了十进制爆出来了</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">crc32</span><span class="token punctuation">(</span>data<span class="token punctuation">:</span> <span class="token builtin">bytes</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">int</span><span class="token punctuation">:</span>
+    v11 <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span>
+    <span class="token keyword">for</span> b <span class="token keyword">in</span> data<span class="token punctuation">:</span>
+        v11 <span class="token operator">=</span> <span class="token punctuation">(</span>table<span class="token punctuation">[</span><span class="token punctuation">(</span>v11 <span class="token operator">^</span> b<span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">0xff</span><span class="token punctuation">]</span> <span class="token operator">^</span> <span class="token punctuation">(</span>v11 <span class="token operator">>></span> <span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> <span class="token operator">~</span>v11 <span class="token operator">&amp;</span> <span class="token number">0xffffffff</span>
+
+
+cs <span class="token operator">=</span> string<span class="token punctuation">.</span>printable
+<span class="token keyword">for</span> i <span class="token keyword">in</span> itertools<span class="token punctuation">.</span>product<span class="token punctuation">(</span>cs<span class="token punctuation">,</span> repeat<span class="token operator">=</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    part1 <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">.</span>join<span class="token punctuation">(</span>i<span class="token punctuation">)</span>
+    sn <span class="token operator">=</span> part1 <span class="token operator">+</span> <span class="token string">"KCTF381654729"</span>
+    <span class="token keyword">if</span> crc32<span class="token punctuation">(</span>sn<span class="token punctuation">.</span>encode<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0xF52E0765</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span>sn<span class="token punctuation">)</span>
+        <span class="token keyword">break</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>table放入提出来的，就可以了，代码是学风间仁wp里的，学到了</p>
+
                 
             </div>
             <hr/>
@@ -433,7 +498,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://moodyblue.cn/category/MRCTF-REVER/">http://moodyblue.cn/category/MRCTF-REVER/</a>
+                    <a href="http://moodyblue.cn/category/KCTF-%E6%9C%AB%E6%97%A5%E9%82%80%E8%AF%B7/">http://moodyblue.cn/category/KCTF-%E6%9C%AB%E6%97%A5%E9%82%80%E8%AF%B7/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -916,9 +981,48 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/category/KCTF-%E6%9C%AB%E6%97%A5%E9%82%80%E8%AF%B7/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="KCTF_末日邀请">
+                        
+                        <span class="card-title">KCTF_末日邀请</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-05-13
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Blue
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
             <div class="card">
                 <a href="/category/KCTF-sign/">
                     <div class="card-image">
@@ -936,45 +1040,8 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-05-12
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-user fa-fw"></i>
-                            Blue
-                            
-                        </span>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/category/%E6%98%9FCTF-Rever/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="星CTF-Rever">
-                        
-                        <span class="card-title">星CTF-Rever</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-                        
-                    </div>
-                    <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-25
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-05-12
                             </span>
                         <span class="publish-author">
                             
