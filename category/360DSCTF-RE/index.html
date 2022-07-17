@@ -4,12 +4,12 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="BlueHatCupRe, Blue.Blogs">
-    <meta name="description" content="蓝帽杯-REVER0x0 前言调试怎么进入关键位置，一直f8，跑起来了就在那个call下断点，然后重新跑，最终可以找到OEP
-0x1 check 格式
-要求下来就是输入格式flag{中间任意36个数字},长度为42
-0x2 取值
-可以找到有">
+    <meta name="keywords" content="360DSCTF-RE, Blue.Blogs">
+    <meta name="description" content="R1-Android-catchem0x0 前言分析啥的就不放了，把几个关键点放上
+0x1 解密key和密文
+
+同一个函数中，直接索引一下就找到了
+0x2解密flagenc = [0x4F, 0x1C, 0x36, 0x49, 0x09, ">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -21,7 +21,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>BlueHatCupRe | Blue.Blogs</title>
+    <title>360DSCTF-RE | Blue.Blogs</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -250,12 +250,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/15.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">BlueHatCupRe</h1>
+                    <h1 class="description center-align post-title">360DSCTF-RE</h1>
                 </div>
             </div>
         </div>
@@ -387,7 +387,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-07-11
+                    2022-07-17
                 </div>
                 
 
@@ -411,27 +411,29 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="蓝帽杯-REVER"><a href="#蓝帽杯-REVER" class="headerlink" title="蓝帽杯-REVER"></a>蓝帽杯-REVER</h1><h2 id="0x0-前言调试"><a href="#0x0-前言调试" class="headerlink" title="0x0 前言调试"></a>0x0 前言调试</h2><p>怎么进入关键位置，一直f8，跑起来了就在那个call下断点，然后重新跑，最终可以找到OEP</p>
-<h2 id="0x1-check-格式"><a href="#0x1-check-格式" class="headerlink" title="0x1 check 格式"></a>0x1 check 格式</h2><p><img src="/../images/BlueHatCupRe/1.png" alt="1"></p>
-<p>要求下来就是输入格式flag{中间任意36个数字},长度为42</p>
-<h2 id="0x2-取值"><a href="#0x2-取值" class="headerlink" title="0x2 取值"></a>0x2 取值</h2><p><img src="/../images/BlueHatCupRe/2.png" alt="2"></p>
-<p>可以找到有两个while循环18次的位置，分别取了前18位和后18位。</p>
-<h2 id="0x3算法"><a href="#0x3算法" class="headerlink" title="0x3算法"></a>0x3算法</h2><p><img src="/../images/BlueHatCupRe/3.png" alt="3"></p>
-<p>取完值后，会计算两个值出来分别是72057594037927936，1152921504606846976</p>
-<p>点两个unk进去往下加10的位置就是值，限制输入的大小</p>
-<p><img src="/../images/BlueHatCupRe/4.png" alt="4"></p>
-<p>第一个算法位置，就是赋值两次，然后这个乘法函数就是第一个值和第二个值进行相乘放入第三个位置。剩下的算法函数一样</p>
-<p><img src="/../images/BlueHatCupRe/5.png" alt="5"></p>
-<p>第二个乘法把后18位取出来自我相乘，然后再乘一个11，&amp;v28就是上面先乘出来的值</p>
-<h2 id="0x4-比较"><a href="#0x4-比较" class="headerlink" title="0x4 比较"></a>0x4 比较</h2><p><img src="/../images/BlueHatCupRe/6.png" alt="6"></p>
-<p>然后把前18位算出来的值和后18位进行相减，如果等于9为成功</p>
-<h2 id="0x5-flag"><a href="#0x5-flag" class="headerlink" title="0x5 flag"></a>0x5 flag</h2><p>x^2-11y^2&#x3D;9,72057594037927936&lt;x &lt; 1152921504606846976</p>
-<p><a target="_blank" rel="noopener" href="https://www.wolframalpha.com/">https://www.wolframalpha.com/</a></p>
-<p>进入这个网站填写进去解出。</p>
-<h2 id="0x6-总结"><a href="#0x6-总结" class="headerlink" title="0x6 总结"></a>0x6 总结</h2><p>先感谢一下Lu1u师傅对我的帮助和提点</p>
-<p>这题我自己本身做时，在输入下断，完全断不住算法位置，后面复现也不明白这些位置怎么算了，怎么判断的，什么位置。</p>
-<p>后面发现这里面存放地址的实际位置在点进去位置后往下+10的位置才是真正存放的位置，然后看到值后一一对比，感觉就醍醐灌顶一样。整个200行的代码做了什么完全清楚了。</p>
+                <h1 id="R1-Android-catchem"><a href="#R1-Android-catchem" class="headerlink" title="R1-Android-catchem"></a>R1-Android-catchem</h1><h2 id="0x0-前言"><a href="#0x0-前言" class="headerlink" title="0x0 前言"></a>0x0 前言</h2><p>分析啥的就不放了，把几个关键点放上</p>
+<h2 id="0x1-解密key和密文"><a href="#0x1-解密key和密文" class="headerlink" title="0x1 解密key和密文"></a>0x1 解密key和密文</h2><p><img src="/../images/360DSCTF-RE/1.png" alt="1"></p>
+<p><img src="/../images/360DSCTF-RE/2.png" alt="2"></p>
+<p>同一个函数中，直接索引一下就找到了</p>
+<h2 id="0x2解密flag"><a href="#0x2解密flag" class="headerlink" title="0x2解密flag"></a>0x2解密flag</h2><pre class="line-numbers language-python" data-language="python"><code class="language-python">enc <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0x4F</span><span class="token punctuation">,</span> <span class="token number">0x1C</span><span class="token punctuation">,</span> <span class="token number">0x36</span><span class="token punctuation">,</span> <span class="token number">0x49</span><span class="token punctuation">,</span> <span class="token number">0x09</span><span class="token punctuation">,</span> <span class="token number">0x3A</span><span class="token punctuation">,</span> <span class="token number">0x3F</span><span class="token punctuation">,</span> <span class="token number">0x07</span><span class="token punctuation">,</span> <span class="token number">0x4D</span><span class="token punctuation">,</span> <span class="token number">0x3D</span><span class="token punctuation">,</span>
+       <span class="token number">0x22</span><span class="token punctuation">,</span> <span class="token number">0x39</span><span class="token punctuation">,</span> <span class="token number">0x00</span><span class="token punctuation">,</span> <span class="token number">0x0A</span><span class="token punctuation">,</span> <span class="token number">0x22</span><span class="token punctuation">,</span> <span class="token number">0x25</span><span class="token punctuation">,</span> <span class="token number">0x06</span><span class="token punctuation">,</span> <span class="token number">0x09</span><span class="token punctuation">,</span> <span class="token number">0x01</span><span class="token punctuation">,</span> <span class="token number">0x20</span><span class="token punctuation">,</span>
+       <span class="token number">0x4A</span><span class="token punctuation">,</span> <span class="token number">0x1B</span><span class="token punctuation">,</span> <span class="token number">0x51</span><span class="token punctuation">,</span> <span class="token number">0x51</span><span class="token punctuation">,</span> <span class="token number">0x6C</span><span class="token punctuation">]</span>
+key <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0x24</span><span class="token punctuation">,</span> <span class="token number">0x3C</span><span class="token punctuation">,</span> <span class="token number">0x3D</span><span class="token punctuation">,</span> <span class="token number">0x37</span><span class="token punctuation">,</span> <span class="token number">0x36</span><span class="token punctuation">,</span> <span class="token number">0x21</span><span class="token punctuation">,</span> <span class="token number">0x35</span><span class="token punctuation">,</span> <span class="token number">0x26</span><span class="token punctuation">,</span> <span class="token number">0x3F</span><span class="token punctuation">,</span> <span class="token number">0x37</span><span class="token punctuation">,</span>
+       <span class="token number">0x32</span><span class="token punctuation">,</span> <span class="token number">0x2A</span><span class="token punctuation">,</span> <span class="token number">0x72</span><span class="token punctuation">,</span> <span class="token number">0x72</span><span class="token punctuation">,</span> <span class="token number">0x72</span><span class="token punctuation">,</span> <span class="token number">0x72</span><span class="token punctuation">,</span> <span class="token number">0x53</span><span class="token punctuation">]</span>
+enc1 <span class="token operator">=</span> <span class="token string">""</span>
+key1 <span class="token operator">=</span> <span class="token string">""</span>
+<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>enc<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    enc1 <span class="token operator">+=</span> <span class="token builtin">chr</span><span class="token punctuation">(</span>enc<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">^</span> <span class="token number">0x6c</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>enc1<span class="token punctuation">)</span>
+<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    key1 <span class="token operator">+=</span> <span class="token builtin">chr</span><span class="token punctuation">(</span>key<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">^</span> <span class="token number">0x53</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>key1<span class="token punctuation">)</span>
+<span class="token comment"># #pZ%eVSk!QNUlfNIjemL&amp;w==</span>
+<span class="token comment"># wonderfulday!!!! </span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
+<p><img src="/../images/360DSCTF-RE/3.png" alt="3"></p>
+<p>直接把base表放上，key放上，base表直接字符串搜#</p>
+<h1 id="R2-FFunction"><a href="#R2-FFunction" class="headerlink" title="R2-FFunction"></a>R2-FFunction</h1>
                 
             </div>
             <hr/>
@@ -457,7 +459,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://moodyblue.cn/category/BlueHatCupRe/">http://moodyblue.cn/category/BlueHatCupRe/</a>
+                    <a href="http://moodyblue.cn/category/360DSCTF-RE/">http://moodyblue.cn/category/360DSCTF-RE/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -944,13 +946,13 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/category/360DSCTF-RE/">
+                <a href="/category/QGB-REVER/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="360DSCTF-RE">
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="QGB-REVER">
                         
-                        <span class="card-title">360DSCTF-RE</span>
+                        <span class="card-title">QGB-REVER</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -981,13 +983,13 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/category/KCTF-%E6%9C%AB%E6%97%A5%E9%82%80%E8%AF%B7/">
+                <a href="/category/BlueHatCupRe/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="KCTF_末日邀请">
+                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="BlueHatCupRe">
                         
-                        <span class="card-title">KCTF_末日邀请</span>
+                        <span class="card-title">BlueHatCupRe</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -998,7 +1000,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-05-13
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-07-11
                             </span>
                         <span class="publish-author">
                             

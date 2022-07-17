@@ -4,12 +4,9 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="BlueHatCupRe, Blue.Blogs">
-    <meta name="description" content="蓝帽杯-REVER0x0 前言调试怎么进入关键位置，一直f8，跑起来了就在那个call下断点，然后重新跑，最终可以找到OEP
-0x1 check 格式
-要求下来就是输入格式flag{中间任意36个数字},长度为42
-0x2 取值
-可以找到有">
+    <meta name="keywords" content="QGB-REVER, Blue.Blogs">
+    <meta name="description" content="强国杯-Rever-OBF0x0 前言12点发题到晚上9点结束，没做出来，硬是动调刚汇编看出来是xtea魔改
+而且也得到了正确的key和delta，就是解密不出来，最终通过Retard师傅告诉我是魔改轮数为8，而且发现ida7.6 f5不了">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -21,7 +18,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>BlueHatCupRe | Blue.Blogs</title>
+    <title>QGB-REVER | Blue.Blogs</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -250,12 +247,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">BlueHatCupRe</h1>
+                    <h1 class="description center-align post-title">QGB-REVER</h1>
                 </div>
             </div>
         </div>
@@ -387,7 +384,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-07-11
+                    2022-07-17
                 </div>
                 
 
@@ -411,26 +408,28 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="蓝帽杯-REVER"><a href="#蓝帽杯-REVER" class="headerlink" title="蓝帽杯-REVER"></a>蓝帽杯-REVER</h1><h2 id="0x0-前言调试"><a href="#0x0-前言调试" class="headerlink" title="0x0 前言调试"></a>0x0 前言调试</h2><p>怎么进入关键位置，一直f8，跑起来了就在那个call下断点，然后重新跑，最终可以找到OEP</p>
-<h2 id="0x1-check-格式"><a href="#0x1-check-格式" class="headerlink" title="0x1 check 格式"></a>0x1 check 格式</h2><p><img src="/../images/BlueHatCupRe/1.png" alt="1"></p>
-<p>要求下来就是输入格式flag{中间任意36个数字},长度为42</p>
-<h2 id="0x2-取值"><a href="#0x2-取值" class="headerlink" title="0x2 取值"></a>0x2 取值</h2><p><img src="/../images/BlueHatCupRe/2.png" alt="2"></p>
-<p>可以找到有两个while循环18次的位置，分别取了前18位和后18位。</p>
-<h2 id="0x3算法"><a href="#0x3算法" class="headerlink" title="0x3算法"></a>0x3算法</h2><p><img src="/../images/BlueHatCupRe/3.png" alt="3"></p>
-<p>取完值后，会计算两个值出来分别是72057594037927936，1152921504606846976</p>
-<p>点两个unk进去往下加10的位置就是值，限制输入的大小</p>
-<p><img src="/../images/BlueHatCupRe/4.png" alt="4"></p>
-<p>第一个算法位置，就是赋值两次，然后这个乘法函数就是第一个值和第二个值进行相乘放入第三个位置。剩下的算法函数一样</p>
-<p><img src="/../images/BlueHatCupRe/5.png" alt="5"></p>
-<p>第二个乘法把后18位取出来自我相乘，然后再乘一个11，&amp;v28就是上面先乘出来的值</p>
-<h2 id="0x4-比较"><a href="#0x4-比较" class="headerlink" title="0x4 比较"></a>0x4 比较</h2><p><img src="/../images/BlueHatCupRe/6.png" alt="6"></p>
-<p>然后把前18位算出来的值和后18位进行相减，如果等于9为成功</p>
-<h2 id="0x5-flag"><a href="#0x5-flag" class="headerlink" title="0x5 flag"></a>0x5 flag</h2><p>x^2-11y^2&#x3D;9,72057594037927936&lt;x &lt; 1152921504606846976</p>
-<p><a target="_blank" rel="noopener" href="https://www.wolframalpha.com/">https://www.wolframalpha.com/</a></p>
-<p>进入这个网站填写进去解出。</p>
-<h2 id="0x6-总结"><a href="#0x6-总结" class="headerlink" title="0x6 总结"></a>0x6 总结</h2><p>先感谢一下Lu1u师傅对我的帮助和提点</p>
-<p>这题我自己本身做时，在输入下断，完全断不住算法位置，后面复现也不明白这些位置怎么算了，怎么判断的，什么位置。</p>
-<p>后面发现这里面存放地址的实际位置在点进去位置后往下+10的位置才是真正存放的位置，然后看到值后一一对比，感觉就醍醐灌顶一样。整个200行的代码做了什么完全清楚了。</p>
+                <h1 id="强国杯-Rever-OBF"><a href="#强国杯-Rever-OBF" class="headerlink" title="强国杯-Rever-OBF"></a>强国杯-Rever-OBF</h1><h2 id="0x0-前言"><a href="#0x0-前言" class="headerlink" title="0x0 前言"></a>0x0 前言</h2><p>12点发题到晚上9点结束，没做出来，硬是动调刚汇编看出来是xtea魔改</p>
+<p>而且也得到了正确的key和delta，就是解密不出来，最终通过Retard师傅告诉我是魔改轮数为8，而且发现ida7.6 f5不了，但是7.7可以，泪目，吃一堑长一智。这里就分享一下7.6动调硬刚汇编。</p>
+<h2 id="0x1-ida7-6动调"><a href="#0x1-ida7-6动调" class="headerlink" title="0x1 ida7.6动调"></a>0x1 ida7.6动调</h2><p><img src="/../images/QGB-REVER/1.png" alt="1"></p>
+<p>在strlen的下一句下断，然后在右边的rdx寄存器进入内存，可以看见已经读取了我们输入的flag（flag这里我是直接拿做出来的输进去了，之前都是12345678）</p>
+<p>然后再往下可以一条字符串</p>
+<p><img src="/../images/QGB-REVER/2.png" alt="2"></p>
+<p>这里我做了注释可以看见，其实就是把输入的附近当作临时存储计算出来的变量，可以看见先提取了前4位v0  下面v1就是后4位。左移和右移分别有一个地方存储。</p>
+<p> <img src="/../images/QGB-REVER/3.png" alt="3"></p>
+<p>因为xtea第一轮sum是0，这个地方应该注释sum，这是刚加第一轮的delta，可以发现就是字符串的最后4位。</p>
+<p><img src="/../images/QGB-REVER/4.png" alt="4"></p>
+<p>左4</p>
+<p><img src="/../images/QGB-REVER/5.png" alt="5"></p>
+<p>右5</p>
+<p><img src="/../images/QGB-REVER/6.png" alt="6"></p>
+<p>xor</p>
+<p><img src="/../images/QGB-REVER/7.png" alt="7"></p>
+<p>右移B &#x3D;&#x3D; &gt;11</p>
+<p>这里&amp;3取key我就没截图了。但是通过这些完全可以判断出是xtea了</p>
+<p>key就是前16个字符串，在后面跟就可以找到，密文也在后面有对比。</p>
+<p>Retard师傅告诉我还有密文异或下标和魔改了轮数为8，我才知道，因为动调最终对比中我就没发现。</p>
+<h2 id="0x2总结"><a href="#0x2总结" class="headerlink" title="0x2总结"></a>0x2总结</h2><p>这里之所以不放出解密脚本，是因为也不是我自己写的，只是学习了Retard师傅的，最终倒在了轮数8上。</p>
+<p>在这里感谢一下Retard师傅的指点！！！</p>
 
                 
             </div>
@@ -457,7 +456,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://moodyblue.cn/category/BlueHatCupRe/">http://moodyblue.cn/category/BlueHatCupRe/</a>
+                    <a href="http://moodyblue.cn/category/QGB-REVER/">http://moodyblue.cn/category/QGB-REVER/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -940,9 +939,48 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/category/QGB-REVER/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="QGB-REVER">
+                        
+                        <span class="card-title">QGB-REVER</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-07-17
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Blue
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
             <div class="card">
                 <a href="/category/360DSCTF-RE/">
                     <div class="card-image">
@@ -960,45 +998,8 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-07-17
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-user fa-fw"></i>
-                            Blue
-                            
-                        </span>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/category/KCTF-%E6%9C%AB%E6%97%A5%E9%82%80%E8%AF%B7/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="KCTF_末日邀请">
-                        
-                        <span class="card-title">KCTF_末日邀请</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-                        
-                    </div>
-                    <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-05-13
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-07-17
                             </span>
                         <span class="publish-author">
                             
