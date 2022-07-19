@@ -4,9 +4,10 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="QGB-REVER, Blue.Blogs">
-    <meta name="description" content="强国杯-Rever-OBF0x0 前言12点发题到晚上9点结束，没做出来，硬是动调刚汇编看出来是xtea魔改
-而且也得到了正确的key和delta，就是解密不出来，最终通过Retard师傅告诉我是魔改轮数为8，而且发现ida7.6 f5不了">
+    <meta name="keywords" content="QGB-Re-Encrypt, Blue.Blogs">
+    <meta name="description" content="强国杯-REVER-Encrypt0x0 前言哈夫曼压缩法
+https://www.cnblogs.com/daoluanxiaozi/archive/2011/12/26/2302464.html
+大家先通过这个网址了解哈弗曼 以助于了解">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -18,7 +19,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>QGB-REVER | Blue.Blogs</title>
+    <title>QGB-Re-Encrypt | Blue.Blogs</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -247,12 +248,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">QGB-REVER</h1>
+                    <h1 class="description center-align post-title">QGB-Re-Encrypt</h1>
                 </div>
             </div>
         </div>
@@ -384,7 +385,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-07-17
+                    2022-07-19
                 </div>
                 
 
@@ -408,78 +409,47 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="强国杯-Rever-OBF"><a href="#强国杯-Rever-OBF" class="headerlink" title="强国杯-Rever-OBF"></a>强国杯-Rever-OBF</h1><h2 id="0x0-前言"><a href="#0x0-前言" class="headerlink" title="0x0 前言"></a>0x0 前言</h2><p>12点发题到晚上9点结束，没做出来，硬是动调刚汇编看出来是xtea魔改</p>
-<p>而且也得到了正确的key和delta，就是解密不出来，最终通过Retard师傅告诉我是魔改轮数为8，而且发现ida7.6 f5不了，但是7.7可以，泪目，吃一堑长一智。这里就分享一下7.6动调硬刚汇编。</p>
-<h2 id="0x1-ida7-6动调"><a href="#0x1-ida7-6动调" class="headerlink" title="0x1 ida7.6动调"></a>0x1 ida7.6动调</h2><p><img src="/../images/QGB-REVER/1.png" alt="1"></p>
-<p>在strlen的下一句下断，然后在右边的rdx寄存器进入内存，可以看见已经读取了我们输入的flag（flag这里我是直接拿做出来的输进去了，之前都是12345678）</p>
-<p>然后再往下可以发现有一条字符串</p>
-<p><img src="/../images/QGB-REVER/2.png" alt="2"></p>
-<p>这里我做了注释可以看见，其实就是把输入的附近当作临时存储计算出来的变量，可以看见先提取了前4位v0  下面v1就是后4位。左移和右移分别有一个地方存储。</p>
-<p> <img src="/../images/QGB-REVER/3.png" alt="3"></p>
-<p>因为xtea第一轮sum是0，这个地方应该注释sum，这是刚加第一轮的delta，可以发现就是字符串的最后4位。</p>
-<p><img src="/../images/QGB-REVER/4.png" alt="4"></p>
-<p>左4</p>
-<p><img src="/../images/QGB-REVER/5.png" alt="5"></p>
-<p>右5</p>
-<p><img src="/../images/QGB-REVER/6.png" alt="6"></p>
-<p>xor</p>
-<p><img src="/../images/QGB-REVER/7.png" alt="7"></p>
-<p>右移B &#x3D;&#x3D; &gt;11</p>
-<p>这里&amp;3取key我就没截图了。但是通过这些完全可以判断出是xtea了</p>
-<p>key就是前16个字符串，在后面跟就可以找到，密文也在后面有对比。</p>
-<p>Retard师傅告诉我还有密文异或下标和魔改了轮数为8，我才知道，因为动调最终对比中我就没发现。</p>
-<h2 id="0x2解密"><a href="#0x2解密" class="headerlink" title="0x2解密"></a>0x2解密</h2><pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdint.h></span></span>
-
-<span class="token comment">/* take 64 bits of data in v[0] and v[1] and 128 bits of key[0] - key[3] */</span>
-
-
-<span class="token keyword">void</span> <span class="token function">encipher</span><span class="token punctuation">(</span><span class="token keyword">unsigned</span> <span class="token keyword">int</span> num_rounds<span class="token punctuation">,</span> <span class="token class-name">uint32_t</span> v<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token class-name">uint32_t</span> <span class="token keyword">const</span> key<span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    <span class="token keyword">unsigned</span> <span class="token keyword">int</span> i<span class="token punctuation">;</span>
-    <span class="token class-name">uint32_t</span> v0 <span class="token operator">=</span> v<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> v1 <span class="token operator">=</span> v<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> sum <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> delta <span class="token operator">=</span> <span class="token number">0x66786a6b</span><span class="token punctuation">;</span>
-    <span class="token keyword">for</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> num_rounds<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        v0 <span class="token operator">+=</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">(</span>v1 <span class="token operator">&lt;&lt;</span> <span class="token number">4</span><span class="token punctuation">)</span> <span class="token operator">^</span> <span class="token punctuation">(</span>v1 <span class="token operator">>></span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">+</span> v1<span class="token punctuation">)</span> <span class="token operator">^</span> <span class="token punctuation">(</span>sum <span class="token operator">+</span> key<span class="token punctuation">[</span>sum <span class="token operator">&amp;</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        sum <span class="token operator">+=</span> delta<span class="token punctuation">;</span>
-        v1 <span class="token operator">+=</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">(</span>v0 <span class="token operator">&lt;&lt;</span> <span class="token number">4</span><span class="token punctuation">)</span> <span class="token operator">^</span> <span class="token punctuation">(</span>v0 <span class="token operator">>></span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">+</span> v0<span class="token punctuation">)</span> <span class="token operator">^</span> <span class="token punctuation">(</span>sum <span class="token operator">+</span> key<span class="token punctuation">[</span><span class="token punctuation">(</span>sum <span class="token operator">>></span> <span class="token number">11</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    v<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> v0<span class="token punctuation">;</span> v<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> v1<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span>
-
-<span class="token keyword">void</span> <span class="token function">decipher</span><span class="token punctuation">(</span><span class="token keyword">unsigned</span> <span class="token keyword">int</span> num_rounds<span class="token punctuation">,</span> <span class="token class-name">uint32_t</span> v<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token class-name">uint32_t</span> <span class="token keyword">const</span> key<span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    <span class="token keyword">unsigned</span> <span class="token keyword">int</span> i<span class="token punctuation">;</span>
-    <span class="token class-name">uint32_t</span> v0 <span class="token operator">=</span> v<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> v1 <span class="token operator">=</span> v<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> delta <span class="token operator">=</span> <span class="token number">0x66786a6b</span><span class="token punctuation">,</span> sum <span class="token operator">=</span> delta <span class="token operator">*</span> num_rounds<span class="token punctuation">;</span>
-    <span class="token keyword">for</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> num_rounds<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        v1 <span class="token operator">-=</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">(</span>v0 <span class="token operator">&lt;&lt;</span> <span class="token number">4</span><span class="token punctuation">)</span> <span class="token operator">^</span> <span class="token punctuation">(</span>v0 <span class="token operator">>></span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">+</span> v0<span class="token punctuation">)</span> <span class="token operator">^</span> <span class="token punctuation">(</span>sum <span class="token operator">+</span> key<span class="token punctuation">[</span><span class="token punctuation">(</span>sum <span class="token operator">>></span> <span class="token number">11</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        sum <span class="token operator">-=</span> delta<span class="token punctuation">;</span>
-        v0 <span class="token operator">-=</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">(</span>v1 <span class="token operator">&lt;&lt;</span> <span class="token number">4</span><span class="token punctuation">)</span> <span class="token operator">^</span> <span class="token punctuation">(</span>v1 <span class="token operator">>></span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">+</span> v1<span class="token punctuation">)</span> <span class="token operator">^</span> <span class="token punctuation">(</span>sum <span class="token operator">+</span> key<span class="token punctuation">[</span>sum <span class="token operator">&amp;</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    v<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> v0<span class="token punctuation">;</span> v<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> v1<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span>
-
-<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-    <span class="token class-name">uint32_t</span> v<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span> <span class="token number">0xf0cbf4f8</span><span class="token punctuation">,</span><span class="token number">0x2f88f98a</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
-    <span class="token class-name">uint32_t</span> v1<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span> <span class="token number">0x7e8e641c</span><span class="token punctuation">,</span><span class="token number">0x5876f55c</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
-    <span class="token class-name">uint32_t</span> v2<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span> <span class="token number">0x42dab16</span><span class="token punctuation">,</span><span class="token number">0x1fce5989</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
-    <span class="token class-name">uint32_t</span> v3<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span> <span class="token number">0xee42bbc</span><span class="token punctuation">,</span><span class="token number">0x19629a1d</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
-    <span class="token class-name">uint32_t</span> <span class="token keyword">const</span> k<span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span> <span class="token number">0x79776968</span><span class="token punctuation">,</span> <span class="token number">0x66686472</span><span class="token punctuation">,</span> <span class="token number">0x73687369</span><span class="token punctuation">,</span> <span class="token number">0x64756b64</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
-    <span class="token keyword">unsigned</span> <span class="token keyword">int</span> r <span class="token operator">=</span> <span class="token number">8</span><span class="token punctuation">;</span><span class="token comment">//num_rounds建议取值为32</span>
-    <span class="token comment">// v为要加密的数据是两个32位无符号整数</span>
-    <span class="token comment">// k为加密解密密钥，为4个32位无符号整数，即密钥长度为128位</span>
-    <span class="token function">decipher</span><span class="token punctuation">(</span>r<span class="token punctuation">,</span> v<span class="token punctuation">,</span> k<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"解密后的数据：%x %x\n"</span><span class="token punctuation">,</span> v<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> v<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">decipher</span><span class="token punctuation">(</span>r<span class="token punctuation">,</span> v1<span class="token punctuation">,</span> k<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"解密后的数据：%x %x\n"</span><span class="token punctuation">,</span> v1<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> v1<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">decipher</span><span class="token punctuation">(</span>r<span class="token punctuation">,</span> v2<span class="token punctuation">,</span> k<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"解密后的数据：%x %x\n"</span><span class="token punctuation">,</span> v2<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> v2<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">decipher</span><span class="token punctuation">(</span>r<span class="token punctuation">,</span> v3<span class="token punctuation">,</span> k<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"解密后的数据：%x %x\n"</span><span class="token punctuation">,</span> v3<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> v3<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>解密出来为小端序，然后我这里没有密文异或下标是因为我是直接动调dump的密文</p>
-<h2 id="0x3总结"><a href="#0x3总结" class="headerlink" title="0x3总结"></a>0x3总结</h2><p>Retard师傅告诉了我还差密文异或下标和轮数8，最终倒在了轮数8上。</p>
-<p>在这里感谢一下Retard师傅的指点！！！</p>
+                <h1 id="强国杯-REVER-Encrypt"><a href="#强国杯-REVER-Encrypt" class="headerlink" title="强国杯-REVER-Encrypt"></a>强国杯-REVER-Encrypt</h1><h2 id="0x0-前言"><a href="#0x0-前言" class="headerlink" title="0x0 前言"></a>0x0 前言</h2><p>哈夫曼压缩法</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/daoluanxiaozi/archive/2011/12/26/2302464.html">https://www.cnblogs.com/daoluanxiaozi/archive/2011/12/26/2302464.html</a></p>
+<p>大家先通过这个网址了解哈弗曼 以助于了解后面的代码</p>
+<p>知道什么是哈弗曼算法后分为4个步骤</p>
+<p>1.统计：读入源文件，统计字符出现的次数（即统计权重），顺便根据权重进行从大到小的排序（主要的话之后的操作会简单一些）</p>
+<p>2.建树：以字符的权重（权重为0的字符除外）为依据建立哈夫曼树</p>
+<p>3.编码：依据2中的哈夫曼树，得到每一个字符的编码</p>
+<p>4.写入：新建压缩文件，写入压缩数据。</p>
+<p>其中我分析的代码来自于Retard师傅。</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/REtard_/article/details/125841203?spm=1001.2014.3001.5502">https://blog.csdn.net/REtard_/article/details/125841203?spm=1001.2014.3001.5502</a></p>
+<h2 id="0x1-统计-初始化并且统计权重频率"><a href="#0x1-统计-初始化并且统计权重频率" class="headerlink" title="0x1 统计 初始化并且统计权重频率"></a>0x1 统计 初始化并且统计权重频率</h2><p><img src="/../images/QGB-Re-Encrypt/1.png" alt="1"></p>
+<p>第一步算法就是初始化内存空间，然后存储计算好的每一个字节的频率</p>
+<p>然后输出到第5位，因为前4位是flag嘛</p>
+<p><img src="/../images/QGB-Re-Encrypt/5.png" alt="5"></p>
+<p>可以看见输出的是D5，意思即为有213个字节使用到了</p>
+<h2 id="0x2建树-找出高频字节输出"><a href="#0x2建树-找出高频字节输出" class="headerlink" title="0x2建树 找出高频字节输出"></a>0x2建树 找出高频字节输出</h2><p><img src="/../images/QGB-Re-Encrypt/2-16582116911101.png" alt="2"></p>
+<p>寻找到最高次数的字节，然后按照大小输出，再当作索引于s_box交换</p>
+<h2 id="0x3-编码"><a href="#0x3-编码" class="headerlink" title="0x3 编码"></a>0x3 编码</h2><p><img src="/../images/QGB-Re-Encrypt/3.png" alt="3"></p>
+<p>就是哈夫曼中的编码算法，依次取出最高频率次数字节进行编码，并且输出</p>
+<p><img src="/../images/QGB-Re-Encrypt/4.png" alt="4"></p>
+<p>这里一一对应着哈夫曼压缩法中的补齐思路</p>
+<p><img src="/../images/QGB-Re-Encrypt/11.png" alt="11"></p>
+<h2 id="0x4-整理思路"><a href="#0x4-整理思路" class="headerlink" title="0x4 整理思路"></a>0x4 整理思路</h2><p>1.把需要解密回去的十六进制转换成bit 因为哈夫曼是bit进行压缩的</p>
+<p>2.先把被s_box替换的每个频率字节替换回来</p>
+<p>3.既然哈夫曼是通过00 01 10 这样来代表每一个字节的，那我们可以直接通过抄ida中伪代码的哈夫曼算法把每一个00 01 10 对应的编码库算出来，然后再取bit进行一个一个对比，就可以替换回去了。</p>
+<h2 id="0x5-解密"><a href="#0x5-解密" class="headerlink" title="0x5 解密"></a>0x5 解密</h2><p><img src="/../images/QGB-Re-Encrypt/7.png" alt="7"></p>
+<p>先是把hexData转换回bit</p>
+<p><img src="/../images/QGB-Re-Encrypt/6.png" alt="6"></p>
+<p>然后再把213个频率字节替换回去</p>
+<p>大家看了Retard师傅的代码对于table怎么来可能有疑惑</p>
+<p><img src="/../images/QGB-Re-Encrypt/12-16582125649552.png" alt="12"></p>
+<p>分析建树时，我们可以知道频率字节是按照大小高低输出的，所以我们直接通过dump其中的213位就ok了</p>
+<p><img src="/../images/QGB-Re-Encrypt/14.png" alt="14"></p>
+<p>test2是哈弗曼压缩法，这里就是计算每一个字节对应的编码</p>
+<p><img src="/../images/QGB-Re-Encrypt/13.png" alt="13"></p>
+<p>这里的buffer就是hexData转换的bit，然后和probuild我们的编码表一一对比，如果成功就会打印出来。</p>
+<h2 id="0x6-总结"><a href="#0x6-总结" class="headerlink" title="0x6 总结"></a>0x6 总结</h2><p>好了，这就是整个分析过程</p>
+<p>在这里先感谢Retard师傅在csdn分享了这篇wp，不然估计是很难复现出来，我只是站在巨人的肩膀上分析学习了一波。</p>
+<p>无论是obf还是encrypt都学习到了很多，感觉打开了更多的分析思路。</p>
+<p>师傅们如果想要题目ida的注释文件可以私聊我拿，博客中有qq</p>
+<p>希望自己也有一天可以成为一个厉害的RE手，冲啊！！！</p>
 
                 
             </div>
@@ -506,7 +476,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://moodyblue.cn/category/QGB-REVER/">http://moodyblue.cn/category/QGB-REVER/</a>
+                    <a href="http://moodyblue.cn/category/QGB-Re-Encrypt/">http://moodyblue.cn/category/QGB-Re-Encrypt/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -989,17 +959,18 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/category/NepCTF%E7%AC%A8%E6%A9%98%E7%8C%AB%E5%87%BA%E9%A2%98%E4%BA%BA/">
+                <a href="/category/QGB-Re-Encrypt/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="NepCTF笨橘猫出题人">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="QGB-Re-Encrypt">
                         
-                        <span class="card-title">NepCTF笨橘猫出题人</span>
+                        <span class="card-title">QGB-Re-Encrypt</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1009,9 +980,9 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-07-17
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-07-19
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -1020,6 +991,7 @@
                         </span>
                     </div>
                 </div>
+
                 
             </div>
         </div>
@@ -1030,13 +1002,13 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/category/360DSCTF-RE/">
+                <a href="/category/NepCTF%E7%AC%A8%E6%A9%98%E7%8C%AB%E5%87%BA%E9%A2%98%E4%BA%BA/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="360DSCTF-RE">
+                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="NepCTF笨橘猫出题人">
                         
-                        <span class="card-title">360DSCTF-RE</span>
+                        <span class="card-title">NepCTF笨橘猫出题人</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
