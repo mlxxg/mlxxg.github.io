@@ -4,10 +4,9 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="QWB-RE, Blue.Blogs">
-    <meta name="description" content="强网杯RE-复现easyre &amp;amp; game0x0 前言这次做出了 gamemaster和easyapk，在此就不写出来，就发自己需要复现的题目
-本次easyre复现观看pz师傅视频复现
-https://www.bilibili.co">
+    <meta name="keywords" content="Geek Peak, Blue.Blogs">
+    <meta name="description" content="极客巅峰2022初赛-RECrackMe0x0 前言https://mp.weixin.qq.com/s/thAUBnPRLQ7ZCjwB1dH0yQ
+比赛时就看了apk一题，可惜没做出来，现在复现一下当时就卡在了RC4上，看了wp才知道还">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -19,7 +18,7 @@ https://www.bilibili.co">
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>QWB-RE | Blue.Blogs</title>
+    <title>Geek Peak | Blue.Blogs</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -248,12 +247,12 @@ https://www.bilibili.co">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/21.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">QWB-RE</h1>
+                    <h1 class="description center-align post-title">Geek Peak</h1>
                 </div>
             </div>
         </div>
@@ -385,7 +384,7 @@ https://www.bilibili.co">
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-08-07
+                    2022-08-21
                 </div>
                 
 
@@ -409,91 +408,55 @@ https://www.bilibili.co">
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="强网杯RE-复现"><a href="#强网杯RE-复现" class="headerlink" title="强网杯RE-复现"></a>强网杯RE-复现</h1><h2 id="easyre-amp-game"><a href="#easyre-amp-game" class="headerlink" title="easyre &amp; game"></a>easyre &amp; game</h2><h3 id="0x0-前言"><a href="#0x0-前言" class="headerlink" title="0x0 前言"></a>0x0 前言</h3><p>这次做出了 gamemaster和easyapk，在此就不写出来，就发自己需要复现的题目</p>
-<p>本次easyre复现观看pz师傅视频复现</p>
-<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1QY4y1w7DU?spm_id_from=333.851.header_right.history_list.click&amp;vd_source=2fcdd1bcbcd68497824663b16df7d4ef">https://www.bilibili.com/video/BV1QY4y1w7DU?spm_id_from=333.851.header_right.history_list.click&amp;vd_source=2fcdd1bcbcd68497824663b16df7d4ef</a></p>
-<h3 id="0x1-分析"><a href="#0x1-分析" class="headerlink" title="0x1 分析"></a>0x1 分析</h3><p><img src="/../images/QWB-RE/1.png" alt="1"></p>
-<p>拿到程序先用figer修复一下函数，可以发现fork和sys_ptrace</p>
-<p><img src="/../images/QWB-RE/2.png" alt="2"></p>
-<p>可以看见创建了一个子线程，直接把这个re3dump下来</p>
-<p><img src="/../images/QWB-RE/3-16598627799461.png" alt="3"></p>
-<p><img src="/../images/QWB-RE/17.png" alt="17"></p>
-<p>启动子线程然后进行一个等待，等待子线程反馈后 保存了寄存器的值然后进行一个判断<img src="/../images/QWB-RE/6.png" alt="6"></p>
-<p>在re3里面可以看见这个操作 int3断点后 下面跟了一个值 可以发现就是我们需要判断的值，主线程就是在等待一个这个</p>
-<p><img src="/../images/QWB-RE/7-16598628382902.png" alt="7"></p>
-<p><img src="/../images/QWB-RE/4.png" alt="4"></p>
-<p>观察如果进入第一个int3后的函数，里面又读取了子线程的值 然后和一个值进行了异或，相当于一个smc<img src="/../images/QWB-RE/8.png" alt="8"></p>
-<p><img src="/../images/QWB-RE/9-16598628868443.png" alt="9"></p>
-<p>动调到异或的位置，可以发现异或的就是我们下面的地址</p>
-<p><img src="/../images/QWB-RE/10.png" alt="10"></p>
-<p>我们在异或后面下断，同时打印异或后正确的值，方便我们patch回去</p>
-<p><img src="/../images/QWB-RE/11.png" alt="11"></p>
-<p><img src="/../images/QWB-RE/12.png" alt="12"></p>
-<p>这里的左值就是子线程需要smc的地址</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">xorKey <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token number">8723</span><span class="token punctuation">:</span> <span class="token number">2533025110152939745</span><span class="token punctuation">,</span> <span class="token number">8739</span><span class="token punctuation">:</span> <span class="token number">5590097037203163468</span><span class="token punctuation">,</span> <span class="token number">8755</span><span class="token punctuation">:</span> <span class="token number">17414346542877855401</span><span class="token punctuation">,</span> <span class="token number">8771</span><span class="token punctuation">:</span> <span class="token number">17520503086133755340</span><span class="token punctuation">,</span> <span class="token number">8787</span><span class="token punctuation">:</span> <span class="token number">12492599841064285544</span><span class="token punctuation">,</span> <span class="token number">8803</span><span class="token punctuation">:</span> <span class="token number">12384833368350302160</span><span class="token punctuation">,</span> <span class="token number">8819</span><span class="token punctuation">:</span> <span class="token number">11956541642520230699</span><span class="token punctuation">,</span> <span class="token number">8835</span><span class="token punctuation">:</span> <span class="token number">12628929057681570616</span><span class="token punctuation">,</span> <span class="token number">8851</span><span class="token punctuation">:</span> <span class="token number">910654967627959011</span><span class="token punctuation">,</span> <span class="token number">8867</span><span class="token punctuation">:</span> <span class="token number">5684234031469876551</span><span class="token punctuation">,</span> <span class="token number">8883</span><span class="token punctuation">:</span> <span class="token number">6000358478182005051</span><span class="token punctuation">,</span> <span class="token number">8899</span><span class="token punctuation">:</span> <span class="token number">3341586462889168127</span><span class="token punctuation">,</span> <span class="token number">8915</span><span class="token punctuation">:</span> <span class="token number">11094889238442167020</span><span class="token punctuation">,</span> <span class="token number">8931</span><span class="token punctuation">:</span> <span class="token number">17237527861538956365</span><span class="token punctuation">,</span> <span class="token number">8947</span><span class="token punctuation">:</span> <span class="token number">17178915143649401084</span><span class="token punctuation">,</span> <span class="token number">8963</span><span class="token punctuation">:</span> <span class="token number">11176844209899222046</span><span class="token punctuation">,</span> <span class="token number">8979</span><span class="token punctuation">:</span> <span class="token number">18079493192679046363</span><span class="token punctuation">,</span> <span class="token number">8995</span><span class="token punctuation">:</span> <span class="token number">7090159446630928781</span><span class="token punctuation">,</span> <span class="token number">9011</span><span class="token punctuation">:</span> <span class="token number">863094436381699168</span><span class="token punctuation">,</span> <span class="token number">9027</span><span class="token punctuation">:</span> <span class="token number">6906972144372600884</span><span class="token punctuation">,</span> <span class="token number">9043</span><span class="token punctuation">:</span> <span class="token number">16780793948225765908</span><span class="token punctuation">,</span> <span class="token number">9059</span><span class="token punctuation">:</span> <span class="token number">7086655467811962655</span><span class="token punctuation">,</span> <span class="token number">9075</span><span class="token punctuation">:</span> <span class="token number">13977154540038163446</span><span class="token punctuation">,</span> <span class="token number">9091</span><span class="token punctuation">:</span> <span class="token number">7066662532691991888</span><span class="token punctuation">,</span> <span class="token number">9107</span><span class="token punctuation">:</span> <span class="token number">15157921356638311270</span><span class="token punctuation">,</span> <span class="token number">9123</span><span class="token punctuation">:</span> <span class="token number">12585839823593393444</span><span class="token punctuation">,</span> <span class="token number">9139</span><span class="token punctuation">:</span> <span class="token number">1360651393631625694</span><span class="token punctuation">,</span> <span class="token number">9155</span><span class="token punctuation">:</span> <span class="token number">2139328426318955142</span><span class="token punctuation">,</span> <span class="token number">9171</span><span class="token punctuation">:</span> <span class="token number">2478274715212481947</span><span class="token punctuation">,</span> <span class="token number">9187</span><span class="token punctuation">:</span> <span class="token number">12876028885252459748</span><span class="token punctuation">,</span> <span class="token number">9203</span><span class="token punctuation">:</span> <span class="token number">18132176846268847269</span><span class="token punctuation">,</span> <span class="token number">9219</span><span class="token punctuation">:</span> <span class="token number">17242441603067001509</span><span class="token punctuation">,</span> <span class="token number">9235</span><span class="token punctuation">:</span> <span class="token number">8492111998925944081</span><span class="token punctuation">,</span> <span class="token number">9251</span><span class="token punctuation">:</span> <span class="token number">14679986489201789069</span><span class="token punctuation">,</span> <span class="token number">9267</span><span class="token punctuation">:</span> <span class="token number">13188777131396593592</span><span class="token punctuation">,</span> <span class="token number">9283</span><span class="token punctuation">:</span> <span class="token number">5298970373130621883</span><span class="token punctuation">,</span> <span class="token number">9299</span><span class="token punctuation">:</span> <span class="token number">525902164359904478</span><span class="token punctuation">,</span> <span class="token number">9315</span><span class="token punctuation">:</span> <span class="token number">2117701741234018776</span><span class="token punctuation">,</span> <span class="token number">9331</span><span class="token punctuation">:</span> <span class="token number">9158760851580517972</span><span class="token punctuation">&#125;</span>
-
-addr <span class="token operator">=</span> <span class="token number">0x2213</span>
-
-<span class="token keyword">while</span> <span class="token boolean">True</span><span class="token punctuation">:</span>
-    data <span class="token operator">=</span> get_qword<span class="token punctuation">(</span>addr<span class="token punctuation">)</span>
-    key <span class="token operator">=</span> xorKey<span class="token punctuation">[</span>addr<span class="token punctuation">]</span>
-    dec <span class="token operator">=</span> data <span class="token operator">^</span> key
-    idc<span class="token punctuation">.</span>patch_qword<span class="token punctuation">(</span>addr<span class="token punctuation">,</span> dec<span class="token punctuation">)</span>
-    addr <span class="token operator">+=</span> <span class="token number">16</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>直接在re3修复回去</p>
-<p><img src="/../images/QWB-RE/13.png" alt="13"></p>
-<p>然后在末尾可以发现还有一个int3，这个就是进行第二个函数，第二个函数进去其实就是把smc给还原回去</p>
-<p><img src="/../images/QWB-RE/14.png" alt="14"></p>
-<p>修复后可以发现是一个数织游戏</p>
-<p><img src="/../images/QWB-RE/16.png" alt="16"></p>
-<p>找到规则值，发现不对</p>
-<p><img src="/../images/QWB-RE/15.png" alt="15"></p>
-<p>发现在init中有一个复制的操作，会通过地址换算影响到50A0的规则值，然后把真正的值放到在线网站进行解密即可</p>
-<p><a target="_blank" rel="noopener" href="https://handsomeone.github.io/Nonogram/">https://handsomeone.github.io/Nonogram/</a></p>
-<h2 id="GAME"><a href="#GAME" class="headerlink" title="GAME"></a>GAME</h2><h3 id="0x0-前言-工具"><a href="#0x0-前言-工具" class="headerlink" title="0x0 前言 工具"></a>0x0 前言 工具</h3><p><a target="_blank" rel="noopener" href="https://github.com/nelenkov/android-backup-extractor">https://github.com/nelenkov/android-backup-extractor</a></p>
-<p>工具</p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/bakelFF/article/details/123049992">https://blog.csdn.net/bakelFF/article/details/123049992</a></p>
-<p>配置MVN 用来压包工具</p>
-<p>MVN报错无法JAVAhome 就是环境变量去掉bin</p>
-<p>报错不能运行，有可能像我一样有两个java环境  java和javac版本不同</p>
-<p>把需要的版本的环境变量位置提高就ok了</p>
-<pre class="line-numbers language-none"><code class="language-none">java -jar abe.jar unpack ba.ab ba.tar<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h3 id="0x1-分析java层"><a href="#0x1-分析java层" class="headerlink" title="0x1 分析java层"></a>0x1 分析java层</h3><p><img src="/../images/QWB-RE/5.png" alt="5"></p>
-<p><img src="/../images/QWB-RE/6-16599459215021.png" alt="6"></p>
-<p>可以看到有AES加密和base64，还有一个地方检测root</p>
-<h3 id="0x2-so层分析"><a href="#0x2-so层分析" class="headerlink" title="0x2 so层分析"></a>0x2 so层分析</h3><p><img src="/../images/QWB-RE/2-16599460019752.png" alt="2"></p>
-<p>进去通过索引 可以发现很多字符串都是被加密了，我们索引找到异或回去发现这个字符串不就是java层中的函数名嘛</p>
-<h3 id="0x3-解密字符串"><a href="#0x3-解密字符串" class="headerlink" title="0x3 解密字符串"></a>0x3 解密字符串</h3><p><img src="/../images/QWB-RE/3-16599461005453.png" alt="3"></p>
-<p>直接通过ce搜索字符串找到内存所在位置dump出来</p>
-<p>分析so时可以发现一些字符串的作用，在内存中都可以看见</p>
-<p><img src="/../images/QWB-RE/4-16599462200694.png" alt="4"></p>
-<p>通过key再寻找到IV</p>
-<h3 id="0x4-确定算法正确"><a href="#0x4-确定算法正确" class="headerlink" title="0x4 确定算法正确"></a>0x4 确定算法正确</h3><p><img src="/../images/QWB-RE/8-16599462694395.png" alt="8"></p>
-<p>我输入的用户名是lanlan抓包获取</p>
-<p><img src="/../images/QWB-RE/7-16599463030006.png" alt="7"></p>
-<p>然后进行加密</p>
-<p><img src="/../images/QWB-RE/9-16599463126367.png" alt="9"></p>
-<p>解密回去</p>
-<p><img src="/../images/QWB-RE/10-16599463292548.png" alt="10"></p>
-<p>可以发现字符串每6位中间的字符串交换位置</p>
-<p><img src="/../images/QWB-RE/1-16599463636349.png" alt="1"></p>
-<p>安装app抓包获得其中的加好友位置可以发现一个admin的账号</p>
-<p><img src="/../images/QWB-RE/11-165994640616810.png" alt="11"></p>
-<p>获取admin账号的account和name</p>
-<h3 id="0x5-解密"><a href="#0x5-解密" class="headerlink" title="0x5 解密"></a>0x5 解密</h3><p><img src="/../images/QWB-RE/12-165994642591511.png" alt="12"></p>
-<p><img src="/../images/QWB-RE/13-165994643008112.png" alt="13"></p>
-<p>进行解密</p>
-<h3 id="0x6-Getflag"><a href="#0x6-Getflag" class="headerlink" title="0x6 Getflag"></a>0x6 Getflag</h3><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> requests
-url <span class="token operator">=</span><span class="token string">"http://47.93.244.181/re/GetFlag.php"</span>
-res <span class="token operator">=</span> requests<span class="token punctuation">.</span>post<span class="token punctuation">(</span>url<span class="token punctuation">,</span> data<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token string">"code"</span><span class="token punctuation">:</span><span class="token string">"123125"</span><span class="token punctuation">,</span> <span class="token string">"account"</span><span class="token punctuation">:</span><span class="token string">"&amp;Od987$2sPa?>l&lt;k^j"</span><span class="token punctuation">,</span> <span class="token string">"username"</span><span class="token punctuation">:</span><span class="token string">"admin"</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span>res<span class="token punctuation">.</span>text<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="0x7-总结"><a href="#0x7-总结" class="headerlink" title="0x7 总结"></a>0x7 总结</h3><p>GAME复现学习,只能说CE 直接不用动调so取正确的key和iv。看了其他师傅文章里面还有一些反调试，vpn检测 frida检测，其他师傅使用hook方法过掉，root检测真机直接用面具就过了。总结来说CE直接查内存是最骚的操作。原本还想复现一下强网其他题目并且发文章，现在可能就复现看一下就不发文章了。因为本人是带专生一枚需要提升学历了，学习逆向做CTF也快接近一年了，有比赛打有空再发文章，在这里感谢各位师傅的观看。</p>
-<p>芜湖，结尾感谢一下Nepnep战队的Qfrost师傅和ThTsOd师傅教了我很多！！</p>
-<p>Nepnep万岁！！！</p>
-<p>如果有师傅想学习逆向，战队内部有Q神 T神讲解题目哦，欢迎加入。</p>
+                <h1 id="极客巅峰2022初赛-RE"><a href="#极客巅峰2022初赛-RE" class="headerlink" title="极客巅峰2022初赛-RE"></a>极客巅峰2022初赛-RE</h1><h1 id="CrackMe"><a href="#CrackMe" class="headerlink" title="CrackMe"></a>CrackMe</h1><h2 id="0x0-前言"><a href="#0x0-前言" class="headerlink" title="0x0 前言"></a>0x0 前言</h2><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/thAUBnPRLQ7ZCjwB1dH0yQ">https://mp.weixin.qq.com/s/thAUBnPRLQ7ZCjwB1dH0yQ</a></p>
+<p>比赛时就看了apk一题，可惜没做出来，现在复现一下当时就卡在了RC4上，看了wp才知道还有加一 ，但是wp中的异或某一个值有点感觉太运气了，如果是异或i这种不同的值应该就G了。</p>
+<p>非常感谢有wp学习。也感谢Retard师傅的指点。</p>
+<h2 id="0x1-JAVA层"><a href="#0x1-JAVA层" class="headerlink" title="0x1 JAVA层"></a>0x1 JAVA层</h2><p><img src="/../images/Geek-Peak/1.png" alt="1"></p>
+<p>里面的字符串进行了StringFog的加密，onCreate先是获取了输入，然后起了一个新服务，进行了loadassets，然后就是关键函数CheckFlag，这里的两个加密字符串就是right 和 wrong   为什么我知道，我用真机调试然后在recv接受的地方跳过，判断成功然后输出字符串。然后通过安卓killer改变里面的字符串改成其他的输出，就知道了其他字符串的值</p>
+<p><img src="/../images/Geek-Peak/2.png" alt="2"></p>
+<p>Checkflag加载了native，然后里面的字符串就是dragon，通过上面说的方法输出知道的</p>
+<p><img src="/../images/Geek-Peak/3.png" alt="3"></p>
+<p>这里的字符串就是 chmod +x  和 sudo  两个提权把前面的服务和dragon提权</p>
+<p><img src="/../images/Geek-Peak/image-20220821193112825.png" alt="image-20220821193112825"></p>
+<p>assets里就是dragon和一些假的png</p>
+<h2 id="0x2-分析So层"><a href="#0x2-分析So层" class="headerlink" title="0x2 分析So层"></a>0x2 分析So层</h2><p><img src="/../images/Geek-Peak/image-20220821193256720.png" alt="image-20220821193256720"></p>
+<p>recvdata就是等待服务端发送值回来，然后进行对比，密文我们就得到了</p>
+<h2 id="0x3-分析dragon"><a href="#0x3-分析dragon" class="headerlink" title="0x3 分析dragon"></a>0x3 分析dragon</h2><p><img src="/../images/Geek-Peak/image-20220821193528483.png" alt="image-20220821193528483"></p>
+<p>可以发现1350里有一个rc4加密，当时我就是做到这里，不知道怎么动调这个RC4</p>
+<p><img src="/../images/Geek-Peak/image-20220821193634817.png" alt="image-20220821193634817"></p>
+<p><img src="/../images/Geek-Peak/image-20220821193641606.png" alt="image-20220821193641606"></p>
+<p>这些异或出来的值就是上面rain1.png这些文件，在读取这5个png</p>
+<p><img src="/../images/Geek-Peak/image-20220821193744240.png" alt="image-20220821193744240"></p>
+<p>然后在1E9C的位置生成了shellcode，mprotect是保护这段内存不被读取，pthread_create创建了，所以调试断这里把V18dump下来即可</p>
+<p><img src="/../images/Geek-Peak/image-20220821194215748.png" alt="image-20220821194215748"></p>
+<p>在dragon中可以看见大小为1D000起始地址就动调dump的时候你自己当时的地址是多少都可以，选择32位ida arm架构，因为dragon是跑在真机里的</p>
+<p><img src="/../images/Geek-Peak/image-20220821194413623.png" alt="image-20220821194413623"></p>
+<p>进来直接起始地址加0x1430，因为在dumpshellcode时可以发现写在了shellcode的0x1430，所以我们这里快速到关键位置</p>
+<p><img src="/../images/Geek-Peak/image-20220821194524290.png" alt="image-20220821194524290"></p>
+<p>如果动调dump应该对这里熟悉直接转C</p>
+<p><img src="/../images/Geek-Peak/image-20220821194627518.png" alt="image-20220821194627518"></p>
+<p>可以发现无法转过来，我这里用了个体力活就是把最后面的BX nop了，因为这就类似跳转混淆那种llvm</p>
+<p><img src="/../images/Geek-Peak/image-20220821194810812.png" alt="image-20220821194810812"></p>
+<p>可以看到反编译出来很多</p>
+<p><img src="/../images/Geek-Peak/image-20220821195504646.png" alt="image-20220821195504646"></p>
+<p>但是很多wp中的检测flag格式哪些就没有反编译出来</p>
+<h2 id="0x4-总结"><a href="#0x4-总结" class="headerlink" title="0x4 总结"></a>0x4 总结</h2><p>剩下的可以在上面wp中看见，这里有个坑点，我原本想自己动调一遍然后把上面的剩下算法走一遍给大家看，然后截图下来写进去，我手机是root的，大家运行的时候可能会发现没有回馈回来，报wrong，就是因为权限不够，服务没有加载出来，就直接死住，然后等待不到recv的数据就死了。这个软件不会主动申请root权限，就有点难受，面具对主动申请的软件会给root权限。动调的话，应该可以attch上新起的服务和shellcode。大家如果会过混淆通过静态估计也可以做出来</p>
+<h1 id="EZRE"><a href="#EZRE" class="headerlink" title="EZRE"></a>EZRE</h1><h2 id="0x0-前言-1"><a href="#0x0-前言-1" class="headerlink" title="0x0 前言"></a>0x0 前言</h2><p>感谢Retard师傅，非常非常感谢（一定找个机会线下gank他）。这题复现我一直在想连接socket发送值过去。老是连不上。</p>
+<h2 id="0x1-Ctrl-s"><a href="#0x1-Ctrl-s" class="headerlink" title="0x1 Ctrl+s"></a>0x1 Ctrl+s</h2><p><img src="/../images/Geek-Peak/3-16611557206191.png" alt="3"></p>
+<p>一般做题都会findcrypt一下看一下加密。或者直接查看data段，发现data段这里就很想sbox</p>
+<p><img src="/../images/Geek-Peak/1-16611557605322.png" alt="1"></p>
+<p>通过索引就可以看到被加密过了</p>
+<p><img src="/../images/Geek-Peak/2-16611557827433.png" alt="2"></p>
+<p>然后就可以索引到AES加密的位置</p>
+<p>这时候就是AES汇编下方一片红，然后通过索引</p>
+<p><img src="/../images/Geek-Peak/4.png" alt="4"></p>
+<p>就可以发现这里有一个955的循环，就是smc，循环 异或 i %256</p>
+<p><img src="/../images/Geek-Peak/5.png" alt="5"></p>
+<p>然后就可以得到这个真正的关键函数，里面就是调用了16次AES加密，然后每次改变key和iv，可以直接通过改变RIP跳到这边，dump里面的iv和key</p>
+<p>然后while出来再加密一次进行对比</p>
+<p>可以自己给a1写一个空地址 在空地址自己patch一点输入进去</p>
+<p>或者自己写一个同样加密，自己实习一遍</p>
+<h2 id="0x2-总结"><a href="#0x2-总结" class="headerlink" title="0x2 总结"></a>0x2 总结</h2><p>感觉有点迷糊复现这题，老是想通过socket通过程序跑到真函数中。</p>
 
                 
             </div>
@@ -520,7 +483,7 @@ res <span class="token operator">=</span> requests<span class="token punctuation
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://moodyblue.cn/category/QWB-RE/">http://moodyblue.cn/category/QWB-RE/</a>
+                    <a href="http://moodyblue.cn/category/Geek-Peak/">http://moodyblue.cn/category/Geek-Peak/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1003,9 +966,10 @@ res <span class="token operator">=</span> requests<span class="token punctuation
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/category/Geek-Peak/">
                     <div class="card-image">
@@ -1023,9 +987,9 @@ res <span class="token operator">=</span> requests<span class="token punctuation
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-08-21
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-08-21
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -1034,6 +998,7 @@ res <span class="token operator">=</span> requests<span class="token punctuation
                         </span>
                     </div>
                 </div>
+
                 
             </div>
         </div>
@@ -1044,13 +1009,13 @@ res <span class="token operator">=</span> requests<span class="token punctuation
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/category/DSCTF-RE-Finanl/">
+                <a href="/category/QWB-RE/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="DSCTF-RE-Finanl">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="QWB-RE">
                         
-                        <span class="card-title">DSCTF-RE-Finanl</span>
+                        <span class="card-title">QWB-RE</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
