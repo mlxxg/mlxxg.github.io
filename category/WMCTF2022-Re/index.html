@@ -4,9 +4,14 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Geek Peak, Blue.Blogs">
-    <meta name="description" content="极客巅峰2022初赛-RECrackMe0x0 前言https://mp.weixin.qq.com/s/thAUBnPRLQ7ZCjwB1dH0yQ
-比赛时就看了apk一题，可惜没做出来，现在复现一下当时就卡在了RC4上，看了wp才知道还">
+    <meta name="keywords" content="WMCTF2022-Re, Blue.Blogs">
+    <meta name="description" content="WMCTF2022-REBaByDriver0x0 前言队友太顶了，直接一血
+0x1 exe分析
+搜索failed,然后一直索引找到主函数
+
+获得电脑的版本判断是不是window7 x64 然后在c盘生成一个sys驱动
+
+寻找一个wmctf">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -18,7 +23,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Geek Peak | Blue.Blogs</title>
+    <title>WMCTF2022-Re | Blue.Blogs</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -247,12 +252,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/21.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Geek Peak</h1>
+                    <h1 class="description center-align post-title">WMCTF2022-Re</h1>
                 </div>
             </div>
         </div>
@@ -408,55 +413,46 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="极客巅峰2022初赛-RE"><a href="#极客巅峰2022初赛-RE" class="headerlink" title="极客巅峰2022初赛-RE"></a>极客巅峰2022初赛-RE</h1><h1 id="CrackMe"><a href="#CrackMe" class="headerlink" title="CrackMe"></a>CrackMe</h1><h2 id="0x0-前言"><a href="#0x0-前言" class="headerlink" title="0x0 前言"></a>0x0 前言</h2><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/thAUBnPRLQ7ZCjwB1dH0yQ">https://mp.weixin.qq.com/s/thAUBnPRLQ7ZCjwB1dH0yQ</a></p>
-<p>比赛时就看了apk一题，可惜没做出来，现在复现一下当时就卡在了RC4上，看了wp才知道还有加一 ，但是wp中的异或某一个值有点感觉太运气了，如果是异或i这种不同的值应该就G了。</p>
-<p>非常感谢有wp学习。也感谢Retard师傅的指点。</p>
-<h2 id="0x1-JAVA层"><a href="#0x1-JAVA层" class="headerlink" title="0x1 JAVA层"></a>0x1 JAVA层</h2><p><img src="/../images/Geek-Peak/1.png" alt="1"></p>
-<p>里面的字符串进行了StringFog的加密，onCreate先是获取了输入，然后起了一个新服务，进行了loadassets，然后就是关键函数CheckFlag，这里的两个加密字符串就是right 和 wrong   为什么我知道，我用真机调试然后在recv接受的地方跳过，判断成功然后输出字符串。然后通过安卓killer改变里面的字符串改成其他的输出，就知道了其他字符串的值</p>
-<p><img src="/../images/Geek-Peak/2.png" alt="2"></p>
-<p>Checkflag加载了native，然后里面的字符串就是dragon，通过上面说的方法输出知道的</p>
-<p><img src="/../images/Geek-Peak/3.png" alt="3"></p>
-<p>这里的字符串就是 chmod +x  和 sudo  两个提权把前面的服务和dragon提权</p>
-<p><img src="/../images/Geek-Peak/image-20220821193112825.png" alt="image-20220821193112825"></p>
-<p>assets里就是dragon和一些假的png</p>
-<h2 id="0x2-分析So层"><a href="#0x2-分析So层" class="headerlink" title="0x2 分析So层"></a>0x2 分析So层</h2><p><img src="/../images/Geek-Peak/image-20220821193256720.png" alt="image-20220821193256720"></p>
-<p>recvdata就是等待服务端发送值回来，然后进行对比，密文我们就得到了</p>
-<h2 id="0x3-分析dragon"><a href="#0x3-分析dragon" class="headerlink" title="0x3 分析dragon"></a>0x3 分析dragon</h2><p><img src="/../images/Geek-Peak/image-20220821193528483.png" alt="image-20220821193528483"></p>
-<p>可以发现1350里有一个rc4加密，当时我就是做到这里，不知道怎么动调这个RC4</p>
-<p><img src="/../images/Geek-Peak/image-20220821193634817.png" alt="image-20220821193634817"></p>
-<p><img src="/../images/Geek-Peak/image-20220821193641606.png" alt="image-20220821193641606"></p>
-<p>这些异或出来的值就是上面rain1.png这些文件，在读取这5个png</p>
-<p><img src="/../images/Geek-Peak/image-20220821193744240.png" alt="image-20220821193744240"></p>
-<p>然后在1E9C的位置生成了shellcode，mprotect是保护这段内存不被读取，pthread_create创建了，所以调试断这里把V18dump下来即可</p>
-<p><img src="/../images/Geek-Peak/image-20220821194215748.png" alt="image-20220821194215748"></p>
-<p>在dragon中可以看见大小为1D000起始地址就动调dump的时候你自己当时的地址是多少都可以，选择32位ida arm架构，因为dragon是跑在真机里的</p>
-<p><img src="/../images/Geek-Peak/image-20220821194413623.png" alt="image-20220821194413623"></p>
-<p>进来直接起始地址加0x1430，因为在dumpshellcode时可以发现写在了shellcode的0x1430，所以我们这里快速到关键位置</p>
-<p><img src="/../images/Geek-Peak/image-20220821194524290.png" alt="image-20220821194524290"></p>
-<p>如果动调dump应该对这里熟悉直接转C</p>
-<p><img src="/../images/Geek-Peak/image-20220821194627518.png" alt="image-20220821194627518"></p>
-<p>可以发现无法转过来，我这里用了个体力活就是把最后面的BX nop了，因为这就类似跳转混淆那种llvm</p>
-<p><img src="/../images/Geek-Peak/image-20220821194810812.png" alt="image-20220821194810812"></p>
-<p>可以看到反编译出来很多</p>
-<p><img src="/../images/Geek-Peak/image-20220821195504646.png" alt="image-20220821195504646"></p>
-<p>但是很多wp中的检测flag格式哪些就没有反编译出来</p>
-<h2 id="0x4-总结"><a href="#0x4-总结" class="headerlink" title="0x4 总结"></a>0x4 总结</h2><p>剩下的可以在上面wp中看见，这里有个坑点，我原本想自己动调一遍然后把上面的剩下算法走一遍给大家看，然后截图下来写进去，我手机是root的，大家运行的时候可能会发现没有回馈回来，报wrong，就是因为权限不够，服务没有加载出来，就直接死住，然后等待不到recv的数据就死了。这个软件不会主动申请root权限，就有点难受，面具对主动申请的软件会给root权限。动调的话，应该可以attch上新起的服务和shellcode。大家如果会过混淆通过静态估计也可以做出来</p>
-<h1 id="EZRE"><a href="#EZRE" class="headerlink" title="EZRE"></a>EZRE</h1><h2 id="0x0-前言-1"><a href="#0x0-前言-1" class="headerlink" title="0x0 前言"></a>0x0 前言</h2><p>感谢Retard师傅，非常非常感谢（一定找个机会线下gank他）。这题复现我一直在想连接socket发送值过去。老是连不上。</p>
-<h2 id="0x1-Ctrl-s"><a href="#0x1-Ctrl-s" class="headerlink" title="0x1 Ctrl+s"></a>0x1 Ctrl+s</h2><p><img src="/../images/Geek-Peak/3-16611557206191.png" alt="3"></p>
-<p>一般做题都会findcrypt一下看一下加密。或者直接查看data段，发现data段这里就很想sbox</p>
-<p><img src="/../images/Geek-Peak/1-16611557605322.png" alt="1"></p>
-<p>通过索引就可以看到被加密过了</p>
-<p><img src="/../images/Geek-Peak/2-16611557827433.png" alt="2"></p>
-<p>然后就可以索引到AES加密的位置</p>
-<p>这时候就是AES汇编下方一片红，然后通过索引</p>
-<p><img src="/../images/Geek-Peak/4.png" alt="4"></p>
-<p>就可以发现这里有一个955的循环，就是smc，循环 异或 i %256</p>
-<p><img src="/../images/Geek-Peak/5.png" alt="5"></p>
-<p>然后就可以得到这个真正的关键函数，里面就是调用了16次AES加密，然后每次改变key和iv，可以直接通过改变RIP跳到这边，dump里面的iv和key</p>
-<p>然后while出来再加密一次进行对比</p>
-<p>可以自己给a1写一个空地址 在空地址自己patch一点输入进去</p>
-<p>或者自己写一个同样加密，自己实习一遍</p>
-<h2 id="0x2-总结"><a href="#0x2-总结" class="headerlink" title="0x2 总结"></a>0x2 总结</h2><p>感觉有点迷糊复现这题，老是想通过socket通过程序跑到真函数中。</p>
+                <h1 id="WMCTF2022-RE"><a href="#WMCTF2022-RE" class="headerlink" title="WMCTF2022-RE"></a>WMCTF2022-RE</h1><h2 id="BaByDriver"><a href="#BaByDriver" class="headerlink" title="BaByDriver"></a>BaByDriver</h2><h2 id="0x0-前言"><a href="#0x0-前言" class="headerlink" title="0x0 前言"></a>0x0 前言</h2><p>队友太顶了，直接一血</p>
+<h2 id="0x1-exe分析"><a href="#0x1-exe分析" class="headerlink" title="0x1 exe分析"></a>0x1 exe分析</h2><p><img src="/../images/WMCTF2022-Re/image-20220821210258800.png" alt="image-20220821210258800"></p>
+<p>搜索failed,然后一直索引找到主函数</p>
+<p><img src="/../images/WMCTF2022-Re/image-20220821210357572.png" alt="image-20220821210357572"></p>
+<p>获得电脑的版本判断是不是window7 x64 然后在c盘生成一个sys驱动</p>
+<p><img src="/../images/WMCTF2022-Re/image-20220821210442626.png" alt="image-20220821210442626"></p>
+<p>寻找一个wmctf的文件</p>
+<p><img src="/../images/WMCTF2022-Re/image-20220821210511530.png" alt="image-20220821210511530"></p>
+<p>这里就创建了一个wmctf.txt</p>
+<p><img src="/../images/WMCTF2022-Re/image-20220821210555265.png" alt="image-20220821210555265"></p>
+<p>把输入都异或了一遍i 然后传了进去</p>
+<p><img src="/../images/WMCTF2022-Re/image-20220821210615410.png" alt="image-20220821210615410"></p>
+<p>可以看到用NtQueryInformationFile保存了参值，其实这个就是把输入传到sys中</p>
+<p><img src="/../images/WMCTF2022-Re/image-20220821210744924.png" alt="image-20220821210744924"></p>
+<p>前面可以看见创建保存在全局资源表，直接用ResourceHacker dump下来</p>
+<h2 id="0x2-sys分析"><a href="#0x2-sys分析" class="headerlink" title="0x2 sys分析"></a>0x2 sys分析</h2><p><img src="/../images/WMCTF2022-Re/image-20220821210949832.png" alt="image-20220821210949832"></p>
+<p>DriverEntry进去找到调用函数，发现就这一个</p>
+<p><img src="/../images/WMCTF2022-Re/image-20220821211037653.png" alt="image-20220821211037653"></p>
+<p>AES加密，这下我们就得需要key了</p>
+<p><img src="/../images/WMCTF2022-Re/image-20220821211120190.png" alt="image-20220821211120190"></p>
+<p>如果还记得这里传值进去，输入都是从这里传过去，那这个qword_140090060有没有可能就是key传过去</p>
+<h2 id="0x3-解密"><a href="#0x3-解密" class="headerlink" title="0x3 解密"></a>0x3 解密</h2><p><img src="/../images/WMCTF2022-Re/image-20220821211244088.png" alt="image-20220821211244088"></p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">a<span class="token operator">=</span><span class="token string">"WLAWB~DGjpNy=&#123;=&#125;O#|wKPVdaX)h=&lt;?b"</span>
+<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">chr</span><span class="token punctuation">(</span><span class="token builtin">ord</span><span class="token punctuation">(</span>a<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">^</span>i<span class="token punctuation">)</span><span class="token punctuation">,</span>end<span class="token operator">=</span><span class="token string">""</span><span class="token punctuation">)</span>
+<span class="token comment"># WMCTF&#123;B@byDr1v3r_2nd_E@syA3s!!!&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="0x4-总结"><a href="#0x4-总结" class="headerlink" title="0x4 总结"></a>0x4 总结</h2><p>做出来的时候，3个战队提交，感觉很爽，没有坐牢</p>
+<h2 id="seeee"><a href="#seeee" class="headerlink" title="seeee"></a>seeee</h2><h2 id="0x0-前言-1"><a href="#0x0-前言-1" class="headerlink" title="0x0 前言"></a>0x0 前言</h2><p>这题好可惜，慢了点不然就是我们队一血了。</p>
+<h2 id="0x1-Findcrypt"><a href="#0x1-Findcrypt" class="headerlink" title="0x1 Findcrypt"></a>0x1 Findcrypt</h2><p><img src="/../images/WMCTF2022-Re/image-20220821211754688.png" alt="image-20220821211754688"></p>
+<p><img src="/../images/WMCTF2022-Re/image-20220821211810851.png" alt="image-20220821211810851"></p>
+<p>可以发现是无魔改的chacha20，我当时第一步就发现这个，然后直接找到密文</p>
+<p><img src="/../images/WMCTF2022-Re/4.png" alt="4"></p>
+<p>当时看见那么混淆啥也看不见，我一般就直接看cfg看调用关系。可以找到这里的memcmp的对比位置</p>
+<p>当时做到这，因为chacha20是异或加密，所以就想找异或位置，找了好几个才发现有点长64位，当时我也不知道输入是有要求的，才导致不能运行。</p>
+<p><img src="/../images/WMCTF2022-Re/1.png" alt="1"></p>
+<p>后面看先获得了参数个数，需要2个</p>
+<p><img src="/../images/WMCTF2022-Re/2.png" alt="2"></p>
+<p>然后进行了明文对比，可以看见对比的位置是0x3F位 说明输入是63位</p>
+<p>然后直接断memcmp，把两个对比值dump下来，再和自己的输入异或就出了</p>
 
                 
             </div>
@@ -483,7 +479,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://moodyblue.cn/category/Geek-Peak/">http://moodyblue.cn/category/Geek-Peak/</a>
+                    <a href="http://moodyblue.cn/category/WMCTF2022-Re/">http://moodyblue.cn/category/WMCTF2022-Re/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -966,9 +962,10 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/category/WMCTF2022-Re/">
                     <div class="card-image">
@@ -986,9 +983,9 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-08-21
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-08-21
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -997,6 +994,7 @@
                         </span>
                     </div>
                 </div>
+
                 
             </div>
         </div>
@@ -1007,13 +1005,13 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/category/QWB-RE/">
+                <a href="/category/Geek-Peak/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="QWB-RE">
+                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="Geek Peak">
                         
-                        <span class="card-title">QWB-RE</span>
+                        <span class="card-title">Geek Peak</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1024,7 +1022,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-08-07
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-08-21
                             </span>
                         <span class="publish-author">
                             
