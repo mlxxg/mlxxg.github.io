@@ -4,14 +4,9 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="WMCTF2022-Re, Blue.Blogs">
-    <meta name="description" content="WMCTF2022-REBaByDriver0x0 前言队友太顶了，直接一血
-0x1 exe分析
-搜索failed,然后一直索引找到主函数
-
-获得电脑的版本判断是不是window7 x64 然后在c盘生成一个sys驱动
-
-寻找一个wmctf">
+    <meta name="keywords" content="GreatWallCup, Blue.Blogs">
+    <meta name="description" content="长城杯2022-Rerabbit_hotle0x 前言很难受，比赛零输出，已经拿到迷宫了，但是不会解，人工走要134步总感觉自己会走错，抄了半天脚本都没用
+0x1 动调这题我是动调做的，作者还挖了坑，刚开始有一些什么异或和乘都是用来计算长度">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -23,7 +18,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>WMCTF2022-Re | Blue.Blogs</title>
+    <title>GreatWallCup | Blue.Blogs</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -252,12 +247,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">WMCTF2022-Re</h1>
+                    <h1 class="description center-align post-title">GreatWallCup</h1>
                 </div>
             </div>
         </div>
@@ -389,7 +384,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-08-21
+                    2022-08-23
                 </div>
                 
 
@@ -413,46 +408,25 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="WMCTF2022-RE"><a href="#WMCTF2022-RE" class="headerlink" title="WMCTF2022-RE"></a>WMCTF2022-RE</h1><h2 id="BaByDriver"><a href="#BaByDriver" class="headerlink" title="BaByDriver"></a>BaByDriver</h2><h2 id="0x0-前言"><a href="#0x0-前言" class="headerlink" title="0x0 前言"></a>0x0 前言</h2><p>队友太顶了，直接一血</p>
-<h2 id="0x1-exe分析"><a href="#0x1-exe分析" class="headerlink" title="0x1 exe分析"></a>0x1 exe分析</h2><p><img src="/../images/WMCTF2022-Re/image-20220821210258800.png" alt="image-20220821210258800"></p>
-<p>搜索failed,然后一直索引找到主函数</p>
-<p><img src="/../images/WMCTF2022-Re/image-20220821210357572.png" alt="image-20220821210357572"></p>
-<p>获得电脑的版本判断是不是window7 x64 然后在c盘生成一个sys驱动</p>
-<p><img src="/../images/WMCTF2022-Re/image-20220821210442626.png" alt="image-20220821210442626"></p>
-<p>寻找一个wmctf的文件</p>
-<p><img src="/../images/WMCTF2022-Re/image-20220821210511530.png" alt="image-20220821210511530"></p>
-<p>这里就创建了一个wmctf.txt</p>
-<p><img src="/../images/WMCTF2022-Re/image-20220821210555265.png" alt="image-20220821210555265"></p>
-<p>把输入都异或了一遍i 然后传了进去</p>
-<p><img src="/../images/WMCTF2022-Re/image-20220821210615410.png" alt="image-20220821210615410"></p>
-<p>可以看到用NtQueryInformationFile保存了参值，其实这个就是把输入传到sys中</p>
-<p><img src="/../images/WMCTF2022-Re/image-20220821210744924.png" alt="image-20220821210744924"></p>
-<p>前面可以看见创建保存在全局资源表，直接用ResourceHacker dump下来</p>
-<h2 id="0x2-sys分析"><a href="#0x2-sys分析" class="headerlink" title="0x2 sys分析"></a>0x2 sys分析</h2><p><img src="/../images/WMCTF2022-Re/image-20220821210949832.png" alt="image-20220821210949832"></p>
-<p>DriverEntry进去找到调用函数，发现就这一个</p>
-<p><img src="/../images/WMCTF2022-Re/image-20220821211037653.png" alt="image-20220821211037653"></p>
-<p>AES加密，这下我们就得需要key了</p>
-<p><img src="/../images/WMCTF2022-Re/image-20220821211120190.png" alt="image-20220821211120190"></p>
-<p>如果还记得这里传值进去，输入都是从这里传过去，那这个qword_140090060有没有可能就是key传过去</p>
-<h2 id="0x3-解密"><a href="#0x3-解密" class="headerlink" title="0x3 解密"></a>0x3 解密</h2><p><img src="/../images/WMCTF2022-Re/image-20220821211244088.png" alt="image-20220821211244088"></p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">a<span class="token operator">=</span><span class="token string">"WLAWB~DGjpNy=&#123;=&#125;O#|wKPVdaX)h=&lt;?b"</span>
-<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
-    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">chr</span><span class="token punctuation">(</span><span class="token builtin">ord</span><span class="token punctuation">(</span>a<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">^</span>i<span class="token punctuation">)</span><span class="token punctuation">,</span>end<span class="token operator">=</span><span class="token string">""</span><span class="token punctuation">)</span>
-<span class="token comment"># WMCTF&#123;B@byDr1v3r_2nd_E@syA3s!!!&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="0x4-总结"><a href="#0x4-总结" class="headerlink" title="0x4 总结"></a>0x4 总结</h2><p>做出来的时候，3个战队提交，感觉很爽，没有坐牢</p>
-<h2 id="seeee"><a href="#seeee" class="headerlink" title="seeee"></a>seeee</h2><h2 id="0x0-前言-1"><a href="#0x0-前言-1" class="headerlink" title="0x0 前言"></a>0x0 前言</h2><p>这题好可惜，慢了点不然就是我们队一血了。</p>
-<h2 id="0x1-Findcrypt"><a href="#0x1-Findcrypt" class="headerlink" title="0x1 Findcrypt"></a>0x1 Findcrypt</h2><p><img src="/../images/WMCTF2022-Re/image-20220821211754688.png" alt="image-20220821211754688"></p>
-<p><img src="/../images/WMCTF2022-Re/image-20220821211810851.png" alt="image-20220821211810851"></p>
-<p>可以发现是无魔改的chacha20，我当时第一步就发现这个，然后直接找到密文</p>
-<p><img src="/../images/WMCTF2022-Re/4.png" alt="4"></p>
-<p>当时看见那么混淆啥也看不见，我一般就直接看cfg看调用关系。可以找到这里的memcmp的对比位置</p>
-<p>当时做到这，因为chacha20是异或加密，所以就想找异或位置，找了好几个才发现有点长64位，当时我也不知道输入是有要求的，才导致不能运行。</p>
-<p><img src="/../images/WMCTF2022-Re/1.png" alt="1"></p>
-<p>后面看先获得了参数个数，需要2个</p>
-<p><img src="/../images/WMCTF2022-Re/2.png" alt="2"></p>
-<p>然后进行了明文对比，可以看见对比的位置是0x3F位 说明输入是63位</p>
-<p>然后直接断memcmp，把两个对比值dump下来，再和自己的输入异或就出了</p>
+                <h1 id="长城杯2022-Re"><a href="#长城杯2022-Re" class="headerlink" title="长城杯2022-Re"></a>长城杯2022-Re</h1><h2 id="rabbit-hotle"><a href="#rabbit-hotle" class="headerlink" title="rabbit_hotle"></a>rabbit_hotle</h2><h2 id="0x-前言"><a href="#0x-前言" class="headerlink" title="0x 前言"></a>0x 前言</h2><p>很难受，比赛零输出，已经拿到迷宫了，但是不会解，人工走要134步总感觉自己会走错，抄了半天脚本都没用</p>
+<h2 id="0x1-动调"><a href="#0x1-动调" class="headerlink" title="0x1 动调"></a>0x1 动调</h2><p>这题我是动调做的，作者还挖了坑，刚开始有一些什么异或和乘都是用来计算长度的，分别长度是16和134，自己写一个python爆破一下即可得到。</p>
+<p>16有点坑，进去循环乘AES的s_box然后得到16个值进行对比。我写了个z3跑出来的时候巨开心，结果是flag{fake__flag}</p>
+<p>后面就进入134</p>
+<p><img src="/../images/GreatWallCup/4.png" alt="4"></p>
+<p>汇编的位置</p>
+<p><img src="/../images/GreatWallCup/3.png" alt="3"></p>
+<p>我对着od去掉了一些混淆，可以看见是从 [0,0] 走到[21,21]的位置</p>
+<p>hjkl对应上下左右，然后就是坐标异或maze &#x3D;&#x3D;1</p>
+<p><img src="/../images/GreatWallCup/1.png" alt="1"></p>
+<p>一开始我是输出的10进制 看不懂迷宫，赛后才知道转16进制再异或1，因为需要&#x3D;&#x3D;1嘛，异或1就等于变回去。然后要求就是 0x0000  前两位为x 后两位为y 移动时不能同时改变</p>
+<h2 id="babyre"><a href="#babyre" class="headerlink" title="babyre"></a>babyre</h2><h2 id="0x0-前言"><a href="#0x0-前言" class="headerlink" title="0x0 前言"></a>0x0 前言</h2><p>看这题时 第一题没出很着急，就一直百度pyd应该怎么用，看csdn都说from导入即可，我发现我不行，当时感觉是不是版本不对。但是感觉要不算了还是就去肝第一题了。</p>
+<h2 id="0x1-解源码"><a href="#0x1-解源码" class="headerlink" title="0x1 解源码"></a>0x1 解源码</h2><p><img src="/../images/GreatWallCup/5.png" alt="5"></p>
+<p>先用pyinstx脚本解出来</p>
+<p>然后再把struct.pyc的前16个字节贴到run.pyc的头部即可</p>
+<p>最后用uncompyle6解出来</p>
+<p><img src="/../images/GreatWallCup/6.png" alt="6"></p>
+<h2 id="0x02-解密"><a href="#0x02-解密" class="headerlink" title="0x02 解密"></a>0x02 解密</h2><p><img src="/../images/GreatWallCup/2.png" alt="2"></p>
+<p>有一个new的pyd在一开始解出来的文件夹，下一个python3.7的环境 放在同一个目录就能调用了。然后就是爆破即可</p>
 
                 
             </div>
@@ -479,7 +453,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://moodyblue.cn/category/WMCTF2022-Re/">http://moodyblue.cn/category/WMCTF2022-Re/</a>
+                    <a href="http://moodyblue.cn/category/GreatWallCup/">http://moodyblue.cn/category/GreatWallCup/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -962,9 +936,10 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/category/GreatWallCup/">
                     <div class="card-image">
@@ -982,9 +957,9 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-08-23
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-08-23
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -993,6 +968,7 @@
                         </span>
                     </div>
                 </div>
+
                 
             </div>
         </div>
@@ -1003,13 +979,13 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/category/Geek-Peak/">
+                <a href="/category/WMCTF2022-Re/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="Geek Peak">
+                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="WMCTF2022-Re">
                         
-                        <span class="card-title">Geek Peak</span>
+                        <span class="card-title">WMCTF2022-Re</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
