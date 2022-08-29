@@ -4,9 +4,15 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="GreatWallCup, Blue.Blogs">
-    <meta name="description" content="长城杯2022-Rerabbit_hotle0x 前言很难受，比赛零输出，已经拿到迷宫了，但是不会解，人工走要134步总感觉自己会走错，抄了半天脚本都没用
-0x1 动调这题我是动调做的，作者还挖了坑，刚开始有一些什么异或和乘都是用来计算长度">
+    <meta name="keywords" content="2022青龙组-RE, Blue.Blogs">
+    <meta name="description" content="2022网鼎杯-青龙组-REre694
+upx特征被改，改回即可
+
+
+第一处异或
+
+加10再异或0x50
+enc=[0x0000004B, 0x00000048, 0x00000079, 0x00000013, 0x00000045, 0x">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -18,7 +24,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>GreatWallCup | Blue.Blogs</title>
+    <title>2022青龙组-RE | Blue.Blogs</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -247,12 +253,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/17.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">GreatWallCup</h1>
+                    <h1 class="description center-align post-title">2022青龙组-RE</h1>
                 </div>
             </div>
         </div>
@@ -384,7 +390,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-08-23
+                    2022-08-29
                 </div>
                 
 
@@ -408,25 +414,55 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="长城杯2022-Re"><a href="#长城杯2022-Re" class="headerlink" title="长城杯2022-Re"></a>长城杯2022-Re</h1><h2 id="rabbit-hotle"><a href="#rabbit-hotle" class="headerlink" title="rabbit_hotle"></a>rabbit_hotle</h2><h2 id="0x-前言"><a href="#0x-前言" class="headerlink" title="0x 前言"></a>0x 前言</h2><p>很难受，比赛零输出，已经拿到迷宫了，但是不会解，人工走要134步总感觉自己会走错，抄了半天脚本都没用</p>
-<h2 id="0x1-动调"><a href="#0x1-动调" class="headerlink" title="0x1 动调"></a>0x1 动调</h2><p>这题我是动调做的，作者还挖了坑，刚开始有一些什么异或和乘都是用来计算长度的，分别长度是16和134，自己写一个python爆破一下即可得到。</p>
-<p>16有点坑，进去循环乘AES的s_box然后得到16个值进行对比。我写了个z3跑出来的时候巨开心，结果是flag{fake__flag}</p>
-<p>后面就进入134</p>
-<p><img src="/../images/GreatWallCup/4.png" alt="4"></p>
-<p>汇编的位置</p>
-<p><img src="/../images/GreatWallCup/3.png" alt="3"></p>
-<p>我对着od去掉了一些混淆，可以看见是从 [0,0] 走到[21,21]的位置</p>
-<p>hjkl对应上下左右，然后就是坐标异或maze &#x3D;&#x3D;1</p>
-<p><img src="/../images/GreatWallCup/1.png" alt="1"></p>
-<p>一开始我是输出的10进制 看不懂迷宫，赛后才知道转16进制再异或1，因为需要&#x3D;&#x3D;1嘛，异或1就等于变回去。然后要求就是 0x0000  前两位为x 后两位为y 移动时不能同时改变</p>
-<h2 id="babyre"><a href="#babyre" class="headerlink" title="babyre"></a>babyre</h2><h2 id="0x0-前言"><a href="#0x0-前言" class="headerlink" title="0x0 前言"></a>0x0 前言</h2><p>看这题时 第一题没出很着急，就一直百度pyd应该怎么用，看csdn都说from导入即可，我发现我不行，当时感觉是不是版本不对。但是感觉要不算了还是就去肝第一题了。</p>
-<h2 id="0x1-解源码"><a href="#0x1-解源码" class="headerlink" title="0x1 解源码"></a>0x1 解源码</h2><p><img src="/../images/GreatWallCup/5.png" alt="5"></p>
-<p>先用pyinstx脚本解出来</p>
-<p>然后再把struct.pyc的前16个字节贴到run.pyc的头部即可</p>
-<p>最后用uncompyle6解出来</p>
-<p><img src="/../images/GreatWallCup/6.png" alt="6"></p>
-<h2 id="0x02-解密"><a href="#0x02-解密" class="headerlink" title="0x02 解密"></a>0x02 解密</h2><p><img src="/../images/GreatWallCup/2.png" alt="2"></p>
-<p>有一个new的pyd在一开始解出来的文件夹，下一个python3.7的环境 放在同一个目录就能调用了。然后就是爆破即可</p>
+                <h1 id="2022网鼎杯-青龙组-RE"><a href="#2022网鼎杯-青龙组-RE" class="headerlink" title="2022网鼎杯-青龙组-RE"></a>2022网鼎杯-青龙组-RE</h1><h2 id="re694"><a href="#re694" class="headerlink" title="re694"></a>re694</h2><p><img src="/../images/2022%E9%9D%92%E9%BE%99%E7%BB%84-RE/1.png" alt="1"></p>
+<p>upx特征被改，改回即可</p>
+<p><img src="/../images/2022%E9%9D%92%E9%BE%99%E7%BB%84-RE/2.png" alt="2"></p>
+<p><img src="/../images/2022%E9%9D%92%E9%BE%99%E7%BB%84-RE/3.png" alt="3"></p>
+<p>第一处异或</p>
+<p><img src="/../images/2022%E9%9D%92%E9%BE%99%E7%BB%84-RE/4.png" alt="4"></p>
+<p>加10再异或0x50</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">enc<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">0x0000004B</span><span class="token punctuation">,</span> <span class="token number">0x00000048</span><span class="token punctuation">,</span> <span class="token number">0x00000079</span><span class="token punctuation">,</span> <span class="token number">0x00000013</span><span class="token punctuation">,</span> <span class="token number">0x00000045</span><span class="token punctuation">,</span> <span class="token number">0x00000030</span><span class="token punctuation">,</span> <span class="token number">0x0000005C</span><span class="token punctuation">,</span> <span class="token number">0x00000049</span><span class="token punctuation">,</span> <span class="token number">0x0000005A</span><span class="token punctuation">,</span> <span class="token number">0x00000079</span><span class="token punctuation">,</span> <span class="token number">0x00000013</span><span class="token punctuation">,</span> <span class="token number">0x00000070</span><span class="token punctuation">,</span> <span class="token number">0x0000006D</span><span class="token punctuation">,</span> <span class="token number">0x00000078</span><span class="token punctuation">,</span> <span class="token number">0x00000013</span><span class="token punctuation">,</span> <span class="token number">0x0000006F</span><span class="token punctuation">,</span> <span class="token number">0x00000048</span><span class="token punctuation">,</span> <span class="token number">0x0000005D</span><span class="token punctuation">,</span> <span class="token number">0x00000064</span><span class="token punctuation">,</span> <span class="token number">0x00000064</span><span class="token punctuation">]</span>
+<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>enc<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">chr</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">(</span>enc<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">^</span><span class="token number">0x50</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token operator">^</span><span class="token number">0x66</span><span class="token punctuation">)</span><span class="token punctuation">,</span>end<span class="token operator">=</span><span class="token string">""</span><span class="token punctuation">)</span>
+<span class="token comment"># why_m0dify_pUx_SheLL</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="re696"><a href="#re696" class="headerlink" title="re696"></a>re696</h2><p><img src="/../images/2022%E9%9D%92%E9%BE%99%E7%BB%84-RE/5.png" alt="5"></p>
+<p>看so可以知道是一个抽取壳，然后我自己的真机运行不了淦</p>
+<p>借了同学的手机，可以运行然后脱壳</p>
+<p><img src="/../images/2022%E9%9D%92%E9%BE%99%E7%BB%84-RE/8-16617484253941.png" alt="8"></p>
+<p>分析可以发现是tea加密无魔改</p>
+<p><img src="/../images/2022%E9%9D%92%E9%BE%99%E7%BB%84-RE/7.png" alt="7"></p>
+<p>key</p>
+<p><img src="/../images/2022%E9%9D%92%E9%BE%99%E7%BB%84-RE/8-16617484446972.png" alt="8"></p>
+<p>密文，密文前8位加密，后8位为明文</p>
+<p><img src="/../images/2022%E9%9D%92%E9%BE%99%E7%BB%84-RE/9.png" alt="9"></p>
+<p>java在线网站跑出来</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python">enc<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">71</span> <span class="token punctuation">,</span><span class="token number">105</span> <span class="token punctuation">,</span><span class="token number">118</span> <span class="token punctuation">,</span><span class="token number">101</span> <span class="token punctuation">,</span><span class="token number">121</span> <span class="token punctuation">,</span><span class="token number">48</span> <span class="token punctuation">,</span><span class="token number">117</span> <span class="token punctuation">,</span><span class="token number">114</span> <span class="token punctuation">,</span><span class="token number">102</span><span class="token punctuation">,</span> <span class="token number">49</span><span class="token punctuation">,</span> <span class="token number">65</span><span class="token punctuation">,</span> <span class="token number">103</span><span class="token punctuation">,</span> <span class="token number">121</span><span class="token punctuation">,</span> <span class="token number">107</span><span class="token punctuation">,</span> <span class="token number">111</span><span class="token punctuation">,</span> <span class="token number">99</span><span class="token punctuation">]</span>
+<span class="token keyword">for</span> i <span class="token keyword">in</span> enc<span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">chr</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">,</span>end<span class="token operator">=</span><span class="token string">""</span><span class="token punctuation">)</span>
+<span class="token comment"># Givey0urf1Agykoc</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="/../images/2022%E9%9D%92%E9%BE%99%E7%BB%84-RE/11.jpg" alt="11"></p>
+<h2 id="re693"><a href="#re693" class="headerlink" title="re693"></a>re693</h2><p><img src="/../images/2022%E9%9D%92%E9%BE%99%E7%BB%84-RE/10.png" alt="10"></p>
+<p>通过提示分别找到两个函数，放进去直接跑即可</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go">   fmt<span class="token punctuation">.</span><span class="token function">Print</span><span class="token punctuation">(</span><span class="token function">MPyt9GWTRfAFNvb1</span><span class="token punctuation">(</span>jjxXf<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    nFAzj1 <span class="token operator">:=</span> <span class="token string">"ZlXDJkH3OZN4Mayd"</span>
+    fmt<span class="token punctuation">.</span><span class="token function">Print</span><span class="token punctuation">(</span><span class="token function">kZ2BFvOxepd5ALDR</span><span class="token punctuation">(</span>KdlaH<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    CuSkl1 <span class="token operator">:=</span> <span class="token string">"UhnCm82SDGE0zLYO"</span>
+    vNvUO <span class="token operator">:=</span> <span class="token function">GwSqNHQ7dPXpIG64</span><span class="token punctuation">(</span>nFAzj1<span class="token punctuation">)</span>
+    YJCya <span class="token operator">:=</span> <span class="token string">""</span>
+    mvOxK <span class="token operator">:=</span> <span class="token function">YI3z8ZxOKhfLmTPC</span><span class="token punctuation">(</span>CuSkl1<span class="token punctuation">)</span>
+    
+    <span class="token keyword">if</span> mvOxK <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">&#123;</span>
+        YJCya <span class="token operator">=</span> <span class="token function">mvOxK</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">if</span> YJCya <span class="token operator">!=</span> <span class="token string">""</span> <span class="token operator">&amp;&amp;</span> vNvUO <span class="token operator">!=</span> <span class="token string">""</span> <span class="token punctuation">&#123;</span>
+        fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"flag&#123;%s%s&#125;\n"</span><span class="token punctuation">,</span> vNvUO<span class="token punctuation">,</span> YJCya<span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+flag<span class="token punctuation">&#123;</span>3a4e76449355c4148ce3da2b46019f75<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 
                 
             </div>
@@ -453,7 +489,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://moodyblue.cn/category/GreatWallCup/">http://moodyblue.cn/category/GreatWallCup/</a>
+                    <a href="http://moodyblue.cn/category/2022%E9%9D%92%E9%BE%99%E7%BB%84-RE/">http://moodyblue.cn/category/2022%E9%9D%92%E9%BE%99%E7%BB%84-RE/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -936,9 +972,10 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/category/2022%E9%9D%92%E9%BE%99%E7%BB%84-RE/">
                     <div class="card-image">
@@ -956,9 +993,9 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-08-29
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-08-29
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -967,6 +1004,7 @@
                         </span>
                     </div>
                 </div>
+
                 
             </div>
         </div>
@@ -977,13 +1015,13 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/category/WMCTF2022-Re/">
+                <a href="/category/GreatWallCup/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="WMCTF2022-Re">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="GreatWallCup">
                         
-                        <span class="card-title">WMCTF2022-Re</span>
+                        <span class="card-title">GreatWallCup</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -994,7 +1032,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-08-21
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-08-23
                             </span>
                         <span class="publish-author">
                             
