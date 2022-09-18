@@ -4,15 +4,9 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="2022青龙组-RE, Blue.Blogs">
-    <meta name="description" content="2022网鼎杯-青龙组-REre694
-upx特征被改，改回即可
-
-
-第一处异或
-
-加10再异或0x50
-enc=[0x0000004B, 0x00000048, 0x00000079, 0x00000013, 0x00000045, 0x">
+    <meta name="keywords" content="UAC绕过学习, Blue.Blogs">
+    <meta name="description" content="UAC绕过学习笔记0x0有感于hed10ne师傅在Re分享会上分享的UAC bypass绕过。当时对免杀有点感兴趣，一直苦于不知道要怎么学。这次刚好第一次了解到UAC绕过这种技术，进行了复现与学习。
+0x1 磁盘清理绕过Window10 U">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -24,7 +18,7 @@ enc=[0x0000004B, 0x00000048, 0x00000079, 0x00000013, 0x00000045, 0x">
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>2022青龙组-RE | Blue.Blogs</title>
+    <title>UAC绕过学习 | Blue.Blogs</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -253,12 +247,12 @@ enc=[0x0000004B, 0x00000048, 0x00000079, 0x00000013, 0x00000045, 0x">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/17.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">2022青龙组-RE</h1>
+                    <h1 class="description center-align post-title">UAC绕过学习</h1>
                 </div>
             </div>
         </div>
@@ -390,7 +384,7 @@ enc=[0x0000004B, 0x00000048, 0x00000079, 0x00000013, 0x00000045, 0x">
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-08-29
+                    2022-09-14
                 </div>
                 
 
@@ -414,55 +408,21 @@ enc=[0x0000004B, 0x00000048, 0x00000079, 0x00000013, 0x00000045, 0x">
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="2022网鼎杯-青龙组-RE"><a href="#2022网鼎杯-青龙组-RE" class="headerlink" title="2022网鼎杯-青龙组-RE"></a>2022网鼎杯-青龙组-RE</h1><h2 id="re694"><a href="#re694" class="headerlink" title="re694"></a>re694</h2><p><img src="/../images/2022%E9%9D%92%E9%BE%99%E7%BB%84-RE/1.png" alt="1"></p>
-<p>upx特征被改，改回即可</p>
-<p><img src="/../images/2022%E9%9D%92%E9%BE%99%E7%BB%84-RE/2.png" alt="2"></p>
-<p><img src="/../images/2022%E9%9D%92%E9%BE%99%E7%BB%84-RE/3.png" alt="3"></p>
-<p>第一处异或</p>
-<p><img src="/../images/2022%E9%9D%92%E9%BE%99%E7%BB%84-RE/4.png" alt="4"></p>
-<p>加10再异或0x50</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">enc<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">0x0000004B</span><span class="token punctuation">,</span> <span class="token number">0x00000048</span><span class="token punctuation">,</span> <span class="token number">0x00000079</span><span class="token punctuation">,</span> <span class="token number">0x00000013</span><span class="token punctuation">,</span> <span class="token number">0x00000045</span><span class="token punctuation">,</span> <span class="token number">0x00000030</span><span class="token punctuation">,</span> <span class="token number">0x0000005C</span><span class="token punctuation">,</span> <span class="token number">0x00000049</span><span class="token punctuation">,</span> <span class="token number">0x0000005A</span><span class="token punctuation">,</span> <span class="token number">0x00000079</span><span class="token punctuation">,</span> <span class="token number">0x00000013</span><span class="token punctuation">,</span> <span class="token number">0x00000070</span><span class="token punctuation">,</span> <span class="token number">0x0000006D</span><span class="token punctuation">,</span> <span class="token number">0x00000078</span><span class="token punctuation">,</span> <span class="token number">0x00000013</span><span class="token punctuation">,</span> <span class="token number">0x0000006F</span><span class="token punctuation">,</span> <span class="token number">0x00000048</span><span class="token punctuation">,</span> <span class="token number">0x0000005D</span><span class="token punctuation">,</span> <span class="token number">0x00000064</span><span class="token punctuation">,</span> <span class="token number">0x00000064</span><span class="token punctuation">]</span>
-<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>enc<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
-    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">chr</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">(</span>enc<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">^</span><span class="token number">0x50</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token operator">^</span><span class="token number">0x66</span><span class="token punctuation">)</span><span class="token punctuation">,</span>end<span class="token operator">=</span><span class="token string">""</span><span class="token punctuation">)</span>
-<span class="token comment"># why_m0dify_pUx_SheLL</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="re696"><a href="#re696" class="headerlink" title="re696"></a>re696</h2><p><img src="/../images/2022%E9%9D%92%E9%BE%99%E7%BB%84-RE/5.png" alt="5"></p>
-<p>看so可以知道是一个抽取壳，然后我自己的真机运行不了淦</p>
-<p>借了同学的手机，可以运行然后脱壳</p>
-<p><img src="/../images/2022%E9%9D%92%E9%BE%99%E7%BB%84-RE/8-16617484253941.png" alt="8"></p>
-<p>分析可以发现是tea加密无魔改</p>
-<p><img src="/../images/2022%E9%9D%92%E9%BE%99%E7%BB%84-RE/7.png" alt="7"></p>
-<p>key</p>
-<p><img src="/../images/2022%E9%9D%92%E9%BE%99%E7%BB%84-RE/8-16617484446972.png" alt="8"></p>
-<p>密文，密文前8位加密，后8位为明文</p>
-<p><img src="/../images/2022%E9%9D%92%E9%BE%99%E7%BB%84-RE/9.png" alt="9"></p>
-<p>java在线网站跑出来</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python">enc<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">71</span> <span class="token punctuation">,</span><span class="token number">105</span> <span class="token punctuation">,</span><span class="token number">118</span> <span class="token punctuation">,</span><span class="token number">101</span> <span class="token punctuation">,</span><span class="token number">121</span> <span class="token punctuation">,</span><span class="token number">48</span> <span class="token punctuation">,</span><span class="token number">117</span> <span class="token punctuation">,</span><span class="token number">114</span> <span class="token punctuation">,</span><span class="token number">102</span><span class="token punctuation">,</span> <span class="token number">49</span><span class="token punctuation">,</span> <span class="token number">65</span><span class="token punctuation">,</span> <span class="token number">103</span><span class="token punctuation">,</span> <span class="token number">121</span><span class="token punctuation">,</span> <span class="token number">107</span><span class="token punctuation">,</span> <span class="token number">111</span><span class="token punctuation">,</span> <span class="token number">99</span><span class="token punctuation">]</span>
-<span class="token keyword">for</span> i <span class="token keyword">in</span> enc<span class="token punctuation">:</span>
-    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">chr</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">,</span>end<span class="token operator">=</span><span class="token string">""</span><span class="token punctuation">)</span>
-<span class="token comment"># Givey0urf1Agykoc</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p><img src="/../images/2022%E9%9D%92%E9%BE%99%E7%BB%84-RE/11.jpg" alt="11"></p>
-<h2 id="re693"><a href="#re693" class="headerlink" title="re693"></a>re693</h2><p><img src="/../images/2022%E9%9D%92%E9%BE%99%E7%BB%84-RE/10.png" alt="10"></p>
-<p>通过提示分别找到两个函数，放进去直接跑即可</p>
-<pre class="line-numbers language-go" data-language="go"><code class="language-go">   fmt<span class="token punctuation">.</span><span class="token function">Print</span><span class="token punctuation">(</span><span class="token function">MPyt9GWTRfAFNvb1</span><span class="token punctuation">(</span>jjxXf<span class="token punctuation">)</span><span class="token punctuation">)</span>
-    nFAzj1 <span class="token operator">:=</span> <span class="token string">"ZlXDJkH3OZN4Mayd"</span>
-    fmt<span class="token punctuation">.</span><span class="token function">Print</span><span class="token punctuation">(</span><span class="token function">kZ2BFvOxepd5ALDR</span><span class="token punctuation">(</span>KdlaH<span class="token punctuation">)</span><span class="token punctuation">)</span>
-    CuSkl1 <span class="token operator">:=</span> <span class="token string">"UhnCm82SDGE0zLYO"</span>
-    vNvUO <span class="token operator">:=</span> <span class="token function">GwSqNHQ7dPXpIG64</span><span class="token punctuation">(</span>nFAzj1<span class="token punctuation">)</span>
-    YJCya <span class="token operator">:=</span> <span class="token string">""</span>
-    mvOxK <span class="token operator">:=</span> <span class="token function">YI3z8ZxOKhfLmTPC</span><span class="token punctuation">(</span>CuSkl1<span class="token punctuation">)</span>
-    
-    <span class="token keyword">if</span> mvOxK <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">&#123;</span>
-        YJCya <span class="token operator">=</span> <span class="token function">mvOxK</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-    <span class="token punctuation">&#125;</span>
-
-    <span class="token keyword">if</span> YJCya <span class="token operator">!=</span> <span class="token string">""</span> <span class="token operator">&amp;&amp;</span> vNvUO <span class="token operator">!=</span> <span class="token string">""</span> <span class="token punctuation">&#123;</span>
-        fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"flag&#123;%s%s&#125;\n"</span><span class="token punctuation">,</span> vNvUO<span class="token punctuation">,</span> YJCya<span class="token punctuation">)</span>
-    <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span>
-flag<span class="token punctuation">&#123;</span>3a4e76449355c4148ce3da2b46019f75<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
+                <h1 id="UAC绕过学习笔记"><a href="#UAC绕过学习笔记" class="headerlink" title="UAC绕过学习笔记"></a>UAC绕过学习笔记</h1><h2 id="0x0"><a href="#0x0" class="headerlink" title="0x0"></a>0x0</h2><p>有感于hed10ne师傅在Re分享会上分享的UAC bypass绕过。当时对免杀有点感兴趣，一直苦于不知道要怎么学。这次刚好第一次了解到UAC绕过这种技术，进行了复现与学习。</p>
+<h2 id="0x1-磁盘清理绕过Window10-UAC学习"><a href="#0x1-磁盘清理绕过Window10-UAC学习" class="headerlink" title="0x1 磁盘清理绕过Window10 UAC学习"></a>0x1 磁盘清理绕过Window10 UAC学习</h2><p><a target="_blank" rel="noopener" href="https://enigma0x3.net/2016/07/22/bypassing-uac-on-windows-10-using-disk-cleanup/">https://enigma0x3.net/2016/07/22/bypassing-uac-on-windows-10-using-disk-cleanup/</a></p>
+<p>学习于这篇文章，虽然是16年的，知识了解对于一个初学者来学刚好。</p>
+<p>文章中作者寻找到了一种以供非特权用户启动，但是可以提升到高权限运行的计划任务（Windows 10 库存安装中配置了一个名为“SilentCleanup”的计划任务）</p>
+<p>然后跟踪发现是由计划任务 cleanmgr.exe（磁盘清理） 启动的实际进程由于在任务配置中设置了“以最高权限执行”而自动提升。</p>
+<p>它会在“C:\Users&lt;username&gt;\AppData\Local\Temp”中创建一个名为 GUID 的新文件夹。(这一步因为磁盘清理操作太多了有7万条，用过滤器指定到Temp文件下也有1万6千多条，翻了半天没找到)</p>
+<p>cleanmgr.exe 创建临时文件夹后，会将多个 DLL 和“dismhost.exe”复制到新文件夹中。（这些DLL和dismhost.exe来自Window&#x2F;Temp）</p>
+<p>将DismHost.exe及其DLL复制到”C:\USER&lt;username&gt;\AppData\Temp</p>
+<p>&lt;guid&gt;”后,cleanmgr.exe 然后将“dismhost.exe”作为高权限进程启动</p>
+<p>由于dismhost.exe 从“C:\Users&lt;username&gt;\AppData\Local\Temp&lt;guid&gt;”启动，它开始按特定顺序从同一文件夹加载 DLL（DLL搜索应用劫持，顾名思义dll加载会按照一定顺序搜索并且加载dll，而同文件下的dll是优先级最高的）</p>
+<p>由于当前的中等完整性进程对用户的%TEMP%目录有写权限，因此可以劫持dismhost.exe加载的DLL，获得高完整性进程的代码执行。这通常被称为“ <a target="_blank" rel="noopener" href="http://blog.cobaltstrike.com/2014/03/20/user-account-control-what-penetration-testers-should-know/">BypassUAC</a> ”攻击（Bypass旁路）。<br>由于这种特殊情况是一种竞争条件，我们必须在 dismhost.exe 加载它之前替换目标 DLL。我们更仔细地检查了整个过程，并确定“LogProvider.dll”是 dismhost.exe 加载的最后一个 DLL，这给了我们劫持机会的最佳机会。有了这些信息，我们可以使用 WMI 事件(WMI事件就是系统内部进行的操作触发的事件，例如创建进程，打印，插入USB等)来监      视“C:\Users&lt;username&gt;\AppData\Local\Temp&lt;guid&gt;”的创建，然后为该 WMI 事件分配一个劫持“LogProvider.dll”的操作”通过将我们的“恶意”DLL 复制到“C:\Users&lt;username&gt;\AppData\Local\Temp&lt;guid&gt;”并将其命名为“LogProvider.dll”。由于此操作发生在 dismhost.exe 加载它之前，它将加载我们的 DLL 而不是预期的。（实现原理）</p>
+<p>一旦 dismhost.exe 加载 DLL，它将作为高完整性加载，允许我们绕过用户访问控制并作为高完整性进程获取代码执行。</p>
+<p>经过额外测试后，此技术不适用于标准用户帐户，因为 cleanmgr.exe 不会将任何文件提取到 %TEMP%。当以低或中等完整性作为标准用户执行时，任务以中等完整性运行，并且永远不会超过该值（标准用户相当于普通登录用户，证明这个操作在大多数用户机上都可以操作，实用性很高）</p>
+<p>文章后面的内容就不多做复述，下面就是分析文章链接中给的Powershell用c#写的脚本。</p>
+<h3 id="0x1-2-UACBypass脚本分析学习"><a href="#0x1-2-UACBypass脚本分析学习" class="headerlink" title="0x1-2 UACBypass脚本分析学习"></a>0x1-2 UACBypass脚本分析学习</h3><p>我没有学习过PowerShell脚本和C#，所以是现学现了解（感觉这种学习方法是比较最高效，一个知识面引申出其他的知识面，让自己一直主动的吸取知识）</p>
 
                 
             </div>
@@ -489,7 +449,7 @@ flag<span class="token punctuation">&#123;</span>3a4e76449355c4148ce3da2b46019f7
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://moodyblue.cn/category/2022%E9%9D%92%E9%BE%99%E7%BB%84-RE/">http://moodyblue.cn/category/2022%E9%9D%92%E9%BE%99%E7%BB%84-RE/</a>
+                    <a href="http://moodyblue.cn/category/UAC%E7%BB%95%E8%BF%87%E5%AD%A6%E4%B9%A0/">http://moodyblue.cn/category/UAC%E7%BB%95%E8%BF%87%E5%AD%A6%E4%B9%A0/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -976,13 +936,13 @@ flag<span class="token punctuation">&#123;</span>3a4e76449355c4148ce3da2b46019f7
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/category/UAC%E7%BB%95%E8%BF%87%E5%AD%A6%E4%B9%A0/">
+                <a href="/category/%E6%B5%99%E6%B1%9F%E7%9C%81%E8%B5%9B2022%E5%88%9D%E8%B5%9B/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="UAC绕过学习">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="浙江省赛2022初赛">
                         
-                        <span class="card-title">UAC绕过学习</span>
+                        <span class="card-title">浙江省赛2022初赛</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -993,7 +953,7 @@ flag<span class="token punctuation">&#123;</span>3a4e76449355c4148ce3da2b46019f7
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-09-14
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-09-18
                         </span>
                         <span class="publish-author">
                             
@@ -1013,13 +973,13 @@ flag<span class="token punctuation">&#123;</span>3a4e76449355c4148ce3da2b46019f7
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/category/GreatWallCup/">
+                <a href="/category/2022%E9%9D%92%E9%BE%99%E7%BB%84-RE/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="GreatWallCup">
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="2022青龙组-RE">
                         
-                        <span class="card-title">GreatWallCup</span>
+                        <span class="card-title">2022青龙组-RE</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1030,7 +990,7 @@ flag<span class="token punctuation">&#123;</span>3a4e76449355c4148ce3da2b46019f7
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-08-23
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-08-29
                             </span>
                         <span class="publish-author">
                             
