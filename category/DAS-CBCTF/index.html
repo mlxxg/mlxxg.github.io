@@ -4,12 +4,12 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="浙江省赛2022初赛, Blue.Blogs">
-    <meta name="description" content="浙江省第5届信息安全大赛2022-初赛0x0 前言第一题太简单就不写了，第二题不知道pycdc这样一个工具，果然只有踩过一个坑才能让自己一直了解更多
-0x1 解字节码
-exe直接用pyinstxtractor解出来
+    <meta name="keywords" content="DAS-CBCTF, Blue.Blogs">
+    <meta name="description" content="DASCTF-CBCTF-RE0x1 re1第一题侥幸拿了一血，因为官方有给wp，比较简单就不写解题了
 
-python3  把s">
+ida可能因为tra  catch  认为catch的代码不会运行就没有反编译，这里我把try的位置改成jmp到catch的位置
+
+即">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -21,7 +21,7 @@ python3  把s">
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>浙江省赛2022初赛 | Blue.Blogs</title>
+    <title>DAS-CBCTF | Blue.Blogs</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -250,12 +250,12 @@ python3  把s">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">浙江省赛2022初赛</h1>
+                    <h1 class="description center-align post-title">DAS-CBCTF</h1>
                 </div>
             </div>
         </div>
@@ -387,7 +387,7 @@ python3  把s">
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-09-18
+                    2022-09-21
                 </div>
                 
 
@@ -411,85 +411,24 @@ python3  把s">
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="浙江省第5届信息安全大赛2022-初赛"><a href="#浙江省第5届信息安全大赛2022-初赛" class="headerlink" title="浙江省第5届信息安全大赛2022-初赛"></a>浙江省第5届信息安全大赛2022-初赛</h1><h2 id="0x0-前言"><a href="#0x0-前言" class="headerlink" title="0x0 前言"></a>0x0 前言</h2><p>第一题太简单就不写了，第二题不知道pycdc这样一个工具，果然只有踩过一个坑才能让自己一直了解更多</p>
-<h2 id="0x1-解字节码"><a href="#0x1-解字节码" class="headerlink" title="0x1 解字节码"></a>0x1 解字节码</h2><p><img src="/../images/%E6%B5%99%E6%B1%9F%E7%9C%81%E8%B5%9B2022%E5%88%9D%E8%B5%9B/1.png" alt="1"></p>
-<p>exe直接用pyinstxtractor解出来</p>
-<p><img src="/../images/%E6%B5%99%E6%B1%9F%E7%9C%81%E8%B5%9B2022%E5%88%9D%E8%B5%9B/2.png" alt="2"></p>
-<p>python3  把struct的头16个字节复制给re.pyc</p>
-<p><img src="/../images/%E6%B5%99%E6%B1%9F%E7%9C%81%E8%B5%9B2022%E5%88%9D%E8%B5%9B/3.png" alt="3"></p>
-<p>uncompyle6解字节码，当时对着这个漏了加密的字节码逆了2小时…加密xxtea还猜对了还以为是默认加密，就是解不出来</p>
-<p><img src="/../images/%E6%B5%99%E6%B1%9F%E7%9C%81%E8%B5%9B2022%E5%88%9D%E8%B5%9B/4.png" alt="4"></p>
-<p>可以看见最下面这里有一个报错，所以就准备自己解字节码算了</p>
-<h2 id="0x2-dis解字节码"><a href="#0x2-dis解字节码" class="headerlink" title="0x2 dis解字节码"></a>0x2 dis解字节码</h2><p><img src="/../images/%E6%B5%99%E6%B1%9F%E7%9C%81%E8%B5%9B2022%E5%88%9D%E8%B5%9B/5.png" alt="5"></p>
-<p>一解发现真少了，很难受了，浪费那么多时间</p>
-<p><img src="/../images/%E6%B5%99%E6%B1%9F%E7%9C%81%E8%B5%9B2022%E5%88%9D%E8%B5%9B/6.png" alt="6"></p>
-<p>这是我当时对着uncompyle6自己反编译的，所以没有encrypt</p>
-<h2 id="0x3-pycdc解字节码"><a href="#0x3-pycdc解字节码" class="headerlink" title="0x3 pycdc解字节码"></a>0x3 pycdc解字节码</h2><p><img src="/../images/%E6%B5%99%E6%B1%9F%E7%9C%81%E8%B5%9B2022%E5%88%9D%E8%B5%9B/7.png" alt="7"></p>
-<p><img src="/../images/%E6%B5%99%E6%B1%9F%E7%9C%81%E8%B5%9B2022%E5%88%9D%E8%B5%9B/8.png" alt="8"></p>
-<p>草，当时完全不知道这个工具，直接反编译出代码了，题目难度直降</p>
-<h2 id="0x4-解密"><a href="#0x4-解密" class="headerlink" title="0x4 解密"></a>0x4 解密</h2><pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdint.h></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">DELTA</span> <span class="token expression"><span class="token number">0x4E253839</span></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">MX</span> <span class="token expression"><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">(</span>z<span class="token operator">>></span><span class="token number">6</span><span class="token operator">^</span>y<span class="token operator">&lt;&lt;</span><span class="token number">3</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token punctuation">(</span>y<span class="token operator">>></span><span class="token number">3</span><span class="token operator">^</span>z<span class="token operator">&lt;&lt;</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">^</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>sum<span class="token operator">^</span>y<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token punctuation">(</span>key<span class="token punctuation">[</span><span class="token punctuation">(</span>p<span class="token operator">&amp;</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token operator">^</span>e<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span></span></span>
-
-<span class="token keyword">void</span> <span class="token function">btea</span><span class="token punctuation">(</span><span class="token class-name">uint32_t</span><span class="token operator">*</span> v<span class="token punctuation">,</span> <span class="token keyword">int</span> n<span class="token punctuation">,</span> <span class="token class-name">uint32_t</span> <span class="token keyword">const</span> key<span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-    <span class="token class-name">uint32_t</span> y<span class="token punctuation">,</span> z<span class="token punctuation">,</span> sum<span class="token punctuation">;</span>
-    <span class="token keyword">unsigned</span> p<span class="token punctuation">,</span> rounds<span class="token punctuation">,</span> e<span class="token punctuation">;</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span>n <span class="token operator">></span> <span class="token number">1</span><span class="token punctuation">)</span>            <span class="token comment">/* Coding Part */</span>
-    <span class="token punctuation">&#123;</span>
-        rounds <span class="token operator">=</span> <span class="token number">6</span> <span class="token operator">+</span> <span class="token number">52</span> <span class="token operator">/</span> n<span class="token punctuation">;</span>
-        sum <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-        z <span class="token operator">=</span> v<span class="token punctuation">[</span>n <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-        <span class="token keyword">do</span>
-        <span class="token punctuation">&#123;</span>
-            sum <span class="token operator">+=</span> DELTA<span class="token punctuation">;</span>
-            e <span class="token operator">=</span> <span class="token punctuation">(</span>sum <span class="token operator">>></span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">3</span><span class="token punctuation">;</span>
-            <span class="token keyword">for</span> <span class="token punctuation">(</span>p <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> p <span class="token operator">&lt;</span> n <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span> p<span class="token operator">++</span><span class="token punctuation">)</span>
-            <span class="token punctuation">&#123;</span>
-                y <span class="token operator">=</span> v<span class="token punctuation">[</span>p <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-                z <span class="token operator">=</span> v<span class="token punctuation">[</span>p<span class="token punctuation">]</span> <span class="token operator">+=</span> MX<span class="token punctuation">;</span>
-            <span class="token punctuation">&#125;</span>
-            y <span class="token operator">=</span> v<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-            z <span class="token operator">=</span> v<span class="token punctuation">[</span>n <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">+=</span> MX<span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span> <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token operator">--</span>rounds<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>n <span class="token operator">&lt;</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span>      <span class="token comment">/* Decoding Part */</span>
-    <span class="token punctuation">&#123;</span>
-        n <span class="token operator">=</span> <span class="token operator">-</span>n<span class="token punctuation">;</span>
-        rounds <span class="token operator">=</span> <span class="token number">6</span> <span class="token operator">+</span> <span class="token number">52</span> <span class="token operator">/</span> n<span class="token punctuation">;</span>
-        sum <span class="token operator">=</span> rounds <span class="token operator">*</span> DELTA<span class="token punctuation">;</span>
-        y <span class="token operator">=</span> v<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-        <span class="token keyword">do</span>
-        <span class="token punctuation">&#123;</span>
-            e <span class="token operator">=</span> <span class="token punctuation">(</span>sum <span class="token operator">>></span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token number">3</span><span class="token punctuation">;</span>
-            <span class="token keyword">for</span> <span class="token punctuation">(</span>p <span class="token operator">=</span> n <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span> p <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">;</span> p<span class="token operator">--</span><span class="token punctuation">)</span>
-            <span class="token punctuation">&#123;</span>
-                z <span class="token operator">=</span> v<span class="token punctuation">[</span>p <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-                y <span class="token operator">=</span> v<span class="token punctuation">[</span>p<span class="token punctuation">]</span> <span class="token operator">-=</span> MX<span class="token punctuation">;</span>
-            <span class="token punctuation">&#125;</span>
-            z <span class="token operator">=</span> v<span class="token punctuation">[</span>n <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-            y <span class="token operator">=</span> v<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">-=</span> MX<span class="token punctuation">;</span>
-            sum <span class="token operator">-=</span> DELTA<span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span> <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token operator">--</span>rounds<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span>
-
-
-<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-    <span class="token class-name">uint32_t</span> v<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span> <span class="token number">0x2b137363</span><span class="token punctuation">,</span><span class="token number">0x353a5534</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
-    <span class="token class-name">uint32_t</span> <span class="token keyword">const</span> k<span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span> <span class="token number">4</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
-    <span class="token keyword">int</span> n <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span> <span class="token comment">//n的绝对值表示v的长度，取正表示加密，取负表示解密</span>
-    <span class="token comment">// v为要加密的数据是两个32位无符号整数</span>
-    <span class="token comment">// k为加密解密密钥，为4个32位无符号整数，即密钥长度为128位</span>
-    <span class="token function">btea</span><span class="token punctuation">(</span>v<span class="token punctuation">,</span> <span class="token operator">-</span>n<span class="token punctuation">,</span> k<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"解密后的数据：%x %x\n"</span><span class="token punctuation">,</span> v<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> v<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>这里就放一个魔改完的，对着pycdc很好就能发现，delta改了，右6左3，MX最后没有异或z n固定为2</p>
-<h2 id="0x5-总结"><a href="#0x5-总结" class="headerlink" title="0x5 总结"></a>0x5 总结</h2><p>emmm，只能说还是题目了解少了，一个方向应该学透点工具了解多点，也不至于那么累了。</p>
+                <h1 id="DASCTF-CBCTF-RE"><a href="#DASCTF-CBCTF-RE" class="headerlink" title="DASCTF-CBCTF-RE"></a>DASCTF-CBCTF-RE</h1><h2 id="0x1-re1"><a href="#0x1-re1" class="headerlink" title="0x1 re1"></a>0x1 re1</h2><p>第一题侥幸拿了一血，因为官方有给wp，比较简单就不写解题了</p>
+<p><img src="/../images/DAS-CBCTF/1.png" alt="1"></p>
+<p>ida可能因为tra  catch  认为catch的代码不会运行就没有反编译，这里我把try的位置改成jmp到catch的位置</p>
+<p><img src="/../images/DAS-CBCTF/2.png" alt="2"></p>
+<p>即可看到反编译的代码，当然直接看汇编也是比较快的算法不是很难</p>
+<h2 id="0x2-cbNet"><a href="#0x2-cbNet" class="headerlink" title="0x2 cbNet"></a>0x2 cbNet</h2><p><img src="/../images/DAS-CBCTF/3.png" alt="3"></p>
+<p>confuser壳和Dotfuscator混淆，这里就不展示工具脱壳，带大家来次手脱，当然不是完全脱好能运行，那是比较麻烦的，只是可以静态看见逻辑</p>
+<p><img src="/../images/DAS-CBCTF/4-16637291362311.png" alt="4"></p>
+<p>运行起来，用IDA附加程序，然后搜索字符串flag:定位关键位置</p>
+<p><img src="/../images/DAS-CBCTF/5.png" alt="5"></p>
+<p>然后可以看见在debug076的位置 ctrl+s 看文件开始位置和大小，直接dump下来</p>
+<p><img src="/../images/DAS-CBCTF/6.png" alt="6"></p>
+<p>用的dnspy看一下，可以看见主要的逻辑了，字符串混淆和控制流还在</p>
+<p><img src="/../images/DAS-CBCTF/7.png" alt="7"></p>
+<p>用de4tor工具解混淆</p>
+<p><img src="/../images/DAS-CBCTF/8.png" alt="8"></p>
+<p>可以看见字符串和控制流都已经去除了</p>
+<h2 id="0x3-总结"><a href="#0x3-总结" class="headerlink" title="0x3 总结"></a>0x3 总结</h2><p>最后看官方wp，是一个递归爆破然后比对sha256的flag值，大部分逆向手应该都是被算法卡住了，当时想的也是爆破，因为算法是两位进行一次加密，先爆出第1位和第8位，再用第1位往后推到爆破，再比对第8位的时候是不是一样。但是不会写这个爆破脚本..（自写算法密码真是逆向硬伤）</p>
 
                 
             </div>
@@ -516,7 +455,7 @@ python3  把s">
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://moodyblue.cn/category/%E6%B5%99%E6%B1%9F%E7%9C%81%E8%B5%9B2022%E5%88%9D%E8%B5%9B/">http://moodyblue.cn/category/%E6%B5%99%E6%B1%9F%E7%9C%81%E8%B5%9B2022%E5%88%9D%E8%B5%9B/</a>
+                    <a href="http://moodyblue.cn/category/DAS-CBCTF/">http://moodyblue.cn/category/DAS-CBCTF/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -999,9 +938,10 @@ python3  把s">
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/category/DAS-CBCTF/">
                     <div class="card-image">
@@ -1019,9 +959,9 @@ python3  把s">
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-09-21
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-09-21
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -1030,6 +970,7 @@ python3  把s">
                         </span>
                     </div>
                 </div>
+
                 
             </div>
         </div>
@@ -1040,13 +981,13 @@ python3  把s">
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/category/UAC%E7%BB%95%E8%BF%87%E5%AD%A6%E4%B9%A0/">
+                <a href="/category/%E6%B5%99%E6%B1%9F%E7%9C%81%E8%B5%9B2022%E5%88%9D%E8%B5%9B/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="UAC绕过学习">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="浙江省赛2022初赛">
                         
-                        <span class="card-title">UAC绕过学习</span>
+                        <span class="card-title">浙江省赛2022初赛</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1057,7 +998,7 @@ python3  把s">
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-09-14
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-09-18
                             </span>
                         <span class="publish-author">
                             
