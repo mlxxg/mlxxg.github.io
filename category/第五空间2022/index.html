@@ -448,7 +448,7 @@ b<span class="token operator">=</span><span class="token punctuation">[</span><s
 <p>然后一直跟函数，可以看见return这里是*v1 +24 712c是存储我们config的值</p>
 <p><img src="/../images/%E7%AC%AC%E4%BA%94%E7%A9%BA%E9%97%B42022/5.png" alt="5"></p>
 <p>观看我们的config，因为是看了wp嘛可能有点马后炮，return返回到函数，猜测</p>
-<p>v1+24，4个十六进制是8个字节嘛，然后+24就是刚好取40 E3 FF FF，很像一个地址很有规律</p>
+<p>v1+24，4个十六进制是8个字节嘛，然后+24就是刚好取40 E3 FF FF，很像一个地址很有规律（对于实际操作应该需要调试鸿蒙跟一下流程才能确切知道，这里只是根据wp猜测，如果有师傅懂的麻烦教教）</p>
 <p> <img src="/../images/%E7%AC%AC%E4%BA%94%E7%A9%BA%E9%97%B42022/6.png" alt="6"></p>
 <p>左边有很多函数，点进去看会发现很多这种从byte中替换，那猜测我们的config就是控制函数运行顺序</p>
 <p><img src="/../images/%E7%AC%AC%E4%BA%94%E7%A9%BA%E9%97%B42022/43.png" alt="43"></p>
