@@ -383,7 +383,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2023-02-27
+                    2023-06-09
                 </div>
                 
 
@@ -409,32 +409,32 @@
             <div id="articleContent">
                 <h1 id="StupidOrangeCat2"><a href="#StupidOrangeCat2" class="headerlink" title="StupidOrangeCat2"></a>StupidOrangeCat2</h1><h2 id="0x0-前言"><a href="#0x0-前言" class="headerlink" title="0x0 前言"></a>0x0 前言</h2><p>在此先对各位师傅说一声抱歉，十分的对不起。因为个人电脑的原因，导致我的题目源码解题脚本思路全部被删（电脑大部分工具环境记录全无，准备换新电脑再重装..）。因此以下的解题思路会没有脚本，但是不用担心因为用到的解密算法都是无魔改的csdn上抄一份解密即可。在此再次说一声抱歉。</p>
 <h2 id="0x1-解题思路"><a href="#0x1-解题思路" class="headerlink" title="0x1 解题思路"></a>0x1 解题思路</h2><p>我是在10月初出好的题，到现在已经过去2个月，然后没有源码，只能自己回忆一下，十分抱歉。</p>
-<p><img src="C:\Users\Administrator\Desktop\图片\1.jpg" alt="1"></p>
+<p><img src="/..%5Cimages%5CCatCTF%5C1.jpg" alt="1"></p>
 <p>先找到主要迷宫函数，这里ida可以设置查看到中文字符</p>
-<p><img src="C:\Users\Administrator\Desktop\图片\2.jpg" alt="2"></p>
+<p><img src="/..%5Cimages%5CCatCTF%5C2.jpg" alt="2"></p>
 <p>设置成CP936</p>
-<p><img src="C:\Users\Administrator\Desktop\图片\3.jpg" alt="3"></p>
+<p><img src="/..%5Cimages%5CCatCTF%5C3.jpg" alt="3"></p>
 <p>再去字符串位置按A即可，通过字符串就可以看出这里是虚假的地图</p>
-<p><img src="C:\Users\Administrator\Desktop\图片\4.jpg" alt="4"></p>
+<p><img src="/..%5Cimages%5CCatCTF%5C4.jpg" alt="4"></p>
 <p>这里的魔改base64解出来是没有用的</p>
-<p><img src="C:\Users\Administrator\Desktop\图片\5.jpg" alt="5"></p>
+<p><img src="/..%5Cimages%5CCatCTF%5C5.jpg" alt="5"></p>
 <p>相信大家最好奇的就是动调和正常运行地图是不一样的，这里是关键，在这里取了运行的路径的最后一位然后存储了起来</p>
-<p><img src="C:\Users\Administrator\Desktop\图片\6.jpg" alt="6"></p>
+<p><img src="/..%5Cimages%5CCatCTF%5C6.jpg" alt="6"></p>
 <p>再通过判断这位存起来的字符是否为32  即空格  再进行一个虚表hook，这里就是为什么两个图不一样，如果调试了就不运行真地图，为什么要判断为32为没调试，师傅们可以自行断住判断。</p>
-<p><img src="C:\Users\Administrator\Desktop\图片\7.jpg" alt="7"></p>
-<p><img src="C:\Users\Administrator\Desktop\图片\8.jpg" alt="8"></p>
+<p><img src="/..%5Cimages%5CCatCTF%5C7.jpg" alt="7"></p>
+<p><img src="/..%5Cimages%5CCatCTF%5C8.jpg" alt="8"></p>
 <p>这里进行了一个反附加，先给附加位一个值，如果附加了就变为1</p>
-<p><img src="C:\Users\Administrator\Desktop\图片\9.jpg" alt="9"></p>
+<p><img src="/..%5Cimages%5CCatCTF%5C9.jpg" alt="9"></p>
 <p>然后知道了上面的判断就可以找到smc的位置，解密即可</p>
 <pre class="line-numbers language-IDApython" data-language="IDApython"><code class="language-IDApython">s&#x3D;0x402780
 for i in range(1989):
     ida_bytes.patch_byte(s+i,idc.get_wide_byte(s+i)^32)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
-<p><img src="C:\Users\Administrator\Desktop\图片\10.jpg" alt="10"></p>
+<p><img src="/..%5Cimages%5CCatCTF%5C10.jpg" alt="10"></p>
 <p>解密即可看见真正的地图和正确的剧情。彩蛋的话很多师傅都做出来了就是喵呜是用摩斯解密，正常解密就是sm4结果是一样的。（注：sm4解密脚本最开始已说，无魔改cybercher或找一个脚本解密即可）</p>
-<p><img src="C:\Users\Administrator\Desktop\图片\11.jpg" alt="11"></p>
+<p><img src="/..%5Cimages%5CCatCTF%5C11.jpg" alt="11"></p>
 <p>密钥就是wuwuwuyoucatme</p>
-<p><img src="C:\Users\Administrator\Desktop\图片\12.jpg" alt="12"></p>
+<p><img src="/..%5Cimages%5CCatCTF%5C12.jpg" alt="12"></p>
 <p>最终就是一个RC5，也是无魔改，csdn找一个rc5解密即可。</p>
 <h2 id="0x3-出题思路"><a href="#0x3-出题思路" class="headerlink" title="0x3 出题思路"></a>0x3 出题思路</h2><p>因为是公益赛，又希望能出的新颖一点的题目，所以就出了这么一道带剧情的题目，这题原本是两个图剧情可以一样，但是flag不一样fakeflag，这样会增加迷惑性让做题者动调时也意识不到自己做的一直是错到最终得到fakeflag，原本fake图第二个位置也是加了一个aes的魔改解密，后面也删掉了，反调试的思路在笨橘猫1中就已经使用，继续使用了下来，反附加也是一样。解密也是都使用的无魔改的sm4和RC5。（加强版可能就是smc的位置加混淆，两个图为一致但算法不同，虚假图弄一些不可能解密出来的加密..留待笨橘猫3）</p>
 <p>如果还有笨橘猫3的话，我希望自己还能学到一些小思路小技巧放入题目中，下次可能就让师傅们更难找到真实逻辑咯（滑稽）</p>
@@ -464,7 +464,7 @@ for i in range(1989):
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://moodyblue.cn/category/CatCTF/">http://moodyblue.cn/category/CatCTF/</a>
+                    <a href="http://moodyblue.cn/category/StupidOrangeCat2/">http://moodyblue.cn/category/StupidOrangeCat2/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -947,9 +947,48 @@ for i in range(1989):
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/category/StupidOrangeCat2/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="">
+                        
+                        <span class="card-title"></span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-06-09
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Blue
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
             <div class="card">
                 <a href="/category/frida-hook-note/">
                     <div class="card-image">
@@ -967,45 +1006,8 @@ for i in range(1989):
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2023-06-09
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-user fa-fw"></i>
-                            Blue
-                            
-                        </span>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/category/ZJCTF-RE/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="ZJCTF-RE">
-                        
-                        <span class="card-title">ZJCTF-RE</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-                        
-                    </div>
-                    <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-09-26
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-06-09
                             </span>
                         <span class="publish-author">
                             
