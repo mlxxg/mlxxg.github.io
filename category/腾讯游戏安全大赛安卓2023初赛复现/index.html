@@ -455,7 +455,7 @@ https://bbs.kanxue.com/thread-276896.htm#m">
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_46832407/article/details/129971512">https://blog.csdn.net/qq_46832407/article/details/129971512</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1hR4y1k795/?spm_id_from=333.880.my_history.page.click&amp;vd_source=2fcdd1bcbcd68497824663b16df7d4ef">https://www.bilibili.com/video/BV1hR4y1k795/?spm_id_from=333.880.my_history.page.click&amp;vd_source=2fcdd1bcbcd68497824663b16df7d4ef</a></p>
 <p>这是我尝试刷内核时学习的博客和b站视频，我的小米mix2s刷不起来</p>
-<p>ida调试名字为as64  运行命令 .&#x2F;as64 -p 19234  另起cmd转发端口adb forward tcp:19233 tcp:19233</p>
+<p>ida调试名字为as64  运行命令 .&#x2F;as64 -p 19234  另起cmd转发端口adb forward tcp:19234 tcp:19234</p>
 <p>我自己尝试的方法挂起所有线程（思路3）</p>
 <pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">suspend_other_thread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
     current_thread <span class="token operator">=</span> idc<span class="token punctuation">.</span>get_current_thread<span class="token punctuation">(</span><span class="token punctuation">)</span>
