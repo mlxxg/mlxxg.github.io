@@ -1,0 +1,1816 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="2024TencentGameAndroid初赛复现, Blue.Blogs">
+    <meta name="description" content="2024TencentGameAndroid初赛复现0x0 引言通过查看这两位师傅的文章代码学习，进行复现
+https://www.52pojie.cn/forum.php?mod=viewthread&amp;amp;tid=1930752
+ht">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>2024TencentGameAndroid初赛复现 | Blue.Blogs</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Blue.Blogs</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Blue.Blogs</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/15.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">2024TencentGameAndroid初赛复现</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+        background-color: rgb(255, 255, 255,0.7);
+        border-radius: 10px;
+        box-shadow: 0 10px 35px 2px rgba(0, 0, 0, .15), 0 5px 15px rgba(0, 0, 0, .07), 0 2px 5px -5px rgba(0, 0, 0, .1) !important;
+    }
+
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                          <div class="article-tag">
+                            <span class="chip bg-color">无标签</span>
+                          </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2025-01-18
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="2024TencentGameAndroid初赛复现"><a href="#2024TencentGameAndroid初赛复现" class="headerlink" title="2024TencentGameAndroid初赛复现"></a>2024TencentGameAndroid初赛复现</h2><h2 id="0x0-引言"><a href="#0x0-引言" class="headerlink" title="0x0 引言"></a>0x0 引言</h2><p>通过查看这两位师傅的文章代码学习，进行复现</p>
+<p><a target="_blank" rel="noopener" href="https://www.52pojie.cn/forum.php?mod=viewthread&amp;tid=1930752">https://www.52pojie.cn/forum.php?mod=viewthread&amp;tid=1930752</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.yxfzedu.com/article/10613">http://www.yxfzedu.com/article/10613</a></p>
+<h2 id="0x1-dump-ue4-SDK"><a href="#0x1-dump-ue4-SDK" class="headerlink" title="0x1 dump ue4 SDK"></a>0x1 dump ue4 SDK</h2><p>搜索ue4+</p>
+<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118154524831.png" alt="image-20250118154524831"></p>
+<p>得到ue4.27版本</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/hackcatml/frida-ue4dump">https://github.com/hackcatml/frida-ue4dump</a></p>
+<p>下载dump 工具</p>
+<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118143857478.png" alt="image-20250118143857478"></p>
+<p>frida-ue4dump可以直接获得GNames，但是获取GUObject出错了</p>
+<p>GNames是0xB171CC0</p>
+<p>libUE4.so搜索Max UObject count is invalid. It must be a number that is greater than 0.</p>
+<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118152736459.png" alt="image-20250118152736459"></p>
+<p>用交叉引用找到<code>sub_6FE10CC </code>，再查<code>sub_6FE10CC</code>的交叉引用，看到<code>sub_6FE4C54</code>。这里给<code>sub_6FE10CC</code>的a1传参是<code>&amp;dword_B1B5F98</code>因此GUObject是0xB1B5F98</p>
+<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118152757295.png" alt="image-20250118152757295"></p>
+<p>同理，在虚幻引擎源代码项目文件夹和libUE4.so中搜索SeamlessTravel FlushLevelStreaming</p>
+<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118154735900.png" alt="image-20250118154735900"></p>
+<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118154842994.png" alt="image-20250118154842994"></p>
+<pre class="line-numbers language-none"><code class="language-none">GNames是0xB171CC0
+GWorld的是0xB32D8A8
+GUObject是0xB1B5F98<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>修改frida-ue4dump中的script.js片段，手工指定GUObject的偏移即可获取SDK</p>
+<pre class="line-numbers language-none"><code class="language-none">function findGUObjectArray1(moduleBase) &#123;
+
+        console.log(&quot;[*] Using predefined GUObjectArray offset.&quot;);
+
+        &#x2F;&#x2F; 已知的偏移地址
+        var offset &#x3D; ptr(0xB1B5F98); &#x2F;&#x2F; 直接使用已知的偏移
+
+        &#x2F;&#x2F; 计算 GUObjectArray 的实际地址
+        GUObjectArray &#x3D; moduleBase.add(offset);
+        
+        if (GUObjectArray.isNull()) &#123;
+            console.log(&quot;[!] GUObjectArray is null, please check if the address is correct.&quot;);
+            return;
+        &#125;
+
+        console.log(&#96;[*] Got GUObjectArray at: $&#123;GUObjectArray&#125;&#96;);
+    
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>输出内容很多 重定向输出到文本中</p>
+<p>frida -U -f com.tencent.ace.match2024 -l .\script.js &gt; sdkdump.txt</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/revercc/UE4Dumper?tab=readme-ov-file">https://github.com/revercc/UE4Dumper?tab=readme-ov-file</a></p>
+<p>也可以用ue4dumper来dump</p>
+<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118164700788.png" alt="image-20250118164700788"></p>
+<h2 id="0x2-关卡内容"><a href="#0x2-关卡内容" class="headerlink" title="0x2 关卡内容"></a>0x2 关卡内容</h2><p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118165646863.png" alt="image-20250118165646863"></p>
+<p>总共4关</p>
+<h2 id="0x3-section0-逃出房间"><a href="#0x3-section0-逃出房间" class="headerlink" title="0x3 section0_逃出房间"></a>0x3 section0_逃出房间</h2><p>尝试走出房间，会重生回房间，多试几次观察细节发现是生命值被清空了</p>
+<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118165758444.png" alt="image-20250118165758444"></p>
+<p>找到人物血量内存位置 修改血量</p>
+<p>SDK搜索FirstPersonCharacter 找到人物属性</p>
+<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118165241561.png" alt="image-20250118165241561"></p>
+<p>对照两份看，发现 float widestr 是生命值 偏移0x510</p>
+<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118165257857.png" alt="image-20250118165257857"></p>
+<p>编写frida hook脚本</p>
+<pre class="line-numbers language-none"><code class="language-none">var GName_Offset &#x3D; 0xB171CC0;
+var GWorld_Offset &#x3D; 0xB32D8A8;
+var GUObjectArray_Offset &#x3D; 0xB1B5F98;
+var playerName &#x3D; &quot;FirstPersonCharacter_C&quot;;
+var moduleBase;
+var GWorld;
+var GName;
+var GUObjectArray;
+
+&#x2F;&#x2F; 对象在GUObjectArray中的序号
+var offset_UObject_InternalIndex &#x3D;0xC;
+&#x2F;&#x2F; 对象的类
+var offset_UObject_ClassPrivate &#x3D; 0X10;
+&#x2F;&#x2F; 对象名称在FName表中的索引
+var offset_UObject_FNameIndex &#x3D; 0x18;
+&#x2F;&#x2F; 指向包含该对象的外部对象，表示层次关系
+var offset_UObject_OuterPrivate &#x3D; 0x20;
+
+var offset_UObject_InternalIndex &#x3D; 0xC;
+
+&#x2F;&#x2F;指向描述对象类的 UClass 对象
+var offset_UObject_ClassPrivate &#x3D; 0x10;
+
+&#x2F;&#x2F;对象名称在 FName 表中的索引
+var offset_UObject_FNameIndex &#x3D; 0x18;
+
+&#x2F;&#x2F;指向包含该对象的外部对象，表示层次关系。
+var offset_UObject_OuterPrivate &#x3D; 0x20;
+var UObject&#x3D;&#123;
+ getClass: function(obj)&#123;
+   var classPrivate&#x3D;ptr(obj).add(offset_UObject_ClassPrivate).readPointer();&#x2F;&#x2F;读取指针
+   &#x2F;&#x2F;console.log(&#96;classPrivate: $&#123;classPrivate&#125;&#96;);
+   return classPrivate;
+ &#125;,
+getNameId: function(obj)&#123;
+ &#x2F;&#x2F;console.log(&#96;obj:$&#123;obj&#125;&#96;);
+ try&#123;
+   var nameId&#x3D;ptr(obj).add(offset_UObject_FNameIndex).readU32();&#x2F;&#x2F;读取4字节。
+   &#x2F;&#x2F;console.log(&#96;nameId:$&#123;nameId&#125;&#96;);
+   return nameId;
+ &#125;catch(e)&#123;
+   console.log(&quot;error&quot;)
+   return 0;
+ &#125;
+&#125;,
+getName: function(obj) &#123;
+ if (this.isValid(obj))&#123;
+     return getFNameFromID(this.getNameId(obj));
+ &#125; else &#123;
+     return &quot;None&quot;;
+ &#125;
+&#125;,
+getClassName: function(obj) &#123;
+ if (this.isValid(obj)) &#123;
+     var classPrivate &#x3D; this.getClass(obj);
+     return this.getName(classPrivate);
+ &#125; else &#123;
+     return &quot;None&quot;;
+ &#125;
+&#125;,
+isValid: function(obj) &#123;
+ var isValid &#x3D; (ptr(obj) &gt; 0 &amp;&amp; this.getNameId(obj) &gt; 0 &amp;&amp; this.getClass(obj) &gt; 0);
+ &#x2F;&#x2F; console.log(&#96;isValid: $&#123;isValid&#125;&#96;);
+ return isValid;
+&#125;
+
+&#125;
+function getFNameFromID(index) &#123;
+    &#x2F;&#x2F; FNamePool相关偏移量和步长
+    var FNameStride &#x3D; 0x2;                   &#x2F;&#x2F; FNameEntry 的步长，每个FNameEntry占用2字节
+    var offset_GName_FNamePool &#x3D; 0x30;       &#x2F;&#x2F; GName 到 FNamePool 的偏移量
+    var offset_FNamePool_Blocks &#x3D; 0x10;      &#x2F;&#x2F; FNamePool 到 Blocks 的偏移量
+
+    &#x2F;&#x2F; FNameEntry相关偏移量和位
+    var offset_FNameEntry_Info &#x3D; 0;          &#x2F;&#x2F; FNameEntry 到 Info 的偏移量
+    var FNameEntry_LenBit &#x3D; 6;               &#x2F;&#x2F; FNameEntry 长度位
+    var offset_FNameEntry_String &#x3D; 0x2;      &#x2F;&#x2F; FNameEntry 到字符串部分的偏移量
+
+    &#x2F;&#x2F; 计算块和偏移量
+    var Block &#x3D; index &gt;&gt; 16;                 &#x2F;&#x2F; 块索引
+    var Offset &#x3D; index &amp; 65535;              &#x2F;&#x2F; 块内偏移量
+
+    &#x2F;&#x2F; 获取FNamePool的起始地址
+    var FNamePool &#x3D; GName.add(offset_GName_FNamePool);
+    &#x2F;&#x2F; console.log(&#96;FNamePool: $&#123;FNamePool&#125;&#96;);
+    &#x2F;&#x2F; console.log(&#96;Block: $&#123;Block&#125;&#96;);
+
+    &#x2F;&#x2F; 获取特定块的地址
+    var NamePoolChunk &#x3D; FNamePool.add(offset_FNamePool_Blocks + Block * 8).readPointer();
+    &#x2F;&#x2F; console.log(&#96;NamePoolChunk: $&#123;NamePoolChunk&#125;&#96;);
+
+    &#x2F;&#x2F; 计算FNameEntry的地址
+    var FNameEntry &#x3D; NamePoolChunk.add(FNameStride * Offset);
+    &#x2F;&#x2F; console.log(&#96;FNameEntry: $&#123;FNameEntry&#125;&#96;);
+
+    try &#123;
+        &#x2F;&#x2F; 读取FNameEntry的Header
+        if (offset_FNameEntry_Info !&#x3D;&#x3D; 0) &#123;
+            var FNameEntryHeader &#x3D; FNameEntry.add(offset_FNameEntry_Info).readU16();     
+        &#125; else &#123;
+            var FNameEntryHeader &#x3D; FNameEntry.readU16();
+        &#125;
+    &#125; catch(e) &#123;
+        &#x2F;&#x2F; 捕捉读取异常并返回空字符串
+        &#x2F;&#x2F; console.log(e);
+        return &quot;&quot;;
+    &#125;
+    &#x2F;&#x2F; console.log(&#96;FNameEntryHeader: $&#123;FNameEntryHeader&#125;&#96;);
+
+    &#x2F;&#x2F; 获取字符串地址
+    var str_addr &#x3D; FNameEntry.add(offset_FNameEntry_String);
+    &#x2F;&#x2F; console.log(&#96;str_addr: $&#123;str_addr&#125;&#96;);
+
+    &#x2F;&#x2F; 计算字符串长度和宽度
+    var str_length &#x3D; FNameEntryHeader &gt;&gt; FNameEntry_LenBit; &#x2F;&#x2F; 计算字符串长度
+    var wide &#x3D; FNameEntryHeader &amp; 1;                       &#x2F;&#x2F; 判断字符串是否为宽字符
+
+    &#x2F;&#x2F; 如果是宽字符，返回 &quot;widestr&quot;
+    if (wide) return &quot;widestr&quot;;
+
+    &#x2F;&#x2F; 如果字符串长度合理，读取并返回UTF-8字符串
+    if (str_length &gt; 0 &amp;&amp; str_length &lt; 250) &#123;
+        var str &#x3D; str_addr.readUtf8String(str_length);
+        return str;
+    &#125; else &#123;
+        return &quot;None&quot;; &#x2F;&#x2F; 长度不合理，返回 &quot;None&quot;
+    &#125;
+&#125;
+&#x2F;&#x2F;获取对象实例
+function getActorAddr(str)&#123;
+    var player_addr;
+    var actorsAddr&#x3D;getActorsAddr();
+    for(var key in actorsAddr)&#123;
+      if(key&#x3D;&#x3D;str)&#123;
+        console.log(actorsAddr[key]);
+        player_addr&#x3D;actorsAddr[key];
+      &#125;
+    &#125;
+    if(player_addr&#x3D;&#x3D;null)
+      &#123;
+        console.log(&quot;null pointer!&quot;);
+      &#125;
+    return player_addr;
+  &#125;
+  function getActorsAddr()&#123;
+    var Level_Offset&#x3D;0x30&#x2F;&#x2F;偏移
+    var Actors_Offset&#x3D;0x98
+    var Level&#x3D;GWorld.add(Level_Offset).readPointer()&#x2F;&#x2F;读取GWorld的level指针
+    var Actors&#x3D;Level.add(Actors_Offset).readPointer()&#x2F;&#x2F;读取Actors的指针
+    var Actors_Num&#x3D;Level.add(Actors_Offset).add(8).readU32()&#x2F;&#x2F;获取Actor的数量
+    var actorsAddr&#x3D;&#123;&#125;;&#x2F;&#x2F;空对象，下面的实现类似字典
+    for(var index&#x3D;0;index&lt;Actors_Num;index++)
+      &#123;
+        var actor_addr&#x3D;Actors.add(index*8).readPointer()&#x2F;&#x2F;读取当前索引处的Actor地址
+        var actorName&#x3D;UObject.getName(actor_addr)&#x2F;&#x2F;通过地址获取字符串名字
+        actorsAddr[actorName]&#x3D;actor_addr;&#x2F;&#x2F;以字符串名字对应地址值
+        &#x2F;&#x2F;console.log(&#96;actors[$&#123;index&#125;]&#96;,actorName);
+      &#125;
+      return actorsAddr;
+  &#125;
+
+function setPlayerHP(hp &#x3D; 1000000)&#123;
+    &#x2F;&#x2F;生命属性偏移
+    getActorAddr(playerName).add(0x510).writeFloat(hp);
+&#125;
+
+
+function set(moduleName)&#123;
+    &#x2F;&#x2F;获取libUE4的基地址
+    moduleBase&#x3D;Module.findBaseAddress(moduleName);
+  
+    &#x2F;&#x2F;UE4基地址加上在IDA中获取的GName偏移获取GName地址
+    GName&#x3D;moduleBase.add(GName_Offset);
+  
+    &#x2F;&#x2F;同上获取GUObjectArray的地址
+    GUObjectArray&#x3D;moduleBase.add(GUObjectArray_Offset);
+  
+  &#x2F;&#x2F;读取GWorld的指针
+    GWorld &#x3D;moduleBase.add(GWorld_Offset).readPointer();
+  
+  &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>成功走出房间</p>
+<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118191914209.png" alt="image-20250118191914209"></p>
+<h2 id="0x4-section1-空中flag"><a href="#0x4-section1-空中flag" class="headerlink" title="0x4 section1_空中flag"></a>0x4 section1_空中flag</h2><p>出来抬头可以看见空中有flag{}</p>
+<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118192445083.png" alt="image-20250118192445083"></p>
+<p>获取自己位置</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F;坐标
+class Vector&#123;
+    constructor(x,y,z)&#123;
+        this.x &#x3D; x;
+        this.y &#x3D; y;
+        this.z &#x3D; z;
+
+    &#125;
+    toString()&#123;
+        return &#96;($&#123;this.x&#125;, $&#123;this.y&#125;, $&#123;this.z&#125;)&#96;;
+    &#125;
+&#125;
+
+function dumpVector(addr)&#123;
+    &#x2F;&#x2F; dumpAddr(&#39;firstPersion_RootComponent&#39;,firstPersion_RootComponent_ptr,0x152)
+    &#x2F;&#x2F; 从地址空间中读取三个浮点数
+    const values &#x3D; Memory.readByteArray(addr, 3 * 4);  &#x2F;&#x2F; 3个float共占12个字节
+    &#x2F;&#x2F; 解析浮点数并初始化 Vector 对象
+    const vec &#x3D; new Vector(
+        new Float32Array(values, 0, 1)[0],  &#x2F;&#x2F; 读取第一个浮点数
+        new Float32Array(values, 4, 1)[0],  &#x2F;&#x2F; 读取第二个浮点数
+        new Float32Array(values, 8, 1)[0]   &#x2F;&#x2F; 读取第三个浮点数
+    );
+    console.log(&#39;[+] 坐标：&#39;,vec);&#x2F;&#x2F;打出坐标。
+  &#125;
+
+&#x2F;&#x2F;用ue4 api获取坐标
+function getActorLocation(actor_addr)&#123;
+
+    actor_addr &#x3D; ptr(actor_addr)
+    var buf &#x3D; Memory.alloc(0x100);
+    var f_addr &#x3D; moduleBase.add(0x965ddf8);&#x2F;&#x2F;ue4中的api K2_GetActorLocation的偏移
+      &#x2F;&#x2F; 将目标函数地址转换为JavaScript函数
+    var getLocationFunc &#x3D; new NativeFunction(f_addr, &#39;void&#39;, [&#39;pointer&#39;,&#39;pointer&#39;,&#39;pointer&#39;]);
+  
+    &#x2F;&#x2F; 调用目标函数并传递内存地址作为参数
+    try&#123;
+        getLocationFunc(actor_addr,buf,buf);
+        dumpVector(buf);
+        return buf;
+        &#x2F;&#x2F;info(ptr(actor_addr).add(0x130).readPointer().add(0x14c).readU8()&amp;32 !&#x3D; 0);
+    &#125;
+    catch (e)&#123;
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-none"><code class="language-none">[Pixel 6::com.tencent.ace.match2024 ]-&gt; getActorLocation(getActorAddr(playerName))
+0x6e6c4d7120
+[+] 坐标： (-1264.872314453125, -347.19818115234375, 268.3692321777344)
+&quot;0x71c7474aa0&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-none"><code class="language-none">function setActorLocation(actor_addr,x,y,z)&#123;
+
+    actor_addr &#x3D; ptr(actor_addr)
+    var f_addr &#x3D; moduleBase.add(0x8C3181C);&#x2F;&#x2F;加上偏移获取目标函数的偏移 K2_SetActorLocation
+      &#x2F;&#x2F; 将目标函数地址转换为JavaScript函数
+    var setLocationFunc &#x3D; new NativeFunction(f_addr, &#39;bool&#39;, [&#39;pointer&#39;,&#39;bool&#39;,&#39;pointer&#39;,&#39;bool&#39;,&#39;float&#39;,&#39;float&#39;,&#39;float&#39;]);
+    &#x2F;&#x2F; 调用目标函数并传递内存地址作为参数
+    setLocationFunc(actor_addr,0,ptr(0),0,x,y,z);
+  
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>第一个房间得到提示，天空flag被隐藏了</p>
+<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118200627992.png" alt="image-20250118200627992"></p>
+<p>搜索找到设置隐藏的api</p>
+<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118193951880.png" alt="image-20250118193951880"></p>
+<pre class="line-numbers language-none"><code class="language-none">function setActorVisibility(actor_addr,NewHidden&#x3D;1,bPropagateToChildren&#x3D;2)&#123;
+    var f_addr &#x3D; moduleBase.add(0x8E619BC);
+    let setActorHiddenFunc &#x3D; new NativeFunction(f_addr, &#39;void&#39;, [&#39;pointer&#39;,&#39;char&#39;,&#39;char&#39;]);
+    setActorHiddenFunc(ptr(actor_addr).add(0x130).readPointer(),NewHidden,bPropagateToChildren);
+&#125;
+
+function dumpActorInstances()&#123;
+    GWorld &#x3D; moduleBase.add(GWorld_Offset).readPointer();
+    var Level_Offset &#x3D; 0x30
+    var Actors_Offset &#x3D; 0x98
+ 
+    var Level &#x3D; GWorld.add(Level_Offset).readPointer()
+    var Actors &#x3D; Level.add(Actors_Offset).readPointer()
+    var Actors_Num &#x3D; Level.add(Actors_Offset).add(8).readU32()
+    var actorsInstances &#x3D; &#123;&#125;;
+    for(var index &#x3D; 0; index &lt; Actors_Num; index++)&#123;
+        var actor_addr &#x3D; Actors.add(index * 8).readPointer()
+        var actorName &#x3D; UObject.getName(actor_addr)
+        actorsInstances[index] &#x3D; actorName;
+        &#x2F;&#x2F;info(&#96;actors[$&#123;index&#125;]:$&#123;actor_addr&#125;&#96;,actorName);
+        getActorLocation(actor_addr);
+        try&#123;
+            setActorVisibility(actor_addr)
+        &#125;
+        catch(e)&#123;
+ 
+        &#125;
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>遍历全部Actor全部显示</p>
+<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118200349735.png" alt="image-20250118200349735"></p>
+<h2 id="0x5-section2-让立方体变得不可穿透"><a href="#0x5-section2-让立方体变得不可穿透" class="headerlink" title="0x5 section2_让立方体变得不可穿透"></a>0x5 section2_让立方体变得不可穿透</h2><p>使物品有碰撞属性</p>
+<pre class="line-numbers language-none"><code class="language-none">Class: StaticMeshComponent.MeshComponent.PrimitiveComponent.SceneComponent.ActorComponent.Object<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>调用它基类<code>PrimitiveComponent.SceneComponent.ActorComponent.Object</code>的<code>SetCollisionEnabled</code>方法</p>
+<pre class="line-numbers language-none"><code class="language-none">function SetCollisionEnable(actor_addr,dr&#x3D;3) &#123;
+  var f_addr&#x3D;moduleBase.add(0x933b300);
+  let CallFunc&#x3D;new NativeFunction(f_addr,&#39;void&#39;,[&#39;pointer&#39;,&#39;int&#39;]);
+  CallFunc(ptr(actor_addr).add(0x130).readPointer(),dr);
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118203507195.png" alt="image-20250118203507195"></p>
+<h2 id="0x6-section3-查找黄色小球的类"><a href="#0x6-section3-查找黄色小球的类" class="headerlink" title="0x6 section3_查找黄色小球的类"></a>0x6 section3_查找黄色小球的类</h2><p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118203616054.png" alt="image-20250118203616054"></p>
+<p>SDK中搜索flag字样</p>
+<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118203819938.png" alt="image-20250118203819938"></p>
+<p>发现一个getlastflag函数</p>
+<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118203853896.png" alt="image-20250118203853896"></p>
+<p>调用了libplay.so中的get_last_flag</p>
+<p>异或出来发现base表</p>
+<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118204947448.png" alt="image-20250118204947448"></p>
+<p>回到开头，这里应该是密文和一个数组</p>
+<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118205048286.png" alt="image-20250118205048286"></p>
+<p>sub_192c进去</p>
+<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118205720656.png" alt="image-20250118205720656"></p>
+<p>经过计算可能会跳转到ea8 或 ed8 都进入查看</p>
+<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118205804161.png" alt="image-20250118205804161"></p>
+<p>a8是异或</p>
+<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118205815792.png" alt="image-20250118205815792"></p>
+<p>d8是返回</p>
+<p>那我们将上面的数据base64变表解密再异或解密尝试</p>
+<p>最终得到 _Anti_Cheat_Expert</p>
+<h2 id="flag"><a href="#flag" class="headerlink" title="flag"></a>flag</h2><p>FLAG{8939008_Anti_Cheat_Expert}</p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Blue</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://moodyblue.cn/category/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/">http://moodyblue.cn/category/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Blue</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            <span class="chip bg-color">无标签</span>
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+        <style>
+    .valine-card {
+        margin: 1.5rem auto;
+    }
+
+    .valine-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+
+    #vcomments textarea {
+        box-sizing: border-box;
+        background: url("/medias/comment_bg.png") 100% 100% no-repeat;
+    }
+
+    #vcomments p {
+        margin: 2px 2px 10px;
+        font-size: 1.05rem;
+        line-height: 1.78rem;
+    }
+
+    #vcomments blockquote p {
+        text-indent: 0.2rem;
+    }
+
+    #vcomments a {
+        padding: 0 2px;
+        color: #4cbf30;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    #vcomments img {
+        max-width: 100%;
+        height: auto;
+        cursor: pointer;
+    }
+
+    #vcomments ol li {
+        list-style-type: decimal;
+    }
+
+    #vcomments ol,
+    ul {
+        display: block;
+        padding-left: 2em;
+        word-spacing: 0.05rem;
+    }
+
+    #vcomments ul li,
+    ol li {
+        display: list-item;
+        line-height: 1.8rem;
+        font-size: 1rem;
+    }
+
+    #vcomments ul li {
+        list-style-type: disc;
+    }
+
+    #vcomments ul ul li {
+        list-style-type: circle;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    #vcomments table, th, td {
+        border: 0;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments h1 {
+        font-size: 1.85rem;
+        font-weight: bold;
+        line-height: 2.2rem;
+    }
+
+    #vcomments h2 {
+        font-size: 1.65rem;
+        font-weight: bold;
+        line-height: 1.9rem;
+    }
+
+    #vcomments h3 {
+        font-size: 1.45rem;
+        font-weight: bold;
+        line-height: 1.7rem;
+    }
+
+    #vcomments h4 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    #vcomments h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        line-height: 1.4rem;
+    }
+
+    #vcomments h6 {
+        font-size: 1rem;
+        line-height: 1.3rem;
+    }
+
+    #vcomments p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+
+    #vcomments hr {
+        margin: 12px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    #vcomments blockquote {
+        margin: 15px 0;
+        border-left: 5px solid #42b983;
+        padding: 1rem 0.8rem 0.3rem 0.8rem;
+        color: #666;
+        background-color: rgba(66, 185, 131, .1);
+    }
+
+    #vcomments pre {
+        font-family: monospace, monospace;
+        padding: 1.2em;
+        margin: .5em 0;
+        background: #272822;
+        overflow: auto;
+        border-radius: 0.3em;
+        tab-size: 4;
+    }
+
+    #vcomments code {
+        font-family: monospace, monospace;
+        padding: 1px 3px;
+        font-size: 0.92rem;
+        color: #e96900;
+        background-color: #f8f8f8;
+        border-radius: 2px;
+    }
+
+    #vcomments pre code {
+        font-family: monospace, monospace;
+        padding: 0;
+        color: #e8eaf6;
+        background-color: #272822;
+    }
+
+    #vcomments pre[class*="language-"] {
+        padding: 1.2em;
+        margin: .5em 0;
+    }
+
+    #vcomments code[class*="language-"],
+    pre[class*="language-"] {
+        color: #e8eaf6;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+
+    #vcomments b,
+    strong {
+        font-weight: bold;
+    }
+
+    #vcomments dfn {
+        font-style: italic;
+    }
+
+    #vcomments small {
+        font-size: 85%;
+    }
+
+    #vcomments cite {
+        font-style: normal;
+    }
+
+    #vcomments mark {
+        background-color: #fcf8e3;
+        padding: .2em;
+    }
+
+    #vcomments table, th, td {
+        padding: 12px 13px;
+        border: 1px solid #dfe2e5;
+    }
+
+    table tr:nth-child(2n), thead {
+        background-color: #fafafa;
+    }
+
+    #vcomments table th {
+        background-color: #f2f2f2;
+        min-width: 80px;
+    }
+
+    #vcomments table td {
+        min-width: 80px;
+    }
+
+    #vcomments [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: inherit;
+        margin-left: -1.3rem;
+        margin-right: 0.4rem;
+        margin-top: -1px;
+        vertical-align: middle;
+        left: unset;
+        visibility: visible;
+    }
+</style>
+
+<div class="card valine-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="vcomments" class="card-content" style="display: grid">
+    </div>
+</div>
+
+<script src="/libs/valine/av-min.js"></script>
+<script src="/libs/valine/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        appId: 'G7lnswxOQtaObPCANf6C5mMb-gzGzoHsz',
+        appKey: 'EkJJ2xeOruiGsbHtDwMA0GgL',
+        notify: 'false' === 'true',
+        verify: 'false' === 'true',
+        visitor: 'true' === 'true',
+        avatar: 'mm',
+        pageSize: '10',
+        lang: 'zh-cn',
+        placeholder: 'just go go'
+    });
+</script>
+
+<!--酷Q推送-->
+
+<!-- 直达评论 -->
+<div id="to_comment" class="comment-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#vcomments" title="直达评论">
+        <i class="fas fa-comments"></i>
+    </a>
+</div>
+
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/category/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="2024TencentGameAndroid初赛复现">
+                        
+                        <span class="card-title">2024TencentGameAndroid初赛复现</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-01-18
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Blue
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/category/2024%E8%85%BE%E8%AE%AF%E6%B8%B8%E6%88%8F%E5%AE%89%E5%85%A8%E5%A4%A7%E8%B5%9BPC%E5%88%9D%E8%B5%9B/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="2024腾讯游戏安全大赛PC初赛">
+                        
+                        <span class="card-title">2024腾讯游戏安全大赛PC初赛</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-04-29
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Blue
+                            
+                        </span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="653147671"
+                   fixed='true'
+                   autoplay='true'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2022-2025</span>
+            
+            <a href="/about" target="_blank">Blue</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/mlxxg" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:962564839@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=962564839" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 962564839" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+
+    <!-- 雪花特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="/libs/others/snow.js"><\/script>');
+            }
+        </script>
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+    
+    <script type="text/javascript" size="150" alpha='0.6'
+        zIndex="-1" src="/libs/background/ribbon-refresh.min.js" async="async"></script>
+    
+
+    
+    <script type="text/javascript" src="/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
