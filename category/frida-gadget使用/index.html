@@ -4,10 +4,14 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="2024TencentGameAndroid初赛复现, Blue.Blogs">
-    <meta name="description" content="2024TencentGameAndroid初赛复现0x0 引言通过查看这两位师傅的文章代码学习，进行复现
-https://www.52pojie.cn/forum.php?mod=viewthread&amp;amp;tid=1930752
-ht">
+    <meta name="keywords" content="frida-gadget使用, Blue.Blogs">
+    <meta name="description" content="frida-gadget使用0x0 引言https://frida.re/docs/gadget/ 官方链接
+frida-gadget使用优点：
+免root使用frida 
+程序反调试 反frida很强时
+缺点：
+需要重打包程序
+frida">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -19,7 +23,7 @@ ht">
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>2024TencentGameAndroid初赛复现 | Blue.Blogs</title>
+    <title>frida-gadget使用 | Blue.Blogs</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -248,12 +252,12 @@ ht">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/15.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">2024TencentGameAndroid初赛复现</h1>
+                    <h1 class="description center-align post-title">frida-gadget使用</h1>
                 </div>
             </div>
         </div>
@@ -385,7 +389,7 @@ ht">
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2025-01-18
+                    2025-01-22
                 </div>
                 
 
@@ -409,379 +413,45 @@ ht">
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="2024TencentGameAndroid初赛复现"><a href="#2024TencentGameAndroid初赛复现" class="headerlink" title="2024TencentGameAndroid初赛复现"></a>2024TencentGameAndroid初赛复现</h2><h2 id="0x0-引言"><a href="#0x0-引言" class="headerlink" title="0x0 引言"></a>0x0 引言</h2><p>通过查看这两位师傅的文章代码学习，进行复现</p>
-<p><a target="_blank" rel="noopener" href="https://www.52pojie.cn/forum.php?mod=viewthread&amp;tid=1930752">https://www.52pojie.cn/forum.php?mod=viewthread&amp;tid=1930752</a></p>
-<p><a target="_blank" rel="noopener" href="http://www.yxfzedu.com/article/10613">http://www.yxfzedu.com/article/10613</a></p>
-<h2 id="0x1-dump-ue4-SDK"><a href="#0x1-dump-ue4-SDK" class="headerlink" title="0x1 dump ue4 SDK"></a>0x1 dump ue4 SDK</h2><p>搜索ue4+</p>
-<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118154524831.png" alt="image-20250118154524831"></p>
-<p>得到ue4.27版本</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/hackcatml/frida-ue4dump">https://github.com/hackcatml/frida-ue4dump</a></p>
-<p>下载dump 工具</p>
-<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118143857478.png" alt="image-20250118143857478"></p>
-<p>frida-ue4dump可以直接获得GNames，但是获取GUObject出错了</p>
-<p>GNames是0xB171CC0</p>
-<p>libUE4.so搜索Max UObject count is invalid. It must be a number that is greater than 0.</p>
-<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118152736459.png" alt="image-20250118152736459"></p>
-<p>用交叉引用找到<code>sub_6FE10CC </code>，再查<code>sub_6FE10CC</code>的交叉引用，看到<code>sub_6FE4C54</code>。这里给<code>sub_6FE10CC</code>的a1传参是<code>&amp;dword_B1B5F98</code>因此GUObject是0xB1B5F98</p>
-<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118152757295.png" alt="image-20250118152757295"></p>
-<p>同理，在虚幻引擎源代码项目文件夹和libUE4.so中搜索SeamlessTravel FlushLevelStreaming</p>
-<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118154735900.png" alt="image-20250118154735900"></p>
-<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118154842994.png" alt="image-20250118154842994"></p>
-<pre class="line-numbers language-none"><code class="language-none">GNames是0xB171CC0
-GWorld的是0xB32D8A8
-GUObject是0xB1B5F98<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<p>修改frida-ue4dump中的script.js片段，手工指定GUObject的偏移即可获取SDK</p>
-<pre class="line-numbers language-none"><code class="language-none">function findGUObjectArray1(moduleBase) &#123;
-
-        console.log(&quot;[*] Using predefined GUObjectArray offset.&quot;);
-
-        &#x2F;&#x2F; 已知的偏移地址
-        var offset &#x3D; ptr(0xB1B5F98); &#x2F;&#x2F; 直接使用已知的偏移
-
-        &#x2F;&#x2F; 计算 GUObjectArray 的实际地址
-        GUObjectArray &#x3D; moduleBase.add(offset);
-        
-        if (GUObjectArray.isNull()) &#123;
-            console.log(&quot;[!] GUObjectArray is null, please check if the address is correct.&quot;);
-            return;
-        &#125;
-
-        console.log(&#96;[*] Got GUObjectArray at: $&#123;GUObjectArray&#125;&#96;);
-    
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>输出内容很多 重定向输出到文本中</p>
-<p>frida -U -f com.tencent.ace.match2024 -l .\script.js &gt; sdkdump.txt</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/revercc/UE4Dumper?tab=readme-ov-file">https://github.com/revercc/UE4Dumper?tab=readme-ov-file</a></p>
-<p>也可以用ue4dumper来dump</p>
-<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118164700788.png" alt="image-20250118164700788"></p>
-<h2 id="0x2-关卡内容"><a href="#0x2-关卡内容" class="headerlink" title="0x2 关卡内容"></a>0x2 关卡内容</h2><p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118165646863.png" alt="image-20250118165646863"></p>
-<p>总共4关</p>
-<h2 id="0x3-section0-逃出房间"><a href="#0x3-section0-逃出房间" class="headerlink" title="0x3 section0_逃出房间"></a>0x3 section0_逃出房间</h2><p>尝试走出房间，会重生回房间，多试几次观察细节发现是生命值被清空了</p>
-<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118165758444.png" alt="image-20250118165758444"></p>
-<p>找到人物血量内存位置 修改血量</p>
-<p>SDK搜索FirstPersonCharacter 找到人物属性</p>
-<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118165241561.png" alt="image-20250118165241561"></p>
-<p>对照两份看，发现 float widestr 是生命值 偏移0x510</p>
-<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118165257857.png" alt="image-20250118165257857"></p>
-<p>编写frida hook脚本</p>
-<pre class="line-numbers language-none"><code class="language-none">var GName_Offset &#x3D; 0xB171CC0;
-var GWorld_Offset &#x3D; 0xB32D8A8;
-var GUObjectArray_Offset &#x3D; 0xB1B5F98;
-var playerName &#x3D; &quot;FirstPersonCharacter_C&quot;;
-var moduleBase;
-var GWorld;
-var GName;
-var GUObjectArray;
-
-&#x2F;&#x2F; 对象在GUObjectArray中的序号
-var offset_UObject_InternalIndex &#x3D;0xC;
-&#x2F;&#x2F; 对象的类
-var offset_UObject_ClassPrivate &#x3D; 0X10;
-&#x2F;&#x2F; 对象名称在FName表中的索引
-var offset_UObject_FNameIndex &#x3D; 0x18;
-&#x2F;&#x2F; 指向包含该对象的外部对象，表示层次关系
-var offset_UObject_OuterPrivate &#x3D; 0x20;
-
-var offset_UObject_InternalIndex &#x3D; 0xC;
-
-&#x2F;&#x2F;指向描述对象类的 UClass 对象
-var offset_UObject_ClassPrivate &#x3D; 0x10;
-
-&#x2F;&#x2F;对象名称在 FName 表中的索引
-var offset_UObject_FNameIndex &#x3D; 0x18;
-
-&#x2F;&#x2F;指向包含该对象的外部对象，表示层次关系。
-var offset_UObject_OuterPrivate &#x3D; 0x20;
-var UObject&#x3D;&#123;
- getClass: function(obj)&#123;
-   var classPrivate&#x3D;ptr(obj).add(offset_UObject_ClassPrivate).readPointer();&#x2F;&#x2F;读取指针
-   &#x2F;&#x2F;console.log(&#96;classPrivate: $&#123;classPrivate&#125;&#96;);
-   return classPrivate;
- &#125;,
-getNameId: function(obj)&#123;
- &#x2F;&#x2F;console.log(&#96;obj:$&#123;obj&#125;&#96;);
- try&#123;
-   var nameId&#x3D;ptr(obj).add(offset_UObject_FNameIndex).readU32();&#x2F;&#x2F;读取4字节。
-   &#x2F;&#x2F;console.log(&#96;nameId:$&#123;nameId&#125;&#96;);
-   return nameId;
- &#125;catch(e)&#123;
-   console.log(&quot;error&quot;)
-   return 0;
- &#125;
-&#125;,
-getName: function(obj) &#123;
- if (this.isValid(obj))&#123;
-     return getFNameFromID(this.getNameId(obj));
- &#125; else &#123;
-     return &quot;None&quot;;
- &#125;
-&#125;,
-getClassName: function(obj) &#123;
- if (this.isValid(obj)) &#123;
-     var classPrivate &#x3D; this.getClass(obj);
-     return this.getName(classPrivate);
- &#125; else &#123;
-     return &quot;None&quot;;
- &#125;
-&#125;,
-isValid: function(obj) &#123;
- var isValid &#x3D; (ptr(obj) &gt; 0 &amp;&amp; this.getNameId(obj) &gt; 0 &amp;&amp; this.getClass(obj) &gt; 0);
- &#x2F;&#x2F; console.log(&#96;isValid: $&#123;isValid&#125;&#96;);
- return isValid;
-&#125;
-
-&#125;
-function getFNameFromID(index) &#123;
-    &#x2F;&#x2F; FNamePool相关偏移量和步长
-    var FNameStride &#x3D; 0x2;                   &#x2F;&#x2F; FNameEntry 的步长，每个FNameEntry占用2字节
-    var offset_GName_FNamePool &#x3D; 0x30;       &#x2F;&#x2F; GName 到 FNamePool 的偏移量
-    var offset_FNamePool_Blocks &#x3D; 0x10;      &#x2F;&#x2F; FNamePool 到 Blocks 的偏移量
-
-    &#x2F;&#x2F; FNameEntry相关偏移量和位
-    var offset_FNameEntry_Info &#x3D; 0;          &#x2F;&#x2F; FNameEntry 到 Info 的偏移量
-    var FNameEntry_LenBit &#x3D; 6;               &#x2F;&#x2F; FNameEntry 长度位
-    var offset_FNameEntry_String &#x3D; 0x2;      &#x2F;&#x2F; FNameEntry 到字符串部分的偏移量
-
-    &#x2F;&#x2F; 计算块和偏移量
-    var Block &#x3D; index &gt;&gt; 16;                 &#x2F;&#x2F; 块索引
-    var Offset &#x3D; index &amp; 65535;              &#x2F;&#x2F; 块内偏移量
-
-    &#x2F;&#x2F; 获取FNamePool的起始地址
-    var FNamePool &#x3D; GName.add(offset_GName_FNamePool);
-    &#x2F;&#x2F; console.log(&#96;FNamePool: $&#123;FNamePool&#125;&#96;);
-    &#x2F;&#x2F; console.log(&#96;Block: $&#123;Block&#125;&#96;);
-
-    &#x2F;&#x2F; 获取特定块的地址
-    var NamePoolChunk &#x3D; FNamePool.add(offset_FNamePool_Blocks + Block * 8).readPointer();
-    &#x2F;&#x2F; console.log(&#96;NamePoolChunk: $&#123;NamePoolChunk&#125;&#96;);
-
-    &#x2F;&#x2F; 计算FNameEntry的地址
-    var FNameEntry &#x3D; NamePoolChunk.add(FNameStride * Offset);
-    &#x2F;&#x2F; console.log(&#96;FNameEntry: $&#123;FNameEntry&#125;&#96;);
-
-    try &#123;
-        &#x2F;&#x2F; 读取FNameEntry的Header
-        if (offset_FNameEntry_Info !&#x3D;&#x3D; 0) &#123;
-            var FNameEntryHeader &#x3D; FNameEntry.add(offset_FNameEntry_Info).readU16();     
-        &#125; else &#123;
-            var FNameEntryHeader &#x3D; FNameEntry.readU16();
-        &#125;
-    &#125; catch(e) &#123;
-        &#x2F;&#x2F; 捕捉读取异常并返回空字符串
-        &#x2F;&#x2F; console.log(e);
-        return &quot;&quot;;
-    &#125;
-    &#x2F;&#x2F; console.log(&#96;FNameEntryHeader: $&#123;FNameEntryHeader&#125;&#96;);
-
-    &#x2F;&#x2F; 获取字符串地址
-    var str_addr &#x3D; FNameEntry.add(offset_FNameEntry_String);
-    &#x2F;&#x2F; console.log(&#96;str_addr: $&#123;str_addr&#125;&#96;);
-
-    &#x2F;&#x2F; 计算字符串长度和宽度
-    var str_length &#x3D; FNameEntryHeader &gt;&gt; FNameEntry_LenBit; &#x2F;&#x2F; 计算字符串长度
-    var wide &#x3D; FNameEntryHeader &amp; 1;                       &#x2F;&#x2F; 判断字符串是否为宽字符
-
-    &#x2F;&#x2F; 如果是宽字符，返回 &quot;widestr&quot;
-    if (wide) return &quot;widestr&quot;;
-
-    &#x2F;&#x2F; 如果字符串长度合理，读取并返回UTF-8字符串
-    if (str_length &gt; 0 &amp;&amp; str_length &lt; 250) &#123;
-        var str &#x3D; str_addr.readUtf8String(str_length);
-        return str;
-    &#125; else &#123;
-        return &quot;None&quot;; &#x2F;&#x2F; 长度不合理，返回 &quot;None&quot;
-    &#125;
-&#125;
-&#x2F;&#x2F;获取对象实例
-function getActorAddr(str)&#123;
-    var player_addr;
-    var actorsAddr&#x3D;getActorsAddr();
-    for(var key in actorsAddr)&#123;
-      if(key&#x3D;&#x3D;str)&#123;
-        console.log(actorsAddr[key]);
-        player_addr&#x3D;actorsAddr[key];
-      &#125;
-    &#125;
-    if(player_addr&#x3D;&#x3D;null)
-      &#123;
-        console.log(&quot;null pointer!&quot;);
-      &#125;
-    return player_addr;
+                <h1 id="frida-gadget使用"><a href="#frida-gadget使用" class="headerlink" title="frida-gadget使用"></a>frida-gadget使用</h1><h2 id="0x0-引言"><a href="#0x0-引言" class="headerlink" title="0x0 引言"></a>0x0 引言</h2><p><a target="_blank" rel="noopener" href="https://frida.re/docs/gadget/">https://frida.re/docs/gadget/</a> 官方链接</p>
+<p>frida-gadget使用优点：</p>
+<p>免root使用frida </p>
+<p>程序反调试 反frida很强时</p>
+<p>缺点：</p>
+<p>需要重打包程序</p>
+<p>frida-gadget支持的连接方式</p>
+<p><img src="/../images/frida-gadget%E4%BD%BF%E7%94%A8/image-20250122164625017.png" alt="image-20250122164625017"></p>
+<p>详细使用查看官方文档</p>
+<h2 id="0x1-frida-gadget准备工作"><a href="#0x1-frida-gadget准备工作" class="headerlink" title="0x1 frida-gadget准备工作"></a>0x1 frida-gadget准备工作</h2><p>真机下载arm  模拟器下载android</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/frida/frida/releases">https://github.com/frida/frida/releases</a></p>
+<p>编写一份libgadget.config.so 这里我使用的是Listen功能 可以进行交互</p>
+<pre class="line-numbers language-none"><code class="language-none">&#123;
+  &quot;interaction&quot;: &#123;
+    &quot;type&quot;: &quot;listen&quot;,
+    &quot;address&quot;: &quot;127.0.0.1&quot;,
+    &quot;port&quot;: 27042,
+    &quot;on_port_conflict&quot;: &quot;fail&quot;,
+    &quot;on_load&quot;: &quot;wait&quot;
   &#125;
-  function getActorsAddr()&#123;
-    var Level_Offset&#x3D;0x30&#x2F;&#x2F;偏移
-    var Actors_Offset&#x3D;0x98
-    var Level&#x3D;GWorld.add(Level_Offset).readPointer()&#x2F;&#x2F;读取GWorld的level指针
-    var Actors&#x3D;Level.add(Actors_Offset).readPointer()&#x2F;&#x2F;读取Actors的指针
-    var Actors_Num&#x3D;Level.add(Actors_Offset).add(8).readU32()&#x2F;&#x2F;获取Actor的数量
-    var actorsAddr&#x3D;&#123;&#125;;&#x2F;&#x2F;空对象，下面的实现类似字典
-    for(var index&#x3D;0;index&lt;Actors_Num;index++)
-      &#123;
-        var actor_addr&#x3D;Actors.add(index*8).readPointer()&#x2F;&#x2F;读取当前索引处的Actor地址
-        var actorName&#x3D;UObject.getName(actor_addr)&#x2F;&#x2F;通过地址获取字符串名字
-        actorsAddr[actorName]&#x3D;actor_addr;&#x2F;&#x2F;以字符串名字对应地址值
-        &#x2F;&#x2F;console.log(&#96;actors[$&#123;index&#125;]&#96;,actorName);
-      &#125;
-      return actorsAddr;
-  &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-function setPlayerHP(hp &#x3D; 1000000)&#123;
-    &#x2F;&#x2F;生命属性偏移
-    getActorAddr(playerName).add(0x510).writeFloat(hp);
-&#125;
+<p>然后放入目标apk的lib库中，注意32位还是64位</p>
+<p><img src="/../images/frida-gadget%E4%BD%BF%E7%94%A8/image-20250122165048763.png" alt="image-20250122165048763"></p>
+<h2 id="0x2-为目标so添加依赖"><a href="#0x2-为目标so添加依赖" class="headerlink" title="0x2 为目标so添加依赖"></a>0x2 为目标so添加依赖</h2><p>让app在执行so文件时，加载frida-gadget.so</p>
+<pre class="line-numbers language-none"><code class="language-none">import lief
+libnative &#x3D; lief.parse(&quot;libc++_shared.so&quot;)
+libnative.add_library(&quot;libgadget.so&quot;)
+libnative.write(&quot;libc++_shared.so&quot;)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 
+<p>readelf查看</p>
+<pre class="line-numbers language-none"><code class="language-none">readelf -d .&#x2F;libc++_shared.so |grep NEEDED <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-function set(moduleName)&#123;
-    &#x2F;&#x2F;获取libUE4的基地址
-    moduleBase&#x3D;Module.findBaseAddress(moduleName);
-  
-    &#x2F;&#x2F;UE4基地址加上在IDA中获取的GName偏移获取GName地址
-    GName&#x3D;moduleBase.add(GName_Offset);
-  
-    &#x2F;&#x2F;同上获取GUObjectArray的地址
-    GUObjectArray&#x3D;moduleBase.add(GUObjectArray_Offset);
-  
-  &#x2F;&#x2F;读取GWorld的指针
-    GWorld &#x3D;moduleBase.add(GWorld_Offset).readPointer();
-  
-  &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>最后把so添加回去 重打包apk</p>
+<h2 id="0x3-连接frida-gadget"><a href="#0x3-连接frida-gadget" class="headerlink" title="0x3 连接frida-gadget"></a>0x3 连接frida-gadget</h2><p>运行目标apk</p>
+<p>连接命令 后续还可以跟-l hook脚本</p>
+<pre class="line-numbers language-none"><code class="language-none">frida -U Gadget<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-<p>成功走出房间</p>
-<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118191914209.png" alt="image-20250118191914209"></p>
-<h2 id="0x4-section1-空中flag"><a href="#0x4-section1-空中flag" class="headerlink" title="0x4 section1_空中flag"></a>0x4 section1_空中flag</h2><p>出来抬头可以看见空中有flag{}</p>
-<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118192445083.png" alt="image-20250118192445083"></p>
-<p>获取自己位置</p>
-<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F;坐标
-class Vector&#123;
-    constructor(x,y,z)&#123;
-        this.x &#x3D; x;
-        this.y &#x3D; y;
-        this.z &#x3D; z;
-
-    &#125;
-    toString()&#123;
-        return &#96;($&#123;this.x&#125;, $&#123;this.y&#125;, $&#123;this.z&#125;)&#96;;
-    &#125;
-&#125;
-
-function dumpVector(addr)&#123;
-    &#x2F;&#x2F; dumpAddr(&#39;firstPersion_RootComponent&#39;,firstPersion_RootComponent_ptr,0x152)
-    &#x2F;&#x2F; 从地址空间中读取三个浮点数
-    const values &#x3D; Memory.readByteArray(addr, 3 * 4);  &#x2F;&#x2F; 3个float共占12个字节
-    &#x2F;&#x2F; 解析浮点数并初始化 Vector 对象
-    const vec &#x3D; new Vector(
-        new Float32Array(values, 0, 1)[0],  &#x2F;&#x2F; 读取第一个浮点数
-        new Float32Array(values, 4, 1)[0],  &#x2F;&#x2F; 读取第二个浮点数
-        new Float32Array(values, 8, 1)[0]   &#x2F;&#x2F; 读取第三个浮点数
-    );
-    console.log(&#39;[+] 坐标：&#39;,vec);&#x2F;&#x2F;打出坐标。
-  &#125;
-
-&#x2F;&#x2F;用ue4 api获取坐标
-function getActorLocation(actor_addr)&#123;
-
-    actor_addr &#x3D; ptr(actor_addr)
-    var buf &#x3D; Memory.alloc(0x100);
-    var f_addr &#x3D; moduleBase.add(0x965ddf8);&#x2F;&#x2F;ue4中的api K2_GetActorLocation的偏移
-      &#x2F;&#x2F; 将目标函数地址转换为JavaScript函数
-    var getLocationFunc &#x3D; new NativeFunction(f_addr, &#39;void&#39;, [&#39;pointer&#39;,&#39;pointer&#39;,&#39;pointer&#39;]);
-  
-    &#x2F;&#x2F; 调用目标函数并传递内存地址作为参数
-    try&#123;
-        getLocationFunc(actor_addr,buf,buf);
-        dumpVector(buf);
-        return buf;
-        &#x2F;&#x2F;info(ptr(actor_addr).add(0x130).readPointer().add(0x14c).readU8()&amp;32 !&#x3D; 0);
-    &#125;
-    catch (e)&#123;
-    &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<pre class="line-numbers language-none"><code class="language-none">[Pixel 6::com.tencent.ace.match2024 ]-&gt; getActorLocation(getActorAddr(playerName))
-0x6e6c4d7120
-[+] 坐标： (-1264.872314453125, -347.19818115234375, 268.3692321777344)
-&quot;0x71c7474aa0&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-
-<pre class="line-numbers language-none"><code class="language-none">function setActorLocation(actor_addr,x,y,z)&#123;
-
-    actor_addr &#x3D; ptr(actor_addr)
-    var f_addr &#x3D; moduleBase.add(0x8C3181C);&#x2F;&#x2F;加上偏移获取目标函数的偏移 K2_SetActorLocation
-      &#x2F;&#x2F; 将目标函数地址转换为JavaScript函数
-    var setLocationFunc &#x3D; new NativeFunction(f_addr, &#39;bool&#39;, [&#39;pointer&#39;,&#39;bool&#39;,&#39;pointer&#39;,&#39;bool&#39;,&#39;float&#39;,&#39;float&#39;,&#39;float&#39;]);
-    &#x2F;&#x2F; 调用目标函数并传递内存地址作为参数
-    setLocationFunc(actor_addr,0,ptr(0),0,x,y,z);
-  
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>第一个房间得到提示，天空flag被隐藏了</p>
-<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118200627992.png" alt="image-20250118200627992"></p>
-<p>搜索找到设置隐藏的api</p>
-<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118193951880.png" alt="image-20250118193951880"></p>
-<pre class="line-numbers language-none"><code class="language-none">function setActorVisibility(actor_addr,NewHidden&#x3D;1,bPropagateToChildren&#x3D;2)&#123;
-    var f_addr &#x3D; moduleBase.add(0x8E619BC);
-    let setActorHiddenFunc &#x3D; new NativeFunction(f_addr, &#39;void&#39;, [&#39;pointer&#39;,&#39;char&#39;,&#39;char&#39;]);
-    setActorHiddenFunc(ptr(actor_addr).add(0x130).readPointer(),NewHidden,bPropagateToChildren);
-&#125;
-
-function dumpActorInstances()&#123;
-    GWorld &#x3D; moduleBase.add(GWorld_Offset).readPointer();
-    var Level_Offset &#x3D; 0x30
-    var Actors_Offset &#x3D; 0x98
- 
-    var Level &#x3D; GWorld.add(Level_Offset).readPointer()
-    var Actors &#x3D; Level.add(Actors_Offset).readPointer()
-    var Actors_Num &#x3D; Level.add(Actors_Offset).add(8).readU32()
-    var actorsInstances &#x3D; &#123;&#125;;
-    for(var index &#x3D; 0; index &lt; Actors_Num; index++)&#123;
-        var actor_addr &#x3D; Actors.add(index * 8).readPointer()
-        var actorName &#x3D; UObject.getName(actor_addr)
-        actorsInstances[index] &#x3D; actorName;
-        &#x2F;&#x2F;info(&#96;actors[$&#123;index&#125;]:$&#123;actor_addr&#125;&#96;,actorName);
-        getActorLocation(actor_addr);
-        try&#123;
-            setActorVisibility(actor_addr)
-        &#125;
-        catch(e)&#123;
- 
-        &#125;
-    &#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>遍历全部Actor全部显示</p>
-<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118200349735.png" alt="image-20250118200349735"></p>
-<h2 id="0x5-section2-让立方体变得不可穿透"><a href="#0x5-section2-让立方体变得不可穿透" class="headerlink" title="0x5 section2_让立方体变得不可穿透"></a>0x5 section2_让立方体变得不可穿透</h2><p>使物品有碰撞属性</p>
-<pre class="line-numbers language-none"><code class="language-none">Class: StaticMeshComponent.MeshComponent.PrimitiveComponent.SceneComponent.ActorComponent.Object<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>调用它基类<code>PrimitiveComponent.SceneComponent.ActorComponent.Object</code>的<code>SetCollisionEnabled</code>方法</p>
-<pre class="line-numbers language-none"><code class="language-none">function SetCollisionEnable(actor_addr,dr&#x3D;3) &#123;
-  var f_addr&#x3D;moduleBase.add(0x933b300);
-  let CallFunc&#x3D;new NativeFunction(f_addr,&#39;void&#39;,[&#39;pointer&#39;,&#39;int&#39;]);
-  CallFunc(ptr(actor_addr).add(0x130).readPointer(),dr);
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118203507195.png" alt="image-20250118203507195"></p>
-<h2 id="0x6-section3-查找黄色小球的类"><a href="#0x6-section3-查找黄色小球的类" class="headerlink" title="0x6 section3_查找黄色小球的类"></a>0x6 section3_查找黄色小球的类</h2><p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118203616054.png" alt="image-20250118203616054"></p>
-<p>SDK中搜索flag字样</p>
-<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118203819938.png" alt="image-20250118203819938"></p>
-<p>发现一个getlastflag函数</p>
-<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118203853896.png" alt="image-20250118203853896"></p>
-<p>调用了libplay.so中的get_last_flag</p>
-<p>异或出来发现base表</p>
-<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118204947448.png" alt="image-20250118204947448"></p>
-<p>回到开头，这里应该是密文和一个数组</p>
-<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118205048286.png" alt="image-20250118205048286"></p>
-<p>sub_192c进去</p>
-<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118205720656.png" alt="image-20250118205720656"></p>
-<p>经过计算可能会跳转到ea8 或 ed8 都进入查看</p>
-<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118205804161.png" alt="image-20250118205804161"></p>
-<p>a8是异或</p>
-<p><img src="/../images/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/image-20250118205815792.png" alt="image-20250118205815792"></p>
-<p>d8是返回</p>
-<p>那我们将上面的数据base64变表解密再异或解密尝试</p>
-<p>最终得到 _Anti_Cheat_Expert</p>
-<h2 id="flag"><a href="#flag" class="headerlink" title="flag"></a>flag</h2><p>FLAG{8939008_Anti_Cheat_Expert}</p>
+<p><img src="/../images/frida-gadget%E4%BD%BF%E7%94%A8/image-20250122165555503.png" alt="image-20250122165555503"></p>
 
                 
             </div>
@@ -808,7 +478,7 @@ function dumpActorInstances()&#123;
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://moodyblue.cn/category/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/">http://moodyblue.cn/category/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/</a>
+                    <a href="http://moodyblue.cn/category/frida-gadget%E4%BD%BF%E7%94%A8/">http://moodyblue.cn/category/frida-gadget%E4%BD%BF%E7%94%A8/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1295,13 +965,13 @@ function dumpActorInstances()&#123;
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/category/frida-gadget%E4%BD%BF%E7%94%A8/">
+                <a href="/category/OLLVM-Windows%E7%8E%AF%E5%A2%83%E4%B8%8A%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85-%E7%A7%BB%E6%A4%8D%E5%88%B0llvm18-%E7%A7%BB%E6%A4%8D%E5%88%B0android-studio/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="frida-gadget使用">
+                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="OLLVM-Windows环境上编译安装-移植到llvm18-移植到android studio">
                         
-                        <span class="card-title">frida-gadget使用</span>
+                        <span class="card-title">OLLVM-Windows环境上编译安装-移植到llvm18-移植到android studio</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1312,7 +982,7 @@ function dumpActorInstances()&#123;
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2025-01-22
+                            <i class="far fa-clock fa-fw icon-date"></i>2025-02-08
                         </span>
                         <span class="publish-author">
                             
@@ -1332,13 +1002,13 @@ function dumpActorInstances()&#123;
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/category/2024%E8%85%BE%E8%AE%AF%E6%B8%B8%E6%88%8F%E5%AE%89%E5%85%A8%E5%A4%A7%E8%B5%9BPC%E5%88%9D%E8%B5%9B/">
+                <a href="/category/2024TencentGameAndroid%E5%88%9D%E8%B5%9B%E5%A4%8D%E7%8E%B0/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="2024腾讯游戏安全大赛PC初赛">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="2024TencentGameAndroid初赛复现">
                         
-                        <span class="card-title">2024腾讯游戏安全大赛PC初赛</span>
+                        <span class="card-title">2024TencentGameAndroid初赛复现</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1349,7 +1019,7 @@ function dumpActorInstances()&#123;
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2024-04-29
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-01-18
                             </span>
                         <span class="publish-author">
                             
